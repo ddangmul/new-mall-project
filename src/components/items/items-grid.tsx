@@ -5,12 +5,11 @@ import { Item } from "@/assets/types";
 import Link from "next/link";
 
 const ItemsGrid: React.FC<{ items: Item[] }> = ({ items }) => {
-  console.log(items);
   return (
     <ul className="grid grid-cols-2 xl:grid-cols-3 gap-6 space-y-6">
       {items.map((item, index) => (
         <div key={index}>
-          <Link href={`product/${item.id}`}>
+          <Link href={`${item.category}/${item.id}`}>
             <li>
               <ItemCard item={item} />
             </li>

@@ -12,17 +12,19 @@ export default async function CategoryPage({
 }: {
   params: { category: string };
 }) {
+  const { category } = await params;
+
   let items: Item[];
 
   // 분기처리 필요
-  if (params.category === "All") {
+  if (category === "All") {
     items = await getAllItems();
-  } else if (params.category === "Best") {
+  } else if (category === "Best") {
     items = await getBestItems();
-  } else if (params.category === "New") {
+  } else if (category === "New") {
     items = await getNewItems();
   } else {
-    items = await getItemsByCategory(params.category);
+    items = await getItemsByCategory(category);
   }
 
   return (

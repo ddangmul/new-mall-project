@@ -1,14 +1,12 @@
 import Image from "next/image";
 import { Item } from "@/assets/types";
+import { formatterPrice } from "@/utils/formatter";
 
 const ItemCard: React.FC<{ item: Item }> = ({ item }) => {
   const { title, image, price, description } = item;
 
   // price 화폐 형식으로 변환
-  const formattedPrice = new Intl.NumberFormat("ko-KR", {
-    style: "currency",
-    currency: "KRW",
-  }).format(price);
+  const formattedPrice = formatterPrice(price);
 
   return (
     <div className="product-item-card font-serif text-lg text-[#2a2828] mb-8 flex flex-col gap-y-1.5">
