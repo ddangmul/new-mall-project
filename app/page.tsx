@@ -1,16 +1,16 @@
 import ItemsGrid from "@/components/items/items-grid";
 import MainImage from "@/components/main-img/main-image";
 import ItemsCategory from "@/components/nav-bar/items_category_nav";
-import prisma from "@/lib/prisma";
+import { getAllItems } from "@/lib/items/queries";
 
 export default async function Home() {
-  const items = await prisma.item.findMany();
+  const items = await getAllItems();
 
   return (
     <>
       <MainImage />
       <ItemsCategory />
-      <section className="all-items-container px-4 py-5">
+      <section className="home-container px-4 py-5">
         <ItemsGrid items={items} />
       </section>
     </>

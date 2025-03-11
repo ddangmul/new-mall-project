@@ -3,7 +3,7 @@
 :root {
   /* 기본 배경색 / 전경색 */
   --background: #f8f7f5;
-  --foreground: ##2a2828;
+  --foreground: #2a2828;
 }
 
 /* tailwind 테마 확장 - 커스텀 변수 정의 */

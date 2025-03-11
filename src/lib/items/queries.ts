@@ -1,5 +1,9 @@
 import prisma from "../prisma";
 
+export async function getAllItems() {
+  return await prisma.item.findMany();
+}
+
 // 카테고리로 아이템 필터링
 export async function getItemsByCategory(category: string) {
   return await prisma.item.findMany({
@@ -9,7 +13,7 @@ export async function getItemsByCategory(category: string) {
   });
 }
 
-// [ Best ] 판매량이 가장 많은 3개의 아이템 가져오기
+// [ Best ] 판매량이 가장 많은 3개의 아이템 필터링
 export async function getBestItems(limit: number = 3) {
   return await prisma.item.findMany({
     orderBy: {
@@ -19,7 +23,7 @@ export async function getBestItems(limit: number = 3) {
   });
 }
 
-// [ New ] 가장 최근에 추가된 3개의 아이템 가져오기
+// [ New ] 가장 최근에 추가된 3개의 아이템 필터링
 export async function getNewItems(limit: number = 3) {
   return await prisma.item.findMany({
     orderBy: {
@@ -40,3 +44,5 @@ export async function getItemsByPrice(minPrice: number, maxPrice: number) {
     },
   });
 }
+
+// id로 아이템 가져오기
