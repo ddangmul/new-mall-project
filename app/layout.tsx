@@ -17,7 +17,9 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <MainHeader />
-        <div id="wrap">{children}</div>
+        <div id="wrap" className="min-h-screen">
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

@@ -6,6 +6,9 @@ const ItemsCategory: React.FC = () => {
       <nav className="items_category_inner py-10">
         <ul className="flex justify-center gap-14 text-xl font-serif">
           <li>
+            <Link href="/">All</Link>
+          </li>
+          <li>
             <Link href="/Best">Best</Link>
           </li>
           <li>
