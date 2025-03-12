@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import MainHeader from "@/components/header/main-header";
 import Footer from "@/components/footer/footer";
+import { CartProvider } from "@/store/cart-context";
 
 export const metadata: Metadata = {
   title: "Online Mall App",
@@ -17,9 +18,11 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <MainHeader />
-        <div id="wrap" className="min-h-screen mt-24">
-          {children}
-        </div>
+        <CartProvider>
+          <div id="wrap" className="min-h-screen mt-30">
+            {children}
+          </div>
+        </CartProvider>
         <Footer />
       </body>
     </html>

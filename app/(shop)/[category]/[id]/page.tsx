@@ -31,7 +31,7 @@ export default async function ItemDetailPage({
               className="w-full max-w-[600px] mx-auto"
             ></Image>
           </div>
-          <div className="item-info-txt my-2 space-y-10">
+          <div className="item-info-txt my-2 space-y-6">
             <div className="item-heading-txt space-y-5 font-serif">
               <h1 className="text-4xl">{item.title}</h1>
               <h2 className="text-3xl">{formattedPrice}</h2>
