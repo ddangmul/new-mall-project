@@ -64,17 +64,17 @@ const ItemQuantity = ({ item }: { item: Item }) => {
           <span>{formatterPrice(item.price * quantity)}</span>
         </div>
       </div>
-      <div className="prod_action_btn text-3xl mt-8 flex justify-around gap-6 font-serif">
+      <div className="prod_action_btn text-3xl mt-8 flex justify-around gap-4 font-serif">
         <button
           onClick={addToCartHandler}
           type="button"
-          className="bg-[#f8f7f5] text-[#524f4c] px-32 py-3 rounded-xs shadow-lg"
+          className="bg-[#f8f7f5] text-[#524f4c] px-20 py-3 rounded-xs shadow-lg grow-1"
         >
           Cart
         </button>
         <button
           type="button"
-          className="bg-[#524f4c] shadow-lg text-[#f8f7f5] px-32 py-3 rounded-xs"
+          className="bg-[#524f4c] shadow-lg text-[#f8f7f5] px-20 py-3 rounded-xs grow-1"
         >
           Buy
         </button>

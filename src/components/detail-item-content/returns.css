@@ -1,0 +1,13 @@
+tr,
+td {
+  padding: 14px;
+}
+
+tr td:first-child {
+  background-color: #e2dfd9;
+  width: 200px;
+}
+
+td {
+  border: 1px #f2f0eb solid;
+}

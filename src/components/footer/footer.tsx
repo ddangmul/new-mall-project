@@ -2,7 +2,7 @@ const Footer: React.FC = () => {
   return (
     <footer
       id="footer"
-      className="w-full bottom-0 pt-10 pb-6 px-6 mt-28 text-sm font-serif   bg-gradient-to-t from-[rgb(184,165,161)]  to-[#f8f7f5]"
+      className="w-full bottom-0 pt-10 pb-6 px-6 mt-28 text-sm font-serif   bg-gradient-to-t from-[rgb(184,165,161)]  to-[#f2f0eb]"
     >
       <div className="footer_inner grid grid-cols-2 grid-row-3 xl:grid-cols-3 md:grid-row-2 gap-6">
         <div className="footer_content_1 col-span-full xl:col-span-1">
