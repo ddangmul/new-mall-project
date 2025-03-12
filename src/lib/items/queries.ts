@@ -1,12 +1,12 @@
-import prisma from "../prisma";
+import { prisma1 } from "../prisma";
 
 export async function getAllItems() {
-  return await prisma.item.findMany();
+  return await prisma1.item.findMany();
 }
 
 // 카테고리로 아이템 필터링
 export async function getItemsByCategory(category: string) {
-  return await prisma.item.findMany({
+  return await prisma1.item.findMany({
     where: {
       category: category,
     },
@@ -15,7 +15,7 @@ export async function getItemsByCategory(category: string) {
 
 // [ Best ] 판매량이 가장 많은 3개의 아이템 필터링
 export async function getBestItems(limit: number = 3) {
-  return await prisma.item.findMany({
+  return await prisma1.item.findMany({
     orderBy: {
       sales: "desc", // 판매량 기준 내림차순 정렬
     },
@@ -25,7 +25,7 @@ export async function getBestItems(limit: number = 3) {
 
 // [ New ] 가장 최근에 추가된 3개의 아이템 필터링
 export async function getNewItems(limit: number = 3) {
-  return await prisma.item.findMany({
+  return await prisma1.item.findMany({
     orderBy: {
       createdAt: "desc", // 생성 날짜 기준 내림차순 정렬
     },
@@ -35,7 +35,7 @@ export async function getNewItems(limit: number = 3) {
 
 // 가격 범위로 아이템 필터링
 export async function getItemsByPrice(minPrice: number, maxPrice: number) {
-  return await prisma.item.findMany({
+  return await prisma1.item.findMany({
     where: {
       price: {
         gte: minPrice, // 최소 가격
@@ -48,7 +48,7 @@ export async function getItemsByPrice(minPrice: number, maxPrice: number) {
 // id로 아이템 가져오기
 
 export async function getItemById(id: number) {
-  const item = await prisma.item.findUnique({
+  const item = await prisma1.item.findUnique({
     where: {
       id: id,
     },

@@ -13,9 +13,10 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.4.1",
+    "@prisma/client": "^6.5.0",
     "framer-motion": "^12.4.10",
     "next": "15.2.1",
+    "prisma": "^6.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sqlite3": "^5.1.7"
@@ -31,5 +32,19 @@
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
-  }
+  },
+  "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ddangmul/new-mall-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ddangmul/new-mall-project/issues"
+  },
+  "homepage": "https://github.com/ddangmul/new-mall-project#readme"
 }

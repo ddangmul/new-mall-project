@@ -29,7 +29,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onCheck, isChecked }) => {
 
   return (
     <>
-      <div className="cart-item-wrap flex justify-between items-center px-4 py-6 gap-8 overflow-hidden border-b-1 border-b-[#c7cfcc] text-xl sm:min-w-[500px]">
+      <div className="cart-item-wrap flex justify-around items-center px-4 py-6 gap-8 overflow-hidden border-b-1 border-b-[#c7cfcc] text-lg sm:min-w-[500px]">
         <div className="item-checkbox mr-[-140px]">
           <input
             type="checkbox"
@@ -37,7 +37,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onCheck, isChecked }) => {
             onChange={(e) => onCheck(id, e.target.checked)}
           ></input>
         </div>
-        <div className="item-info flex gap-10 max-h-30">
+        <div className="item-info flex gap-10 max-h-30 ">
           <div className="item-img max-w-25">
             <Image
               src={image}
@@ -47,11 +47,11 @@ const CartItem: React.FC<CartItemProps> = ({ item, onCheck, isChecked }) => {
               layout="responsive"
             />
           </div>
-          <div className="item-txt space-y-3 min-w-[400px] max-w-[700px]">
-            <div className="item-title font-serif text-xl">
+          <div className="item-txt space-y-6 min-w-[400px] max-w-[700px] flex flex-col justify-center ">
+            <div className="item-title font-serif text-2xl">
               <Link href={`/product/${category}/${id}/`}>{title}</Link>
             </div>
-            {/* <p className="item-option pt-5">옵션명</p> */}
+            <p className="item-price">{formatterPrice(price)}</p>
           </div>
         </div>
         <div className="item-quantity-action flex justify-between items-center w-36  text-lg">

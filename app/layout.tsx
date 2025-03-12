@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <MainHeader />
         <CartProvider>
-          <div id="wrap" className="min-h-screen mt-30">
+          <div id="wrap" className="min-h-screen mt-26">
             {children}
           </div>
         </CartProvider>

@@ -1,12 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "./generated/items-client";
 
-const prisma = new PrismaClient();
+const itemsPrisma = new PrismaClient();
 
 async function main() {
-  // 기존 데이터 삭제
-  await prisma.item.deleteMany();
+  await itemsPrisma.item.deleteMany();
 
-  await prisma.item.createMany({
+  await itemsPrisma.item.createMany({
     data: [
       {
         title: "Corn Incense",
@@ -108,6 +107,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    await itemsPrisma.$disconnect();
   });
-
