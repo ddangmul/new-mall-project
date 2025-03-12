@@ -7,7 +7,7 @@ const DetailContentsNavBar: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const mode = searchParams.get("mode") || "상세정보";
+  const mode = searchParams.get("mode") || "Explanation";
 
   const changeMode = (mode: string) => {
     const params = new URLSearchParams(searchParams);
@@ -16,7 +16,7 @@ const DetailContentsNavBar: React.FC = () => {
   };
 
   return (
-    <nav className="text-center flex justify-center gap-10 text-xl">
+    <nav className="text-center flex justify-center gap-10 text-xl ">
       <button
         onClick={() => changeMode("Explanation")}
         className={mode === "Explanation" ? "text-[#8e8a88]" : ""}
