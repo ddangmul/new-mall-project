@@ -19,19 +19,19 @@ export default async function ItemDetailPage({
   const formattedPrice = formatterPrice(item.price);
 
   return (
-    <div className="item-detail-wrap px-40 py-20">
+    <div className="item-detail-wrap mx-20 py-20 overflow-hidden">
       <div className="item-datail-inner">
-        <section className="item-heading-info grid xl:grid-cols-2 gap-12">
+        <section className="item-heading-info grid grid-cols-1 xl:grid-cols-2 gap-4">
           <div className="item-img-slider">
             <Image
               src={item.image}
-              width={500}
-              height={700}
-              style={{ width: "100%", height: "auto" }}
               alt={item.title}
+              width={700}
+              height={900}
+              className="w-full max-w-[600px] mx-auto"
             ></Image>
           </div>
-          <div className="item-info-txt my-2 space-y-16">
+          <div className="item-info-txt my-2 space-y-10">
             <div className="item-heading-txt space-y-5 font-serif">
               <h1 className="text-4xl">{item.title}</h1>
               <h2 className="text-3xl">{formattedPrice}</h2>
