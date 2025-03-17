@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { comparePassword } from "@/lib/auth"; // 비밀번호 비교 함수
+import { generateToken } from "@/lib/auth"; // JWT 토큰 생성 함수
 
 const prisma = new PrismaClient();
 
@@ -31,11 +33,13 @@ export async function POST(request: Request) {
       );
     }
 
+    const token = generateToken(user.id);
+
     // 로그인 성공
     return NextResponse.json(
       {
         message: "로그인 성공",
-        user: { email: user.email, username: user.username },
+        token,
       },
       { status: 200 }
     );

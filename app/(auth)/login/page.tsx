@@ -11,8 +11,6 @@ export default function login() {
     password: "",
   });
 
-  const [errorMessage, setErrorMessage] = useState("");
-
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,9 +35,10 @@ export default function login() {
     const data = await response.json();
 
     if (!response.ok) {
-      setErrorMessage(data.message || "로그인 실패");
+      const errorText = await response.text();
+      console.log("로그인 실패", errorText);
     } else {
-      setErrorMessage(""); // 성공 시 에러 메시지 초기화
+      localStorage.setItem("authToken", data.token);
       console.log("로그인 성공:", data);
       // 로그인 성공 시, 사용자의 정보를 저장하거나 리디렉션 처리
       router.push("/");

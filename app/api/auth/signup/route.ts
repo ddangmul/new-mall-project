@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
+import { hashPassword, generateToken } from "@/lib/auth"; // JWT 토큰 생성 함수
 
 const prisma = new PrismaClient();
 
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
   }
 
   // 비밀번호 해시화
-  const hashedPassword = await bcrypt.hash(password, 10); // 10은 salt rounds 값
+  const hashedPassword = await hashPassword(password);
 
   try {
     // 사용자 데이터 저장
@@ -40,7 +41,9 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json(newUser, { status: 201 }); // 성공적으로 생성된 사용자 반환
+    const token = generateToken(newUser.id);
+
+    return NextResponse.json({ message: "회원가입 성공", token }); // 성공적으로 생성된 사용자 반환
   } catch (error) {
     console.error(error);
     return NextResponse.json(
