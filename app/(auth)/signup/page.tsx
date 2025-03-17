@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-import "./page.css";
+import "./signup.css";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -177,7 +177,7 @@ export default function Signup() {
             </div>
             <button
               type="submit"
-              className="signup_btn text-4xl font-serif w-full py-3 bg-[#313030] text-[#f2f0eb]"
+              className="signup_btn text-4xl font-serif w-full py-3 my-6 bg-[#313030] text-[#f2f0eb]"
             >
               Create Account
             </button>

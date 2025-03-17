@@ -46,7 +46,6 @@ export async function getItemsByPrice(minPrice: number, maxPrice: number) {
 }
 
 // id로 아이템 가져오기
-
 export async function getItemById(id: number) {
   const item = await prisma.item.findUnique({
     where: {
