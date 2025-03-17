@@ -1,7 +1,51 @@
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import Link from "next/link";
 import "./login.css";
 
 export default function login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const router = useRouter();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setErrorMessage(data.message || "로그인 실패");
+    } else {
+      setErrorMessage(""); // 성공 시 에러 메시지 초기화
+      console.log("로그인 성공:", data);
+      // 로그인 성공 시, 사용자의 정보를 저장하거나 리디렉션 처리
+      router.push("/");
+    }
+  };
+
   return (
     <section className="login w-full min-h-screen mt-36 relative">
       <div className="absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5">
@@ -9,7 +53,7 @@ export default function login() {
           <p className="text-4xl font-serif">Log In</p>
         </div>
         <div className="login-form-wrap">
-          <form method="post" className="space-y-4 w-full">
+          <form onSubmit={handleLogin} className="space-y-4 w-full">
             <div>
               <input
                 id="email"
@@ -19,6 +63,8 @@ export default function login() {
                 placeholder="Email"
                 className="text-xl bg-[#ffffff]"
                 autoComplete="email"
+                value={formData.email}
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -29,6 +75,8 @@ export default function login() {
                 required
                 placeholder="Password"
                 className="text-xl"
+                value={formData.password}
+                onChange={handleChange}
               />
             </div>
             <button

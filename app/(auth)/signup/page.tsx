@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import "./signup.css";
 
@@ -15,6 +16,8 @@ export default function Signup() {
     isSolar: false,
     isLunar: false,
   });
+
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -32,9 +35,7 @@ export default function Signup() {
       return;
     }
 
-    console.log(formData);
-
-    const response = await fetch("/api/signup", {
+    const response = await fetch("/api/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +43,6 @@ export default function Signup() {
       body: JSON.stringify(formData),
     });
 
-    // 응답 상태 및 응답 본문 확인
     if (!response.ok) {
       const errorText = await response.text();
       console.error("API Error Response:", errorText);
@@ -51,7 +51,9 @@ export default function Signup() {
 
     try {
       const data = await response.json();
-      console.log(data);
+      console.log("가입 성공:", data);
+      // redirect("/login");
+      router.push("/login"); // useRouter로 로그인 페이지로 리디렉션
     } catch (error) {
       console.error("Invalid JSON response:", error);
     }

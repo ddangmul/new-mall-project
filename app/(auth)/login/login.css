@@ -1,8 +1,5 @@
-form div {
-  background-color: #fff;
-}
-
 form input {
+  background-color: #fff;
   width: 100%;
   padding: 1rem;
 }

@@ -7,3 +7,10 @@ export interface Item {
   category: string;
   sales: number;
 }
+
+export interface User {
+  username: string;
+  email: string;
+  password: string;
+  birthdate: string;
+}
