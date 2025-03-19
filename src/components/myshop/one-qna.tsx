@@ -1,4 +1,4 @@
-import "./point.css";
+import Link from "next/link";
 
 export default function OneQnA() {
   return (
@@ -20,12 +20,13 @@ export default function OneQnA() {
           <li className="grow-1">2025-02-12</li>
         </ul>
       </div>
-      <button
-        className="bg-[#e9e6e0] text-[#252422] grow-1 p-2 rounded-sm
+      <Link
+        href="/myshop/qna_post"
+        className="bg-[#363635] text-[#d6cebf] grow-1 p-2 rounded-sm
         shadow-xs shadow-[#d6cebf] mt-6 absolute right-0"
       >
         1:1 문의 작성
-      </button>
+      </Link>
     </article>
   );
 }

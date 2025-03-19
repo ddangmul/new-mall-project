@@ -3,6 +3,7 @@ import "./globals.css";
 import MainHeader from "@/components/header/main-header";
 import Footer from "@/components/footer/footer";
 import { CartProvider } from "@/store/cart-context";
+import { AuthProvider } from "@/store/Auth-content";
 
 export const metadata: Metadata = {
   title: "Online Mall App",
@@ -17,13 +18,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <MainHeader />
-        <CartProvider>
-          <div id="wrap" className="min-h-screen mt-26">
-            {children}
-          </div>
-        </CartProvider>
-        <Footer />
+        <AuthProvider>
+          <MainHeader />
+          <CartProvider>
+            <div id="wrap" className="min-h-screen pt-26">
+              {children}
+            </div>
+          </CartProvider>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

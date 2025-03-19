@@ -49,7 +49,7 @@ export default function login() {
   };
 
   return (
-    <section className="login w-full min-h-screen mt-36 relative">
+    <section className="login w-full min-h-screen mt-10 relative">
       <div className="absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5">
         <div className="login-heading py-8 border-b-1 border-b-[#9e9e9e] mb-8">
           <p className="text-4xl font-serif">Log In</p>
