@@ -1,17 +1,19 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/store/Auth-content";
 
 import Link from "next/link";
 import "./login.css";
 
 export default function login() {
+  const { setUser } = useAuth();
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -30,6 +32,7 @@ export default function login() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
+      credentials: "include",
     });
 
     const data = await response.json();
@@ -38,10 +41,10 @@ export default function login() {
       const errorText = await response.text();
       console.log("로그인 실패", errorText);
     } else {
-      localStorage.setItem("authToken", data.token);
-      console.log("로그인 성공:", data);
+      setUser(data);
+      console.log("로그인 성공:", data.user);
       // 로그인 성공 시, 사용자의 정보를 저장하거나 리디렉션 처리
-      router.push("/");
+      router.push("/myshop");
     }
   };
 

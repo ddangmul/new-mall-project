@@ -3,8 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { comparePassword } from "@/lib/auth"; // 비밀번호 비교 함수
 import { generateToken } from "@/lib/auth"; // JWT 토큰 생성 함수
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
   const { email, password } = await request.json();
@@ -26,7 +25,7 @@ export async function POST(request: Request) {
     });
 
     // 이메일이 존재하지 않거나 비밀번호가 일치하지 않으면 로그인 실패
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user || !(await comparePassword(password, user.password))) {
       return NextResponse.json(
         { message: "이메일 또는 비밀번호가 일치하지 않습니다." },
         { status: 401 }

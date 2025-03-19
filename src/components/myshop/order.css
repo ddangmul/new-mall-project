@@ -1,0 +1,20 @@
+#order_status,
+.period a,
+input[type="date"],
+.order_search_btn {
+  background-color: #d8d4cc;
+  height: 50px;
+  padding: 0 15px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order_search_btn {
+  background-color: #2d2c2a;
+  padding: 0px 30px;
+  color: #d8d4cc;
+  box-shadow: 0 0 10px #b0bfb9;
+}
