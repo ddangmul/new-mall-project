@@ -1,7 +1,7 @@
 import Link from "next/link";
 import "./order.css";
 
-export default function RetuensOrder() {
+export default function ReturnsOrder() {
   return (
     <article className="myshop-returns">
       <div className="heading">

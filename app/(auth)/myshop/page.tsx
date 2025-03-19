@@ -5,17 +5,42 @@ import { useAuth } from "@/store/Auth-content";
 import MyshopContentsNavBar from "@/components/nav-bar/myshop-contents-nav";
 import Order from "@/components/myshop/order";
 import Returns from "@/components/detail-item-content/returns";
-import RetuensOrder from "@/components/myshop/returns";
+import ReturnsOrder from "@/components/myshop/returns";
 import Point from "@/components/myshop/point";
 import QnA from "@/components/detail-item-content/qna";
 import OneQnA from "@/components/myshop/one-qna";
+import Member from "@/components/myshop/member";
+import { useSearchParams } from "next/navigation";
 
 export default function myshop() {
+  const searchParams = useSearchParams();
+  const mode = searchParams.get("mode") || "order";
+
   // const { user, logout } = useAuth();
 
   // if (!user) {
   //   return <p>로그인이 필요합니다.</p>;
   // }
+
+  let myshopContent;
+
+  switch (mode) {
+    case "order":
+      myshopContent = <Order />;
+      break;
+    case "returns":
+      myshopContent = <ReturnsOrder />;
+      break;
+    case "point":
+      myshopContent = <Point />;
+      break;
+    case "oneqna":
+      myshopContent = <OneQnA />;
+      break;
+    case "member":
+      myshopContent = <Member />;
+      break;
+  }
 
   return (
     <section>
@@ -61,12 +86,7 @@ export default function myshop() {
               </div>
             </div>
           </div>
-          <div className="myshop-content-area mt-14">
-            {/* <Order /> */}
-            {/* <RetuensOrder /> */}
-            {/* <Point /> */}
-            <OneQnA />
-          </div>
+          <div className="myshop-content-area mt-14">{myshopContent}</div>
         </div>
       </div>
     </section>

@@ -47,9 +47,9 @@ const MyshopContentsNavBar: React.FC = () => {
         포인트
       </button>
       <button
-        onClick={() => changeMode("qna")}
+        onClick={() => changeMode("oneqna")}
         className={
-          mode === "qna"
+          mode === "oneqna"
             ? "text-[#686360] underline underline-offset-7 decoration-[#cec7c4]"
             : ""
         }
