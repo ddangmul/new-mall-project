@@ -16,11 +16,11 @@ export default function myshop() {
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode") || "order";
 
-  // const { user, logout } = useAuth();
+  const { user, logout } = useAuth();
 
-  // if (!user) {
-  //   return <p>로그인이 필요합니다.</p>;
-  // }
+  if (!user) {
+    return <p>로그인이 필요합니다.</p>;
+  }
 
   let myshopContent;
 

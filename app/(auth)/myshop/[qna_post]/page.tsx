@@ -44,7 +44,7 @@ export default function QnAPost() {
       </div>
       <div className="relative text-lg px-30 mt-12">
         <div className="qna-title py-6 mb-4 border-b-1 border-b-[#5a5a5a]">
-          <input type="text" placeholder="제목을 입력하세요" />
+          <input type="text" placeholder="제목을 입력하세요" className="p-2" />
         </div>
         <div className="flex justify-start gap-2 mb-3 border p-2 bg-[#565451] text-white">
           <button

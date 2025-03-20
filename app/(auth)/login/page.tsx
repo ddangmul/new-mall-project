@@ -38,8 +38,8 @@ export default function login() {
     const data = await response.json();
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.log("로그인 실패", errorText);
+      // const errorText = await response.text();
+      // console.log("로그인 실패", errorText);
     } else {
       setUser(data);
       console.log("로그인 성공:", data.user);
