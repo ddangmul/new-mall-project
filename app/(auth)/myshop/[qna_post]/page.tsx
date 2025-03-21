@@ -11,9 +11,11 @@ import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function QnAPost() {
   const [content, setContent] = useState("");
+  const { data: session } = useSession();
 
   const editor = useEditor({
     extensions: [
@@ -44,6 +46,9 @@ export default function QnAPost() {
       </div>
       <div className="relative text-lg px-30 mt-12">
         <div className="qna-title py-6 mb-4 border-b-1 border-b-[#5a5a5a]">
+          <div className="p-2 text-[#7e7d7b]">
+            작성자 : {session.user.username}
+          </div>
           <input type="text" placeholder="제목을 입력하세요" className="p-2" />
         </div>
         <div className="flex justify-start gap-2 mb-3 border p-2 bg-[#565451] text-white">

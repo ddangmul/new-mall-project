@@ -1,4 +1,4 @@
-import { Interface } from "readline";
+import NextAuth from "next-auth";
 
 export interface Item {
   title: string;
@@ -13,4 +13,22 @@ export interface User {
   email: string;
   password: string;
   birthdate: string;
+}
+
+declare module "next-auth" {
+  interface User {
+    id: string;
+    email: string;
+    username: string;
+  }
+
+  interface Session {
+    user: User;
+  }
+
+  interface JWT {
+    id: string;
+    email: string;
+    username: string;
+  }
 }

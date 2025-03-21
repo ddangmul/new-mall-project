@@ -1,19 +1,21 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/store/Auth-content";
+import { signIn } from "next-auth/react";
+import { useAuth } from "@/store/Auth-context";
 
 import Link from "next/link";
 import "./login.css";
 
 export default function login() {
-  const { setUser } = useAuth();
   const router = useRouter();
-
+  const { user, setUser } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,27 +28,24 @@ export default function login() {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-      credentials: "include",
+    const res = await signIn("credentials", {
+      email: formData.email,
+      password: formData.password,
+      redirect: false,
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      // const errorText = await response.text();
-      // console.log("로그인 실패", errorText);
+    if (res?.error) {
+      console.error("로그인 실패:", res.error);
     } else {
-      setUser(data);
-      console.log("로그인 성공:", data.user);
-      // 로그인 성공 시, 사용자의 정보를 저장하거나 리디렉션 처리
-      router.push("/myshop");
+      router.push("/myshop"); // 로그인 성공 후 이동할 페이지
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      router.push("/myshop");
+    }
+  }, [user]);
 
   return (
     <section className="login w-full min-h-screen mt-10 relative">
@@ -57,6 +56,12 @@ export default function login() {
         <div className="login-form-wrap">
           <form onSubmit={handleLogin} className="space-y-4 w-full">
             <div>
+              <label
+                htmlFor="email"
+                className="hidden text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
               <input
                 id="email"
                 type="email"
@@ -70,6 +75,12 @@ export default function login() {
               />
             </div>
             <div>
+              <label
+                htmlFor="password"
+                className="hidden text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
               <input
                 id="password"
                 type="password"

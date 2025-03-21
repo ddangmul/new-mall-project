@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("/api/auth/me", {
+        const res = await fetch("/api/auth/callback/credentials", {
           method: "GET",
           credentials: "include",
         });

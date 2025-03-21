@@ -1,6 +1,14 @@
+"use client";
+
 import "./member.css";
 
+import { useSession } from "next-auth/react";
+
 export default function Member() {
+  const { data: session } = useSession();
+
+  const user = session.user;
+
   return (
     <article className="member w-full mt-10 relative">
       <div className="absolute w-[100%]">
@@ -14,14 +22,22 @@ export default function Member() {
             // onSubmit={handleSignup}
             className="space-y-2 w-full"
           >
-            <div>user email</div>
+            <div>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                value={user.email}
+                // onChange={handleChange}
+              />
+            </div>
             <div>
               <input
                 id="password"
                 type="password"
                 name="password"
                 required
-                placeholder="기존 비밀번호"
+                placeholder="기존 비밀번호 확인"
                 // value={formData.password}
                 // onChange={handleChange}
               />
@@ -39,11 +55,22 @@ export default function Member() {
             </div>
             <div>
               <input
+                id="passwordCk"
+                type="password"
+                name="passwordCk"
+                required
+                placeholder="변경할 비밀번호 확인"
+                // value={formData.passwordCk}
+                // onChange={handleChange}
+              />
+            </div>
+            <div>
+              <input
                 type="text"
                 name="username"
                 placeholder="이름"
                 required
-                // value={formData.username}
+                value={user.username}
                 // onChange={handleChange}
                 autoComplete="name"
               />
@@ -60,7 +87,7 @@ export default function Member() {
                 />
                 <span>년</span>
               </span>
-              
+
               <span className="basis-1/3 flex items-center gap-3">
                 <input
                   type="text"

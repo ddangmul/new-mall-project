@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useAuth } from "@/store/Auth-content";
 import MyshopContentsNavBar from "@/components/nav-bar/myshop-contents-nav";
 import Order from "@/components/myshop/order";
 import Returns from "@/components/detail-item-content/returns";
@@ -11,16 +10,28 @@ import QnA from "@/components/detail-item-content/qna";
 import OneQnA from "@/components/myshop/one-qna";
 import Member from "@/components/myshop/member";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+
+import { signOut } from "next-auth/react";
 
 export default function myshop() {
+  const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode") || "order";
 
-  const { user, logout } = useAuth();
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/" }); // 로그아웃 후 홈으로 이동
+  };
 
-  if (!user) {
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (!session) {
     return <p>로그인이 필요합니다.</p>;
   }
+
+  const user = session.user;
 
   let myshopContent;
 
@@ -53,16 +64,19 @@ export default function myshop() {
             <div className="basis-3/5 h-100% p-6 bg-[#2d2c2a] text-[#d6d2c8] rounded-[6px]">
               <p className="text-2xl font-serif">Welcome</p>
               <p className="text-3xl">
-                {/* <span>{user.username}</span>  */}
+                <span>{user.username}</span>
                 님, 환영합니다.
               </p>
               <ul className="flex gap-5 text-lg absolute bottom-6 ">
                 <li className="bg-[#615e58] text-[#d6d2c8] px-4 py-1 text-center rounded-[5px]">
                   <Link href="/">회원정보 수정</Link>
                 </li>
-                <li className="bg-[#615e58] text-[#d6d2c8] px-4 py-1 text-center rounded-[5px]">
-                  <Link href="/">로그아웃</Link>
-                </li>
+                <button
+                  onClick={handleLogout}
+                  className="bg-[#615e58] text-[#d6d2c8] px-4 py-1 text-center rounded-[5px]"
+                >
+                  로그아웃
+                </button>
               </ul>
             </div>
             <div className="basis-2/5 space-y-4">
