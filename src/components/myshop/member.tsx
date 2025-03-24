@@ -3,11 +3,52 @@
 import "./member.css";
 
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 export default function Member() {
   const { data: session } = useSession();
 
   const user = session.user;
+
+  const [formData, setFormData] = useState({
+    email: user.email,
+    oldPassword: "",
+    newPassword: "",
+    newPasswordCk: "",
+    username: user.username,
+    birthYear: "",
+    birthMonth: "",
+    birthDay: "",
+    isSolar: false,
+    isLunar: false,
+  });
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await fetch("/api/user/update", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      setMessage("사용자 정보가 업데이트되었습니다.");
+    } else {
+      setMessage(`오류: ${data.error}`);
+    }
+    console.log(message);
+  };
 
   return (
     <article className="member w-full mt-10 relative">
@@ -19,7 +60,7 @@ export default function Member() {
           <form
             id="member-form"
             method="post"
-            // onSubmit={handleSignup}
+            onSubmit={handleSubmit}
             className="space-y-2 w-full"
           >
             <div>
@@ -28,40 +69,40 @@ export default function Member() {
                 type="email"
                 name="email"
                 value={user.email}
-                // onChange={handleChange}
+                readOnly
               />
             </div>
             <div>
               <input
-                id="password"
+                id="oldPassword"
                 type="password"
-                name="password"
+                name="oldPassword"
                 required
                 placeholder="기존 비밀번호 확인"
-                // value={formData.password}
-                // onChange={handleChange}
+                value={formData.oldPassword}
+                onChange={handleChange}
               />
             </div>
             <div>
               <input
-                id="passwordCk"
+                id="newPassword"
                 type="password"
-                name="passwordCk"
+                name="newPassword"
                 required
                 placeholder="변경할 비밀번호"
-                // value={formData.passwordCk}
-                // onChange={handleChange}
+                value={formData.newPassword}
+                onChange={handleChange}
               />
             </div>
             <div>
               <input
-                id="passwordCk"
+                id="newPasswordCk"
                 type="password"
-                name="passwordCk"
+                name="newPasswordCk"
                 required
                 placeholder="변경할 비밀번호 확인"
-                // value={formData.passwordCk}
-                // onChange={handleChange}
+                value={formData.newPasswordCk}
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -71,7 +112,7 @@ export default function Member() {
                 placeholder="이름"
                 required
                 value={user.username}
-                // onChange={handleChange}
+                readOnly
                 autoComplete="name"
               />
             </div>
@@ -82,8 +123,8 @@ export default function Member() {
                   name="birthYear"
                   placeholder="출생년도"
                   className="basis-9/10"
-                  // value={formData.birthYear}
-                  // onChange={handleChange}
+                  value={formData.birthYear}
+                  onChange={handleChange}
                 />
                 <span>년</span>
               </span>
@@ -94,8 +135,8 @@ export default function Member() {
                   name="birthMonth"
                   placeholder="출생월"
                   className="basis-9/10"
-                  // value={formData.birthMonth}
-                  // onChange={handleChange}
+                  value={formData.birthMonth}
+                  onChange={handleChange}
                 />
                 <span>월</span>
               </span>
@@ -105,8 +146,8 @@ export default function Member() {
                   name="birthDay"
                   placeholder="출생일"
                   className="basis-9/10"
-                  // value={formData.birthDay}
-                  // onChange={handleChange}
+                  value={formData.birthDay}
+                  onChange={handleChange}
                 />
                 <span>일</span>
               </span>
@@ -117,8 +158,8 @@ export default function Member() {
                   type="checkbox"
                   name="isSolar"
                   id="solar"
-                  // checked={formData.isSolar}
-                  // onChange={handleChange}
+                  checked={formData.isSolar}
+                  onChange={handleChange}
                 />
                 <label className="w-20" htmlFor="solar">
                   양력
