@@ -1,37 +1,24 @@
-import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "@/lib/auth"; // JWT 검증 함수
+import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export async function middleware(req: Request) {
-  const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+export async function middleware(req) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-  if (!token) {
-    return NextResponse.json(
-      { message: "인증이 필요합니다." },
-      { status: 401 }
-    );
-  }
+  // 보호된 경로 설정
+  const protectedRoutes = ["/api/user/update", "/myshop", "/payment"];
 
-  // JWT 토큰 검증
-  const decoded = verifyToken(token);
-
-  if (!decoded) {
-    return NextResponse.json(
-      { message: "유효하지 않은 토큰입니다." },
-      { status: 401 }
-    );
-  }
-}
-
-export async function middleware(req: NextRequest) {
-  // 🍪 쿠키에서 토큰 추출
-  const token = req.cookies.get("token")?.value;
-
-  // 로그인하지 않은 사용자가 보호된 페이지 접근 시 로그인 페이지로 리디렉션
-  if (!token && req.nextUrl.pathname.startsWith("/myshop")) {
+  // 로그인 안 한 경우 로그인 페이지로 리디렉트
+  if (
+    !token &&
+    protectedRoutes.some((path) => req.nextUrl.pathname.startsWith(path))
+  ) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
   return NextResponse.next();
 }
 
-// 미들웨어 적용할 경로 지정
+// 미들웨어를 특정 API 경로, 페이지 라우트에만 적용
+export const config = {
+  matcher: ["/api/user/:path*", "/myshop", "/payment"],
+};

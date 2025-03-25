@@ -7,10 +7,10 @@ const prisma = new PrismaClient();
 
 export async function PATCH(req) {
   try {
-    // 🔹 요청 본문에서 업데이트할 데이터 가져오기
+    // 요청 본문에서 업데이트할 데이터 가져오기
     const { newPassword, birthYear, birthMonth, birthDay } = await req.json();
 
-    // 🔹 현재 로그인한 사용자 정보 가져오기
+    // 현재 로그인한 사용자 정보 가져오기
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.email) {
       return Response.json({ error: "로그인이 필요합니다." }, { status: 401 });
@@ -18,7 +18,7 @@ export async function PATCH(req) {
 
     const userEmail = session.user.email;
 
-    // 🔹 업데이트할 필드 설정
+    // 업데이트할 필드 설정
     let updateData = {};
     if (newPassword) {
       const saltRounds = 10;
@@ -27,9 +27,10 @@ export async function PATCH(req) {
     if (birthYear && birthMonth && birthDay)
       updateData.birthdate = `${birthYear}-${birthMonth}-${birthDay}`;
 
-    // 🔹 사용자 정보 업데이트
+    // 사용자 정보 업데이트
     const updatedUser = await prisma.user.update({
       where: { email: userEmail },
+
       data: updateData,
     });
 

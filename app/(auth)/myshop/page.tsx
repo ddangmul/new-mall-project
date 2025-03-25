@@ -9,29 +9,33 @@ import Point from "@/components/myshop/point";
 import QnA from "@/components/detail-item-content/qna";
 import OneQnA from "@/components/myshop/one-qna";
 import Member from "@/components/myshop/member";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 import { signOut } from "next-auth/react";
 
 export default function myshop() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const mode = searchParams.get("mode") || "order";
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/" }); // 로그아웃 후 홈으로 이동
   };
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]); // 상태가 바뀔 때만 실행되도록 설정
+
+  if (status === "loading" || status === "unauthenticated") {
+    return <p>Loading...</p>; // 로그인 안 된 경우 아무것도 렌더링하지 않음
   }
 
-  if (!session) {
-    return <p>로그인이 필요합니다.</p>;
-  }
-
-  const user = session.user;
+  const user = session?.user;
 
   let myshopContent;
 
