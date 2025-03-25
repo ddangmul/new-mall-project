@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import "./signup.css";
+import { signIn } from "next-auth/react";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -35,27 +36,20 @@ export default function Signup() {
       return;
     }
 
-    const response = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+    const response = await signIn("credentials", {
+      email: formData.email,
+      password: formData.password,
+      username: formData.username,
+      birthYear: formData.birthYear,
+      birthMonth: formData.birthMonth,
+      birthDay: formData.birthDay,
+      redirect: false,
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("API Error Response:", errorText);
-      return;
-    }
-
-    try {
-      const data = await response.json();
-      console.log("가입 성공:", data);
-      // redirect("/login");
-      router.push("/login"); // useRouter로 로그인 페이지로 리디렉션
-    } catch (error) {
-      console.error("Invalid JSON response:", error);
+    if (response?.error) {
+      console.error("로그인 실패:", response.error);
+    } else {
+      router.push("/myshop"); // 로그인 성공 후 이동할 페이지
     }
   };
 
@@ -72,6 +66,12 @@ export default function Signup() {
             className="space-y-4 w-full"
           >
             <div>
+              <label
+                htmlFor="email"
+                className="hidden text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
               <input
                 id="email"
                 type="email"
@@ -85,6 +85,12 @@ export default function Signup() {
               />
             </div>
             <div>
+              <label
+                htmlFor="password"
+                className="hidden text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
               <input
                 id="password"
                 type="password"
@@ -109,7 +115,14 @@ export default function Signup() {
               />
             </div>
             <div>
+              <label
+                htmlFor="username"
+                className="hidden text-sm font-medium text-gray-700"
+              >
+                Username
+              </label>
               <input
+                id="username"
                 type="text"
                 name="username"
                 placeholder="이름"
@@ -121,7 +134,14 @@ export default function Signup() {
             </div>
             <div className="flex justify-between gap-6 pr-4">
               <span className="basis-1/3 flex items-center gap-3">
+                <label
+                  htmlFor="birthYear"
+                  className="hidden text-sm font-medium text-gray-700"
+                >
+                  BirthYear
+                </label>
                 <input
+                  id="birthYear"
                   type="text"
                   name="birthYear"
                   placeholder="출생년도"
@@ -131,7 +151,14 @@ export default function Signup() {
                 년
               </span>
               <span className="basis-1/3 flex items-center gap-3">
+                <label
+                  htmlFor="birthMonth"
+                  className="hidden text-sm font-medium text-gray-700"
+                >
+                  BirthMonth
+                </label>
                 <input
+                  id="birthMonth"
                   type="text"
                   name="birthMonth"
                   placeholder="출생월"
@@ -141,7 +168,14 @@ export default function Signup() {
                 월
               </span>
               <span className="basis-1/3 flex items-center gap-3">
+                <label
+                  htmlFor="birthDay"
+                  className="hidden text-sm font-medium text-gray-700"
+                >
+                  BirthDay
+                </label>
                 <input
+                  id="birthDay"
                   type="text"
                   name="birthDay"
                   placeholder="출생일"

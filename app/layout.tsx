@@ -5,7 +5,6 @@ import "./globals.css";
 import MainHeader from "@/components/header/main-header";
 import Footer from "@/components/footer/footer";
 import { CartProvider } from "@/store/cart-context";
-import { AuthProvider } from "@/store/Auth-context";
 import { SessionProvider } from "next-auth/react";
 
 const metadata: Metadata = {
@@ -21,7 +20,6 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <AuthProvider>
           <SessionProvider>
             <MainHeader />
             <CartProvider>
@@ -31,7 +29,6 @@ export default function RootLayout({
             </CartProvider>
             <Footer />
           </SessionProvider>
-        </AuthProvider>
       </body>
     </html>
   );

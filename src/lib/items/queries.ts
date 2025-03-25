@@ -47,11 +47,29 @@ export async function getItemsByPrice(minPrice: number, maxPrice: number) {
 
 // id로 아이템 가져오기
 export async function getItemById(id: number) {
+  if (!id) {
+    throw new Error("id는 필수입니다.");
+  }
+
+  // id 값이 문자열이라면 숫자로 변환
+  const parsedId = typeof id === "string" ? parseInt(id, 10) : id;
+
+  // parsedId가 유효한 숫자인지 확인
+  if (isNaN(parsedId)) {
+    throw new Error("유효한 id를 제공해주세요.");
+  }
+
   const item = await prisma.item.findUnique({
     where: {
-      id: id,
+      id: parsedId,
     },
   });
+
+  // 아이템이 존재하지 않는 경우
+  if (!item) {
+    throw new Error(`아이템을 찾을 수 없습니다. id: ${parsedId}`);
+  }
+
   return item;
 }
 

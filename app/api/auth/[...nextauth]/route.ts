@@ -16,18 +16,30 @@ export const authOptions = {
           placeholder: "example@example.com",
         },
         password: { label: "Password", type: "password" },
+        username: { label: "username", type: "text" },
+        birthYear: { label: "birthYear", type: "text" },
+        birthMonth: { label: "birthMonth", type: "text" },
+        birthDay: { label: "birthDay", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("이메일과 비밀번호를 입력해주세요.");
         }
 
-        const user = await prisma.user.findUnique({
+        let user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
         if (!user) {
-          throw new Error("사용자가 존재하지 않습니다.");
+          const hashedPassword = await bcrypt.hash(credentials.password, 10);
+          user = await prisma.user.create({
+            data: {
+              email: credentials.email,
+              password: hashedPassword,
+              username: credentials.username,
+              birthdate: `${credentials.birthYear}-${credentials.birthMonth}-${credentials.birthDay}`,
+            },
+          });
         }
 
         const isValidPassword = await bcrypt.compare(

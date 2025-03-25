@@ -8,7 +8,6 @@ const MainImage: React.FC = () => {
     { src: "/homeImage/home-image4.jpg" },
     { src: "/homeImage/home-image2.jpg" },
     // { src: "/homeImage/home-image1.jpg" },
-    // { src: "/homeImage/home-image5.jpg" },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -45,7 +44,6 @@ const MainImage: React.FC = () => {
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
-                      ...image.style,
                     }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

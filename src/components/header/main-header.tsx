@@ -9,8 +9,8 @@ import { useSession } from "next-auth/react";
 import SearchArea from "./search-area";
 
 const MainHeader: React.FC = () => {
-  const [opacityHeaderBg, setOpacityHeaderBg] = useState(0); // 배경 불투명도 상태
-  const [isClient, setIsClient] = useState(false);
+  // const [opacityHeaderBg, setOpacityHeaderBg] = useState(0); // 배경 불투명도 상태
+  // const [isClient, setIsClient] = useState(false);
 
   // useEffect(() => {
   //   setIsClient(true); // 클라이언트에서만 실행되도록 설정
@@ -60,7 +60,7 @@ const MainHeader: React.FC = () => {
   } else {
     content = (
       <span>
-        <Link href="/myshop">{user.username}</Link>
+        <Link href="/myshop">MyPage</Link>
       </span>
     );
   }
@@ -87,16 +87,14 @@ const MainHeader: React.FC = () => {
               <Link href="/archive">Archive</Link>
             </span>
           </div>
-          <div className="">
-            <Link href="/">
-              <Image
-                src={hyangnangLogo}
-                alt="hyangnang-logo"
-                style={{ width: "100%", height: "auto" }}
-                priority
-              ></Image>
-            </Link>
-          </div>
+          <Link href="/">
+            <Image
+              src={hyangnangLogo}
+              alt="hyangnang-logo"
+              style={{ width: "100%", height: "auto" }}
+              priority
+            ></Image>
+          </Link>
           <div className="basis-1/3 flex justify-end gap-8">
             {content}
             <span>

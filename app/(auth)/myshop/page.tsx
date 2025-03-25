@@ -59,11 +59,11 @@ export default function myshop() {
 
   return (
     <section>
-      <div className="flex gap-2 px-16 mt-50">
+      <div className="flex gap-2 px-16 mt-24">
         <div className="myshop-conetents-nav basis-1/5">
           <MyshopContentsNavBar />
         </div>
-        <div className="myshop_content basis-4/5">
+        <div className="myshop_content basis-4/5 mt-16">
           <div className="myshop-top-area flex gap-4 relative h-70">
             <div className="basis-3/5 h-100% p-6 bg-[#2d2c2a] text-[#d6d2c8] rounded-[6px]">
               <p className="text-2xl font-serif">Welcome</p>

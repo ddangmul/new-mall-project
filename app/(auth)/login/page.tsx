@@ -3,14 +3,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useAuth } from "@/store/Auth-context";
 
 import Link from "next/link";
 import "./login.css";
 
 export default function login() {
   const router = useRouter();
-  const { user, setUser } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -40,12 +38,6 @@ export default function login() {
       router.push("/myshop"); // 로그인 성공 후 이동할 페이지
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      router.push("/myshop");
-    }
-  }, [user]);
 
   return (
     <section className="login w-full min-h-screen mt-10 relative">
