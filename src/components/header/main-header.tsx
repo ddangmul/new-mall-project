@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import hyangnangLogo from "@/assets/logo/HyangNang-Logo-White.png";
 
 import { useEffect, useState } from "react";
+import SearchArea from "./search-area";
 
 const MainHeader: React.FC = () => {
   const [opacityHeaderBg, setOpacityHeaderBg] = useState(0); // 배경 불투명도 상태
@@ -81,14 +82,7 @@ const MainHeader: React.FC = () => {
             <span>
               <Link href="/cart">Cart</Link>
             </span>
-            <span className="flex items-center ml-10">
-              <p>Search</p>
-              <input
-                name="searchItem"
-                type="text"
-                className="border-b-1 border-b-amber-50 max-w-30"
-              ></input>
-            </span>
+            <SearchArea />
           </div>
         </div>
       </motion.div>
