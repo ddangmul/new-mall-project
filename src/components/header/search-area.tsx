@@ -20,8 +20,8 @@ const SearchArea: React.FC = () => {
   }, [searchTerm]);
 
   function handleSearch() {
-    if (searchTerm.trim().length > 0) {
-      router.push(`/search?q=${encodeURIComponent(searchTerm)}`);
+    if (debouncedSearchTerm.trim().length > 0) {
+      router.push(`/search?q=${encodeURIComponent(debouncedSearchTerm)}`);
     }
   }
 
