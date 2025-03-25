@@ -4,8 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import hyangnangLogo from "@/assets/logo/HyangNang-Logo-White.png";
-
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import SearchArea from "./search-area";
 
 const MainHeader: React.FC = () => {
@@ -40,6 +40,31 @@ const MainHeader: React.FC = () => {
   //   };
   // }, []);
 
+  const { data: session, status } = useSession();
+  const user = session?.user;
+
+  let content;
+  // session이 로딩 중일 때
+  if (status === "loading") {
+    content = (
+      <span>
+        <Link href="/login">Login</Link>
+      </span>
+    );
+  } else if (!user) {
+    content = (
+      <span>
+        <Link href="/login">Login</Link>
+      </span>
+    );
+  } else {
+    content = (
+      <span>
+        <Link href="/myshop">{user.username}</Link>
+      </span>
+    );
+  }
+
   return (
     <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
       <motion.div
@@ -73,9 +98,7 @@ const MainHeader: React.FC = () => {
             </Link>
           </div>
           <div className="basis-1/3 flex justify-end gap-8">
-            <span>
-              <Link href="/login">Login</Link>
-            </span>
+            {content}
             <span>
               <Link href="/cart">Cart</Link>
             </span>
