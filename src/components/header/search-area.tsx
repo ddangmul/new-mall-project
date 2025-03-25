@@ -33,7 +33,7 @@ const SearchArea: React.FC = () => {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="border-b-1 border-b-amber-50 text-white max-w-30"
+        className="border-b-1 border-b-amber-50 text-white max-w-30 mx-2"
         onKeyDown={(e) => e.key === "Enter" && handleSearch()} // Enter 키로 검색 가능
       ></input>
       <Image
@@ -41,7 +41,7 @@ const SearchArea: React.FC = () => {
         alt="search-icon"
         width={10}
         height={10}
-        className="absolute invert right-0"
+        className="absolute invert right-2"
       />
     </span>
   );
