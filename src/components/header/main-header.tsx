@@ -43,7 +43,7 @@ const MainHeader: React.FC = () => {
   return (
     <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
       <motion.div
-        className="header-inner bg-[#121111] p-10 "
+        className="header-inner bg-[#121111] p-8 "
         // style={{
         //   backgroundColor: isClient
         //     ? `rgba(18, 17, 17, ${opacityHeaderBg})`
@@ -54,9 +54,6 @@ const MainHeader: React.FC = () => {
           <div className="basis-1/3 flex gap-8">
             <span>
               <Link href="/">Home</Link>
-            </span>
-            <span>
-              <Link href="/">Shop</Link>
             </span>
             <span>
               <Link href="/about">About</Link>
@@ -70,7 +67,7 @@ const MainHeader: React.FC = () => {
               <Image
                 src={hyangnangLogo}
                 alt="hyangnang-logo"
-                style={{ width: "70%", height: "auto" }}
+                style={{ width: "100%", height: "auto" }}
                 priority
               ></Image>
             </Link>

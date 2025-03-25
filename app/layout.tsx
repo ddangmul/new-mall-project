@@ -25,7 +25,7 @@ export default function RootLayout({
           <SessionProvider>
             <MainHeader />
             <CartProvider>
-              <div id="wrap" className="min-h-screen pt-26">
+              <div id="wrap" className="min-h-screen pt-22">
                 {children}
               </div>
             </CartProvider>
