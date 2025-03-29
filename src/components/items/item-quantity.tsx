@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import { Item } from "@/assets/types";
 import { formatterPrice } from "@/utils/formatter";
 import { useCart, CartProvider } from "@/store/cart-context";
+import { useRouter } from "next/navigation";
 
 const ItemQuantity = ({ item }: { item: Item }) => {
   const { cartItems, addCartHandler } = useCart();
-
   const [quantity, setQuantity] = useState<number>(1);
   const [isVisible, setIsVisible] = useState<boolean>(false); // div 표시 여부
+  const router = useRouter();
 
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () => {
@@ -54,7 +55,10 @@ const ItemQuantity = ({ item }: { item: Item }) => {
       </div>
       <div className="prod_action_btn text-2xl mt-8 flex justify-around gap-4 font-serif">
         <button
-          onClick={() => addCartHandler(item, quantity)}
+          onClick={() => {
+            addCartHandler(item, quantity);
+            router.push("/cart");
+          }}
           type="button"
           className="bg-[#f8f7f5] text-[#524f4c] px-20 py-3 rounded-xs shadow-lg grow-1"
         >

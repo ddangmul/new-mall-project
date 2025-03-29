@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
 
 import Link from "next/link";
 import "./login.css";
@@ -33,7 +34,8 @@ export default function login() {
     });
 
     if (res?.error) {
-      console.error("로그인 실패:", res.error);
+      setError("이메일 또는 비밀번호가 잘못되었습니다.");
+      toast.error("이메일 또는 비밀번호가 잘못되었습니다.");
     } else {
       router.push("/myshop"); // 로그인 성공 후 이동할 페이지
     }
@@ -47,6 +49,9 @@ export default function login() {
         </div>
         <div className="login-form-wrap">
           <form onSubmit={handleLogin} className="space-y-4 w-full">
+            {error && (
+              <p className="text-[#7c1414] text-sm my-2 lx-2">{error}</p>
+            )}
             <div>
               <label
                 htmlFor="email"

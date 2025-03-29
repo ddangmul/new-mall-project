@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 import "./signup.css";
 import { signIn } from "next-auth/react";
@@ -32,7 +33,7 @@ export default function Signup() {
     e.preventDefault();
 
     if (formData.password !== formData.passwordCk) {
-      alert("비밀번호가 일치하지 않습니다.");
+      toast.error("비밀번호가 일치하지 않습니다.");
       return;
     }
 

@@ -6,6 +6,7 @@ import MainHeader from "@/components/header/main-header";
 import Footer from "@/components/footer/footer";
 import { CartProvider } from "@/store/cart-context";
 import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
 
 const metadata: Metadata = {
   title: "Online Mall App",
@@ -20,15 +21,22 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-          <SessionProvider>
-            <MainHeader />
-            <CartProvider>
-              <div id="wrap" className="min-h-screen pt-22">
-                {children}
-              </div>
-            </CartProvider>
-            <Footer />
-          </SessionProvider>
+        <SessionProvider>
+          <MainHeader />
+          <CartProvider>
+            <div id="wrap" className="min-h-screen pt-22">
+              {children}
+              <ToastContainer
+                position="bottom-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                closeOnClick
+                theme="dark"
+              />
+            </div>
+          </CartProvider>
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );
