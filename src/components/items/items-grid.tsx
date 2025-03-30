@@ -8,7 +8,7 @@ import { useCart } from "@/store/cart-context";
 import Link from "next/link";
 
 const ItemsGrid: React.FC<{ items: Item[] }> = ({ items }) => {
-  const { addCartHandler } = useCart();
+  const { addCartHandler, openModal } = useCart();
 
   return (
     <ul className="grid grid-cols-2 xl:grid-cols-3 gap-6 space-y-6">
@@ -19,13 +19,15 @@ const ItemsGrid: React.FC<{ items: Item[] }> = ({ items }) => {
               <ItemCard item={item} />
             </li>
           </Link>
-          <Link
-            href="/cart"
+          <button
             className=" bg-[#f8f7f5] text-[#2a2828] px-3 py-1.5 rounded-sm  drop-shadow-sm"
-            onClick={() => addCartHandler(item, 1)}
+            onClick={() => {
+              addCartHandler(item, 1);
+              openModal();
+            }}
           >
             Cart
-          </Link>
+          </button>
         </div>
       ))}
     </ul>

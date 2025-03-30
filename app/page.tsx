@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 const prisma = new PrismaClient();
 
 export default async function Home() {
-  
   const items = await prisma.item.findMany();
 
   return (

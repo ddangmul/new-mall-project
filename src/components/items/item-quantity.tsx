@@ -1,16 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Item } from "@/assets/types";
 import { formatterPrice } from "@/utils/formatter";
-import { useCart, CartProvider } from "@/store/cart-context";
-import { useRouter } from "next/navigation";
+import { useCart } from "@/store/cart-context";
 
 const ItemQuantity = ({ item }: { item: Item }) => {
-  const { cartItems, addCartHandler } = useCart();
+  const { addCartHandler, openModal } = useCart();
   const [quantity, setQuantity] = useState<number>(1);
-  const [isVisible, setIsVisible] = useState<boolean>(false); // div 표시 여부
-  const router = useRouter();
 
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () => {
@@ -57,7 +54,7 @@ const ItemQuantity = ({ item }: { item: Item }) => {
         <button
           onClick={() => {
             addCartHandler(item, quantity);
-            router.push("/cart");
+            openModal();
           }}
           type="button"
           className="bg-[#f8f7f5] text-[#524f4c] px-20 py-3 rounded-xs shadow-lg grow-1"

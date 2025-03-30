@@ -1,6 +1,8 @@
 "use client";
 
 import { Item } from "@/assets/types";
+import CartModal from "@/components/cart/cart-modal";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
 
 interface CartContextType {
@@ -9,6 +11,10 @@ interface CartContextType {
   deleteCartHandler: (item: Item) => void;
   updateItemQuantity: (id: string, quantity: number) => void;
   totalPrice: number;
+  isModalOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+  confirmOpenCart: () => void;
 }
 
 export const CartContext = createContext<CartContextType>({
@@ -17,6 +23,10 @@ export const CartContext = createContext<CartContextType>({
   deleteCartHandler: (item) => {},
   updateItemQuantity: (id, quantity) => {},
   totalPrice: 0,
+  isModalOpen: false,
+  openModal: () => {},
+  closeModal: () => {},
+  confirmOpenCart: () => {},
 });
 
 export function useCart() {
@@ -24,8 +34,10 @@ export function useCart() {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [cartItems, setCartItems] = useState<Item[]>([]);
   const [isLoaded, setIsLoaded] = useState(false); //Hydration 오류 방지
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cart");
@@ -40,6 +52,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem("cart", JSON.stringify(cartItems));
     }
   }, [cartItems, isLoaded]);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const confirmOpenCart = () => {
+    router.push("/cart"); // 장바구니 페이지로 이동
+    setIsModalOpen(false); // 모달 닫기
+  };
 
   const addCartHandler = (item: Item, quantity: number) => {
     setCartItems((prev) => {
@@ -71,9 +96,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     deleteCartHandler,
     updateItemQuantity,
     totalPrice,
+    isModalOpen,
+    openModal,
+    closeModal,
+    confirmOpenCart,
   };
 
   return (
-    <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
+    <CartContext.Provider value={contextValue}>
+      {children}
+      <CartModal />
+    </CartContext.Provider>
   );
 }

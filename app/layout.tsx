@@ -24,6 +24,7 @@ export default function RootLayout({
         <SessionProvider>
           <MainHeader />
           <CartProvider>
+            <div id="modal"></div>
             <div id="wrap" className="min-h-screen pt-22">
               {children}
               <ToastContainer
