@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 
 import "./signup.css";
 import { signIn } from "next-auth/react";
 
 export default function Signup() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,8 +18,8 @@ export default function Signup() {
     isSolar: false,
     isLunar: false,
   });
-
-  const router = useRouter();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -31,27 +31,46 @@ export default function Signup() {
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     if (formData.password !== formData.passwordCk) {
-      toast.error("비밀번호가 일치하지 않습니다.");
+      console.error("비밀번호가 일치하지 않습니다.");
       return;
     }
+    try {
+      console.log("보내는 데이터:", formData);
 
-    const response = await signIn("credentials", {
-      email: formData.email,
-      password: formData.password,
-      username: formData.username,
-      birthYear: formData.birthYear,
-      birthMonth: formData.birthMonth,
-      birthDay: formData.birthDay,
-      redirect: false,
-    });
+      const res = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    if (response?.error) {
-      console.error("로그인 실패:", response.error);
-    } else {
-      router.push("/myshop"); // 로그인 성공 후 이동할 페이지
+      // const textResponse = await res.text(); // JSON 대신 text()로 응답 확인
+      // console.log("서버 응답:", textResponse);
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "회원가입 실패");
+
+      alert("회원가입 성공!");
+      router.push("/login"); // 로그인 페이지로 이동
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+    // const response = await signIn("credentials", {
+    //   formData,
+    //   redirect: false,
+    // });
+
+    // if (response?.error) {
+    //   console.error("로그인 실패:", response.error);
+    // } else {
+    //   router.push("/myshop"); // 로그인 성공 후 이동할 페이지
+    // }
   };
 
   return (
@@ -60,12 +79,14 @@ export default function Signup() {
         <div className="signup-heading py-8 border-b-1 border-b-[#9e9e9e] mb-8">
           <p className="text-4xl font-serif">Sign Up</p>
         </div>
+
         <div className="signup-form-wrap">
           <form
             method="post"
             onSubmit={handleSignup}
             className="space-y-4 w-full"
           >
+            {error && <p className="text-red-500 mb-4">{error}</p>}
             <div>
               <label
                 htmlFor="email"
@@ -215,8 +236,9 @@ export default function Signup() {
             <button
               type="submit"
               className="signup_btn text-4xl font-serif w-full py-3 my-6 bg-[#313030] text-[#f2f0eb]"
+              disabled={loading}
             >
-              Create Account
+              {loading ? "가입 중..." : "Create Account"}
             </button>
           </form>
         </div>

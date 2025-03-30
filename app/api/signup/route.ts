@@ -7,7 +7,16 @@ export async function POST(req: Request) {
     const data = await req.json(); // JSON 데이터 파싱
     console.log(data);
     // 요청의 body를 JSON 형식으로 파싱
-    const { email, password, username, birthYear, birthMonth, birthDay } = data;
+    const {
+      email,
+      password,
+      username,
+      birthYear,
+      birthMonth,
+      birthDay,
+      isLunar,
+      isSolar,
+    } = data;
 
     // 생년월일 계산
     const birthdate = `${birthYear}-${birthMonth}-${birthDay}`;
