@@ -44,7 +44,7 @@ export default function QnAPost() {
       <div className="heading py-6 px-4 bg-[#ffffff] border-b-1 border-b-[#afafaf]">
         <h1 className="text-xl font-serif text-center">1:1 Q&A</h1>
       </div>
-      <div className="relative text-lg px-30 mt-12">
+      <div className="relative text-lg px-10 mt-12">
         <div className="qna-title py-6 mb-4 border-b-1 border-b-[#5a5a5a]">
           <div className="p-2 text-[#7e7d7b]">
             작성자 : {session.user.username}

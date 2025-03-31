@@ -1,0 +1,7 @@
+.modify-password input,
+.modify-member input,
+.register-address input {
+  background-color: #e3e2df;
+  padding: 12px 8px;
+  width: 100%;
+}

@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 
 import Link from "next/link";
 import "./login.css";
 
 export default function login() {
+  const { data: session } = useSession();
+
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
@@ -96,6 +98,12 @@ export default function login() {
               Log In
             </button>
           </form>
+          <button
+            onClick={() => signIn()}
+            className="login_btn text-3xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
+          >
+            Google LogIn
+          </button>
           <div className="mt-20 py-4 border-t-1 border-t-[#9e9e9e]">
             <p className="text-4xl font-serif my-2">Sign Up</p>
             <span className="signup-link">

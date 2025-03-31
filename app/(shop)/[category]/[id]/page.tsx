@@ -10,11 +10,13 @@ import ContentContainer from "@/components/detail-item-content/content-container
 export default async function ItemDetailPage({
   params,
 }: {
-  params: { category: string; id: string };
+  params: { id: string };
 }) {
-  const { id } = await params;
+  if (!params || !params.id) {
+    return <p>잘못된 요청입니다.</p>;
+  }
 
-  const item: Item = await getItemById(parseInt(id));
+  const item: Item = await getItemById(params.id);
 
   const formattedPrice = formatterPrice(item.price);
 

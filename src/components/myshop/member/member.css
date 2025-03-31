@@ -1,0 +1,15 @@
+#member-form input,
+.address input {
+  background-color: #e3e2df;
+  padding: 12px 8px;
+  width: 100%;
+}
+
+input[type="checkbox"] {
+  width: 14px;
+}
+
+.address_action {
+  padding: 0.5rem 2rem;
+  border-radius: 4px;
+}

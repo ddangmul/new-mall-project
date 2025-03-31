@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 const MyshopContentsNavBar: React.FC = () => {
@@ -15,9 +16,11 @@ const MyshopContentsNavBar: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-3xl font-serif pb-10">MyPage</h1>
-      <nav className="w-50 flex flex-col items-start gap-8 text-xl">
+    <div className="mt-10">
+      <Link href="/myshop" className="text-3xl font-serif">
+        MyPage
+      </Link>
+      <nav className="w-50 flex flex-col items-start gap-8 mt-12 text-xl">
         <button
           onClick={() => changeMode("order")}
           className={
@@ -51,7 +54,7 @@ const MyshopContentsNavBar: React.FC = () => {
         <button
           onClick={() => changeMode("oneqna")}
           className={
-            mode === "oneqna"
+            pathname === "oneqna"
               ? "text-[#686360] underline underline-offset-7 decoration-[#cec7c4]"
               : ""
           }
