@@ -1,14 +1,8 @@
-form div {
-  background-color: #fff;
-}
-
-form div:last-of-type {
-  background-color: unset;
-}
-
 form input {
+  font-size: medium;
   width: 100%;
   padding: 1rem;
+  background-color: #fff;
 }
 
 input[type="checkbox"] {

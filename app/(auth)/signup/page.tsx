@@ -9,15 +9,19 @@ export default function Signup() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
+    username: "",
     password: "",
     passwordCk: "",
-    username: "",
     birthYear: "",
     birthMonth: "",
     birthDay: "",
     isSolar: false,
     isLunar: false,
+    mobile1: "",
+    mobile2: "",
+    mobile3: "",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -108,6 +112,24 @@ export default function Signup() {
             </div>
             <div>
               <label
+                htmlFor="username"
+                className="hidden text-sm font-medium text-gray-700"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                type="text"
+                name="username"
+                placeholder="이름"
+                required
+                value={formData.username}
+                onChange={handleChange}
+                autoComplete="name"
+              />
+            </div>
+            <div>
+              <label
                 htmlFor="password"
                 className="hidden text-sm font-medium text-gray-700"
               >
@@ -136,24 +158,45 @@ export default function Signup() {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="hidden text-sm font-medium text-gray-700"
-              >
-                Username
-              </label>
-              <input
-                id="username"
-                type="text"
-                name="username"
-                placeholder="이름"
+            <div className="mobile flex justify-between gap-2 items-center">
+              <select
+                name="mobile1"
+                id="mobile1"
+                className="basis-1/3"
                 required
-                value={formData.username}
-                onChange={handleChange}
-                autoComplete="name"
+              >
+                <option value="010">010</option>
+                <option value="011">011</option>
+                <option value="016">016</option>
+                <option value="017">017</option>
+                <option value="018">018</option>
+                <option value="019">019</option>
+              </select>
+              -
+              <input
+                type="text"
+                id="mobile2"
+                name="mobile2"
+                className="basis-1/3"
+                required
+              />
+              -
+              <input
+                type="text"
+                id="mobile3"
+                name="mobile3"
+                className="basis-1/3"
+                required
               />
             </div>
+            {/* <div className="address space-y-4">
+              <span className="flex justify-between items-center gap-4 h-13">
+                <input type="number" placeholder="우편번호" required />
+                <button className="w-[6rem]">우편번호</button>
+              </span>
+              <input type="text" placeholder="기본주소" required />
+              <input type="text" placeholder="나머지주소" />
+            </div> */}
             <div className="flex justify-between gap-6 pr-4">
               <span className="basis-1/3 flex items-center gap-3">
                 <label
@@ -207,7 +250,7 @@ export default function Signup() {
                 일
               </span>
             </div>
-            <div className="flex">
+            <div className="isSoL flex">
               <span className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -235,10 +278,10 @@ export default function Signup() {
             </div>
             <button
               type="submit"
-              className="signup_btn text-4xl font-serif w-full py-3 my-6 bg-[#313030] text-[#f2f0eb]"
+              className="signup_btn text-2xl w-full py-3 my-6 bg-[#313030] text-[#f2f0eb]"
               disabled={loading}
             >
-              {loading ? "가입 중..." : "Create Account"}
+              {loading ? "가입 중..." : "회원가입"}
             </button>
           </form>
         </div>

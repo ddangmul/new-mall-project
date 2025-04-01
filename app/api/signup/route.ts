@@ -16,10 +16,14 @@ export async function POST(req: Request) {
       birthDay,
       isLunar,
       isSolar,
+      mobile1,
+      mobile2,
+      mobile3,
     } = data;
 
     // 생년월일 계산
     const birthdate = `${birthYear}-${birthMonth}-${birthDay}`;
+    const mobile = `${mobile1}-${mobile2}-${mobile3}`;
 
     // 필수 입력값 확인
     if (!email || !password || !username) {
@@ -48,6 +52,7 @@ export async function POST(req: Request) {
         password: hashedPassword,
         username,
         birthdate,
+        mobile,
       },
     });
 

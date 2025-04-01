@@ -13,8 +13,10 @@ model User {
   email     String  @unique
   password  String
   birthdate String
+  mobile    String  @default("000-0000-0000")
+  address   String  @default("Unknown")  
   createdAt DateTime @default(now())
-}
+  }
 
 model Item {
   id       Int    @id @default(autoincrement()) 
