@@ -13,9 +13,9 @@ export default function RegisterAddress() {
             <input type="text" placeholder="이름" required />
           </div>
           <div className="space-y-3">
-            <span className="flex gap-2">
+            <span className="flex justify-between items-center gap-4 h-13">
               <input type="number" placeholder="우편번호" required />
-              <button className="p-8">우편번호</button>
+              <button className="w-[6rem]">우편번호</button>
             </span>
             <input type="text" placeholder="기본주소" required />
             <input type="text" placeholder="나머지주소" />
