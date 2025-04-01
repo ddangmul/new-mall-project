@@ -33,8 +33,8 @@ model Item {
 model Address {
   id            String  @id @default(cuid())
   userId        Int
-  recipient     String
-  mobile        String
+  addressname     String
+  addressmobile        String
   postcode      String
   address       String
   detailAddress String?

@@ -2,22 +2,87 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 import "./modify.css";
 
 export default function RegisterAddress() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const userId = session.user.id;
   const [formData, setFormData] = useState({
-    addressName: "",
+    userId,
+    addressname: "",
+    postcode: "",
+    address: "",
+    detailAddress: "",
+    addressMobile1: "",
+    addressMobile2: "",
+    addressMobile3: "",
+    defaultAddress: false,
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type, checked } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const addressMobile = `${formData.addressMobile1}-${formData.addressMobile2}-${formData.addressMobile3}`;
+
+    const formattedData = {
+      ...formData,
+      addressmobile: addressMobile,
+    };
+
+    try {
+      console.log("보내는 데이터:", formattedData);
+
+      const res = await fetch("/api/address", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formattedData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "배송지 추가 실패");
+
+      alert("배송지 추가 성공!");
+      router.push("/myshop?mode=member&mode2=address");
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="register-address my-8">
       <h1 className="text-xl">배송지 등록</h1>
       <div className="address_register my-5 rounded-xl">
-        <form className="space-y-3">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div>
-            <input name="addressName" type="text" placeholder="이름" required />
+            <input
+              name="addressname"
+              type="text"
+              placeholder="이름"
+              required
+              value={formData.addressname}
+              onChange={handleChange}
+            />
           </div>
           <div className="space-y-3">
             <span className="flex justify-between items-center gap-4 h-13">
@@ -26,16 +91,27 @@ export default function RegisterAddress() {
                 type="text"
                 placeholder="우편번호"
                 required
+                value={formData.postcode}
+                onChange={handleChange}
               />
               <button className="w-[6rem]">우편번호</button>
             </span>
             <input
-              name="address1"
+              name="address"
               type="text"
               placeholder="기본주소"
               required
+              value={formData.address}
+              onChange={handleChange}
             />
-            <input name="address2" type="text" placeholder="나머지주소" />
+
+            <input
+              name="detailAddress"
+              type="text"
+              placeholder="나머지주소"
+              value={formData.detailAddress}
+              onChange={handleChange}
+            />
           </div>
           <div className="mobile flex justify-between gap-2 items-center">
             <select
@@ -43,7 +119,12 @@ export default function RegisterAddress() {
               id="addressMobile1"
               className="basis-1/3"
               required
+              value={formData.addressMobile1}
+              onChange={(e) =>
+                setFormData({ ...formData, addressMobile1: e.target.value })
+              }
             >
+              <option value="">선택</option>
               <option value="010">010</option>
               <option value="011">011</option>
               <option value="016">016</option>
@@ -58,6 +139,8 @@ export default function RegisterAddress() {
               name="addressMobile2"
               className="basis-1/3"
               required
+              value={formData.addressMobile2}
+              onChange={handleChange}
             />
             -
             <input
@@ -66,10 +149,18 @@ export default function RegisterAddress() {
               name="addressMobile3"
               className="basis-1/3"
               required
+              value={formData.addressMobile3}
+              onChange={handleChange}
             />
           </div>
           <div className="flex items-center gap-2 w-full">
-            <input name="isDefault" type="checkbox" id="defaultAddress" />
+            <input
+              name="defaultAddress"
+              type="checkbox"
+              id="defaultAddress"
+              checked={formData.defaultAddress}
+              onChange={handleChange}
+            />
             <label>기본 배송지로 저장</label>
           </div>
         </form>

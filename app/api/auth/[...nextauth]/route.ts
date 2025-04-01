@@ -49,7 +49,6 @@ export const authOptions = {
         if (!isValidPassword) {
           throw new Error("비밀번호가 일치하지 않습니다.");
         }
-
         return user; // 로그인 성공 시 사용자 객체 반환
       },
     }),
