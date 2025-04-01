@@ -25,8 +25,11 @@ export default function Signup() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value, type, checked } = e.target;
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
@@ -42,17 +45,22 @@ export default function Signup() {
       console.error("비밀번호가 일치하지 않습니다.");
       return;
     }
+
+    const mobileNumber = `${formData.mobile1}-${formData.mobile2}-${formData.mobile3}`;
+
+    const formattedData = {
+      ...formData,
+      mobile: mobileNumber,
+    };
+
     try {
-      console.log("보내는 데이터:", formData);
+      console.log("보내는 데이터:", formattedData);
 
       const res = await fetch("/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formattedData),
       });
-
-      // const textResponse = await res.text(); // JSON 대신 text()로 응답 확인
-      // console.log("서버 응답:", textResponse);
 
       const data = await res.json();
 
@@ -65,16 +73,6 @@ export default function Signup() {
     } finally {
       setLoading(false);
     }
-    // const response = await signIn("credentials", {
-    //   formData,
-    //   redirect: false,
-    // });
-
-    // if (response?.error) {
-    //   console.error("로그인 실패:", response.error);
-    // } else {
-    //   router.push("/myshop"); // 로그인 성공 후 이동할 페이지
-    // }
   };
 
   return (
@@ -164,7 +162,12 @@ export default function Signup() {
                 id="mobile1"
                 className="basis-1/3"
                 required
+                value={formData.mobile1}
+                onChange={(e) =>
+                  setFormData({ ...formData, mobile1: e.target.value })
+                }
               >
+                <option value="">선택</option>
                 <option value="010">010</option>
                 <option value="011">011</option>
                 <option value="016">016</option>
@@ -179,6 +182,8 @@ export default function Signup() {
                 name="mobile2"
                 className="basis-1/3"
                 required
+                value={formData.mobile2}
+                onChange={handleChange}
               />
               -
               <input
@@ -187,6 +192,8 @@ export default function Signup() {
                 name="mobile3"
                 className="basis-1/3"
                 required
+                value={formData.mobile3}
+                onChange={handleChange}
               />
             </div>
             {/* <div className="address space-y-4">
