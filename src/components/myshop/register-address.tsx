@@ -1,27 +1,49 @@
+"use client";
+
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import "./modify.css";
 
 export default function RegisterAddress() {
   const router = useRouter();
+  const [formData, setFormData] = useState({
+    addressName: "",
+  });
+
   return (
     <section className="register-address my-8">
       <h1 className="text-xl">배송지 등록</h1>
       <div className="address_register my-5 rounded-xl">
-        <form action="/" className="space-y-3">
+        <form className="space-y-3">
           <div>
-            <input type="text" placeholder="이름" required />
+            <input name="addressName" type="text" placeholder="이름" required />
           </div>
           <div className="space-y-3">
             <span className="flex justify-between items-center gap-4 h-13">
-              <input type="number" placeholder="우편번호" required />
+              <input
+                name="postcode"
+                type="text"
+                placeholder="우편번호"
+                required
+              />
               <button className="w-[6rem]">우편번호</button>
             </span>
-            <input type="text" placeholder="기본주소" required />
-            <input type="text" placeholder="나머지주소" />
+            <input
+              name="address1"
+              type="text"
+              placeholder="기본주소"
+              required
+            />
+            <input name="address2" type="text" placeholder="나머지주소" />
           </div>
           <div className="mobile flex justify-between gap-2 items-center">
-            <select name="mobile[]" id="mobile1" className="basis-1/3" required>
+            <select
+              name="addressMobile1"
+              id="addressMobile1"
+              className="basis-1/3"
+              required
+            >
               <option value="010">010</option>
               <option value="011">011</option>
               <option value="016">016</option>
@@ -32,22 +54,22 @@ export default function RegisterAddress() {
             -
             <input
               type="text"
-              id="mobile2"
-              name="mobile[]"
+              id="addressMobile2"
+              name="addressMobile2"
               className="basis-1/3"
               required
             />
             -
             <input
               type="text"
-              id="mobile3"
-              name="mobile[]"
+              id="addressMobile3"
+              name="addressMobile3"
               className="basis-1/3"
               required
             />
           </div>
           <div className="flex items-center gap-2 w-full">
-            <input type="checkbox" id="defaultAddress" />
+            <input name="isDefault" type="checkbox" id="defaultAddress" />
             <label>기본 배송지로 저장</label>
           </div>
         </form>

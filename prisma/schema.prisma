@@ -8,23 +8,37 @@ generator client {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  username  String  @unique
-  email     String  @unique
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
   password  String
   birthdate String
-  mobile    String  @default("000-0000-0000")
-  address   String  @default("Unknown")  
+  mobile    String   @default("000-0000-0000")
   createdAt DateTime @default(now())
-  }
+
+  addresses Address[]
+}
 
 model Item {
-  id       Int    @id @default(autoincrement()) 
-  title       String  @unique
+  id          Int      @id @default(autoincrement())
+  title       String   @unique
   image       String
   category    String
   description String?
   price       Int
-  sales       Int     @default(0)
+  sales       Int      @default(0)
   createdAt   DateTime @default(now())
+}
+
+model Address {
+  id            String  @id @default(cuid())
+  userId        Int
+  recipient     String
+  mobile        String
+  postcode      String
+  address       String
+  detailAddress String?
+  isDefault     Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
