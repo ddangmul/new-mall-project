@@ -6,6 +6,7 @@ import MainHeader from "@/components/header/main-header";
 import Footer from "@/components/footer/footer";
 import { CartProvider } from "@/store/cart-context";
 import { SessionProvider } from "next-auth/react";
+import { authOptions } from "@/lib/authOptions";
 import { ToastContainer } from "react-toastify";
 
 const metadata: Metadata = {

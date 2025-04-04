@@ -83,7 +83,7 @@ export default function RegisterAddress() {
               value={formData.addressname}
               onChange={handleChange}
             />
-          </div>
+          </div> 
           <div className="space-y-3">
             <span className="flex justify-between items-center gap-4 h-13">
               <input
@@ -174,7 +174,10 @@ export default function RegisterAddress() {
         >
           취소
         </button>
-        <button className="px-6 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8]">
+        <button
+          type="submit"
+          className="px-6 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8]"
+        >
           등록
         </button>
       </div>

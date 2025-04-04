@@ -30,17 +30,18 @@ export async function POST(req: Request) {
       );
     }
 
-    // 비밀번호 해싱
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     // 이메일 중복 확인
     const existingUser = await prisma.user.findUnique({ where: { email } });
+
     if (existingUser) {
       return NextResponse.json(
         { message: "이미 존재하는 이메일입니다." },
         { status: 400 }
       );
     }
+
+    // 비밀번호 해싱
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // 사용자 생성
     const newUser = await prisma.user.create({

@@ -42,15 +42,7 @@ export default function Member() {
           </button>
         </div>
       </div>
-      {mode === "member" && (
-        <>
-          <ModifyMember />
-          <ModifyPW />
-          <button className="mt-12 bg-[#2d2c2a] text-[#d6d2c8] rounded-sm text-xl w-full h-16">
-            수정하기
-          </button>
-        </>
-      )}
+      {mode === "member" && <ModifyMember />}
       {(mode === "address" || mode === "new") && <Address />}
     </>
   );

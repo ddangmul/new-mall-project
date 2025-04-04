@@ -1,47 +1,55 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth"; // nextAuth 설정 파일
-import { PrismaClient } from "@prisma/client";
+import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
-const prisma = new PrismaClient();
-
-export async function PATCH(req) {
+export async function POST(req: Request) {
   try {
     // 요청 본문에서 업데이트할 데이터 가져오기
-    const { newPassword, birthYear, birthMonth, birthDay } = await req.json();
+    const { useremail, new_pw, old_pw } = await req.json();
+    console.log("Received data:", { useremail, new_pw, old_pw });
 
     // 현재 로그인한 사용자 정보 가져오기
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.email) {
-      return Response.json({ error: "로그인이 필요합니다." }, { status: 401 });
+    const session = await getServerSession(authOptions); // 세션에서 사용자 정보 가져오기 (필요 시)
+    if (!session?.user) return new Response("Unauthorized", { status: 401 });
+
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { message: "사용자를 찾을 수 없습니다." },
+        { status: 404 }
+      );
     }
 
-    const userEmail = session.user.email;
-
-    // 업데이트할 필드 설정
-    let updateData = {};
-    if (newPassword) {
-      const saltRounds = 10;
-      updateData.password = await bcrypt.hash(newPassword, saltRounds);
+    // 기존 비밀번호 확인
+    const isMatch = await bcrypt.compare(old_pw, user.password);
+    if (!isMatch) {
+      return NextResponse.json(
+        { message: "기존 비밀번호가 일치하지 않습니다." },
+        { status: 400 }
+      );
     }
-    if (birthYear && birthMonth && birthDay)
-      updateData.birthdate = `${birthYear}-${birthMonth}-${birthDay}`;
 
-    // 사용자 정보 업데이트
-    const updatedUser = await prisma.user.update({
-      where: { email: userEmail },
+    // 새 비밀번호 암호화
+    const hashedPassword = await bcrypt.hash(new_pw, 10);
 
-      data: updateData,
+    // 비밀번호 업데이트
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { email: useremail, password: hashedPassword },
     });
 
     return Response.json({
       message: "사용자 정보가 업데이트되었습니다.",
-      user: updatedUser,
     });
   } catch (error) {
     console.error(error);
     return Response.json(
-      { error: "사용자 정보를 업데이트하는 중 오류가 발생했습니다." },
+      { message: "서버 오류", error: error.message },
       { status: 500 }
     );
   }
