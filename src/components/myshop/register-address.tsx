@@ -83,7 +83,7 @@ export default function RegisterAddress() {
               value={formData.addressname}
               onChange={handleChange}
             />
-          </div> 
+          </div>
           <div className="space-y-3">
             <span className="flex justify-between items-center gap-4 h-13">
               <input
@@ -163,23 +163,23 @@ export default function RegisterAddress() {
             />
             <label>기본 배송지로 저장</label>
           </div>
+          <div className="adress_action_btn flex justify-between mt-8">
+            <button
+              onClick={() => {
+                router.push("/myshop?mode=member&mode2=address");
+              }}
+              className="address_action px-6 py-2 rounded-sm bg-[#e6e2de] text-[#2d2c2a]"
+            >
+              취소
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8]"
+            >
+              등록
+            </button>
+          </div>
         </form>
-      </div>
-      <div className="adress_action_btn flex justify-between mt-8">
-        <button
-          onClick={() => {
-            router.push("/myshop?mode=member&mode2=address");
-          }}
-          className="address_action px-6 py-2 rounded-sm bg-[#e6e2de] text-[#2d2c2a]"
-        >
-          취소
-        </button>
-        <button
-          type="submit"
-          className="px-6 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8]"
-        >
-          등록
-        </button>
       </div>
     </section>
   );

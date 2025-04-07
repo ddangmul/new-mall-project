@@ -23,14 +23,14 @@ export default function AddressItem({ address }) {
         )}
         <span>{address.addressname}</span>
       </div>
-      <div className="flex">
+      <div className="flex justify-between px-5">
         <div>
           <p>
             {address.address} {address.detailAddress}
           </p>
           <p className="text-[#9d9d9d] text-sm">{address.addressmobile}</p>
         </div>
-        <div></div>
+        <div className="text-[#7d7c7c] font-bold underline underline-offset-4">수정</div>
       </div>
     </li>
   );
