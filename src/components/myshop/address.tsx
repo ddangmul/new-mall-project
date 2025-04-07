@@ -2,11 +2,14 @@
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import RegisterAddress from "./register-address";
+import { useSession } from "next-auth/react";
+import AddressItem from "./addressItem";
 
 export default function Address() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const editMode = searchParams.get("mode2");
 
@@ -28,8 +31,10 @@ export default function Address() {
         <section className="address mt-10">
           <h1 className="text-xl">배송지 목록</h1>
           <div className="address_list my-5 rounded-xl bg-[#f8f7f7] h-50">
-            <ul>
-              <li></li>
+            <ul className="px-2">
+              {session.user.addresses.map((address) => (
+                <AddressItem key={address.id} address={address}></AddressItem>
+              ))}
             </ul>
           </div>
           <div className="adress_action_btn w-full flex justify-between mt-6">

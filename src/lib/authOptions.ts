@@ -1,9 +1,9 @@
-import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
+import { User } from "next-auth";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -14,11 +14,11 @@ export const authOptions: NextAuthOptions = {
           placeholder: "example@example.com",
         },
         password: { label: "Password", type: "password" },
-        username: { label: "username", type: "text" },
-        birthYear: { label: "birthYear", type: "text" },
-        birthMonth: { label: "birthMonth", type: "text" },
-        birthDay: { label: "birthDay", type: "text" },
-        mobile: { label: "mobile", type: "text" },
+        // username: { label: "username", type: "text" },
+        // birthYear: { label: "birthYear", type: "text" },
+        // birthMonth: { label: "birthMonth", type: "text" },
+        // birthDay: { label: "birthDay", type: "text" },
+        // mobile: { label: "mobile", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
 
         let user = await prisma.user.findUnique({
           where: { email: credentials.email },
+          include: { addresses: true },
         });
 
         if (!user) {
@@ -52,7 +53,16 @@ export const authOptions: NextAuthOptions = {
           throw new Error("비밀번호가 일치하지 않습니다.");
         }
 
-        return user; // 반환하는 객체에 JWT 토큰 추가
+        const customUser: User = {
+          id: user.id.toString(),
+          username: user.username,
+          email: user.email,
+          birthdate: user.birthdate,
+          mobile: user.mobile,
+          addresses: user.addresses || undefined, // 타입 정의가 맞으면 OK
+        };
+
+        return customUser;
       },
     }),
   ],
@@ -64,7 +74,7 @@ export const authOptions: NextAuthOptions = {
         token.username = user.username;
         token.birthdate = user.birthdate;
         token.mobile = user.mobile;
-        token.addresses = user.addresses; // 추가
+        token.addresses = JSON.stringify(user.addresses); // 추가
       }
       return token;
     },
@@ -75,7 +85,9 @@ export const authOptions: NextAuthOptions = {
         session.user.username = token.username;
         session.user.birthdate = token.birthdate;
         session.user.mobile = token.mobile;
-        session.user.addresses = token.addresses;
+        session.user.addresses = JSON.parse(token.addresses || "[]");
+
+        console.log("session.user:", session.user); // 확인용
       }
       return session;
     },

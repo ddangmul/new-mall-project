@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma"; // Prisma 클라이언트 임포트
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     // 기존 기본 배송지가 있다면 isDefault = false로 변경
     if (defaultAddress) {
       await prisma.address.updateMany({
-        where: { userId, isDefault: true },
+        where: { userId: Number(userId), isDefault: true },
         data: { isDefault: false },
       });
     }
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     // 배송지 추가
     const newAddress = await prisma.address.create({
       data: {
-        userId,
+        userId: Number(userId),
         addressname,
         postcode,
         address,

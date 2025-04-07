@@ -5,7 +5,7 @@ import {
   getNewItems,
 } from "@/lib/items/queries";
 import ItemsGrid from "@/components/items/items-grid";
-import { Item } from "@/assets/types";
+import { Item } from "../../../types/types";
 
 export default async function CategoryPage({
   params,

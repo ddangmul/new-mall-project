@@ -1,11 +1,10 @@
 "use client";
 
 import ModifyMember from "@/components/myshop/modify-member";
-import ModifyPW from "@/components/myshop/modify-password";
+import Address from "../address";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 import "./member.css";
-import Address from "../address";
 
 export default function Member() {
   const searchParams = useSearchParams();

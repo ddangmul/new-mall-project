@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Item } from "@/assets/types";
+import { Item } from "../../../types/types";
 import { formatterPrice } from "@/utils/formatter";
 import { useCart } from "@/store/cart-context";
 

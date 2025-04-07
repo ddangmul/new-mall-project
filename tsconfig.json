@@ -20,6 +20,7 @@
         "name": "next"
       }
     ],
+    "types": ["next-auth"],
     "paths": {
       "@/*": ["./src/*"]
     }
@@ -30,7 +31,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/**/*.ts",
-    "prisma/**/*"
+    "prisma/**/*",
+    "types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }

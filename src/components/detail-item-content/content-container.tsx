@@ -1,5 +1,5 @@
 "use client";
-import { Item } from "@/assets/types";
+import { Item } from "../../../types/types";
 import { useSearchParams } from "next/navigation";
 import Explanation from "@/components/detail-item-content/explanation";
 import QnA from "@/components/detail-item-content/qna";

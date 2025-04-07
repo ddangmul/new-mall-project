@@ -2,7 +2,7 @@
 
 import React from "react";
 import ItemCard from "./item-card";
-import { Item } from "@/assets/types";
+import { Item } from "../../../types/types";
 import { useCart } from "@/store/cart-context";
 
 import Link from "next/link";
