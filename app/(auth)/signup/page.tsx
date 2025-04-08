@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 
 import "./signup.css";
 import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
 
 export default function Signup() {
   const router = useRouter();
@@ -12,9 +13,7 @@ export default function Signup() {
     username: "",
     password: "",
     passwordCk: "",
-    birthYear: "",
-    birthMonth: "",
-    birthDay: "",
+    birthdate: "",
     isSolar: false,
     isLunar: false,
     mobile1: "",
@@ -28,7 +27,11 @@ export default function Signup() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
+
+    // // 체크박스인 경우에는 HTMLInputElement로 단언 후 checked 사용
+    const isCheckbox = type === "checkbox";
+    const checked = isCheckbox && (e.target as HTMLInputElement).checked;
 
     setFormData((prevData) => ({
       ...prevData,
@@ -42,11 +45,18 @@ export default function Signup() {
     setError("");
 
     if (formData.password !== formData.passwordCk) {
-      console.error("비밀번호가 일치하지 않습니다.");
+      setError("비밀번호가 일치하지 않습니다.");
       return;
     }
 
+    const mobileRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
     const mobileNumber = `${formData.mobile1}-${formData.mobile2}-${formData.mobile3}`;
+
+    if (!mobileRegex.test(mobileNumber)) {
+      setError("전화번호는 010-1234-5678 형식이어야 합니다.");
+      setLoading(false);
+      return;
+    }
 
     const formattedData = {
       ...formData,
@@ -54,8 +64,6 @@ export default function Signup() {
     };
 
     try {
-      console.log("보내는 데이터:", formattedData);
-
       const res = await fetch("/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -204,84 +212,48 @@ export default function Signup() {
               <input type="text" placeholder="기본주소" required />
               <input type="text" placeholder="나머지주소" />
             </div> */}
-            <div className="flex justify-between gap-6 pr-4">
-              <span className="basis-1/3 flex items-center gap-3">
+            <div className="flex justify-between gap-4">
+              <span className="basis-3/5 flex items-center gap-3">
                 <label
-                  htmlFor="birthYear"
-                  className="hidden text-sm font-medium text-gray-700"
+                  htmlFor="birthdate"
+                  className="text-gray-700 min-w-20 text-md"
                 >
-                  BirthYear
+                  생년월일
                 </label>
                 <input
-                  id="birthYear"
-                  type="text"
-                  name="birthYear"
-                  placeholder="출생년도"
-                  value={formData.birthYear}
+                  id="birthdate"
+                  type="date"
+                  name="birthdate"
+                  value={formData.birthdate}
                   onChange={handleChange}
                 />
-                년
               </span>
-              <span className="basis-1/3 flex items-center gap-3">
-                <label
-                  htmlFor="birthMonth"
-                  className="hidden text-sm font-medium text-gray-700"
-                >
-                  BirthMonth
-                </label>
-                <input
-                  id="birthMonth"
-                  type="text"
-                  name="birthMonth"
-                  placeholder="출생월"
-                  value={formData.birthMonth}
-                  onChange={handleChange}
-                />
-                월
-              </span>
-              <span className="basis-1/3 flex items-center gap-3">
-                <label
-                  htmlFor="birthDay"
-                  className="hidden text-sm font-medium text-gray-700"
-                >
-                  BirthDay
-                </label>
-                <input
-                  id="birthDay"
-                  type="text"
-                  name="birthDay"
-                  placeholder="출생일"
-                  value={formData.birthDay}
-                  onChange={handleChange}
-                />
-                일
-              </span>
-            </div>
-            <div className="isSoL flex">
-              <span className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  name="isSolar"
-                  id="solar"
-                  checked={formData.isSolar}
-                  onChange={handleChange}
-                />
-                <label className="w-20" htmlFor="solar">
-                  양력
-                </label>
-              </span>
-              <span className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  name="isLunar"
-                  id="lunar"
-                  checked={formData.isLunar}
-                  onChange={handleChange}
-                />
-                <label className="w-20" htmlFor="lunar">
-                  음력
-                </label>
-              </span>
+              <div className="isSoL flex">
+                <span className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    name="isSolar"
+                    id="solar"
+                    checked={formData.isSolar}
+                    onChange={handleChange}
+                  />
+                  <label className="w-20" htmlFor="solar">
+                    양력
+                  </label>
+                </span>
+                <span className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    name="isLunar"
+                    id="lunar"
+                    checked={formData.isLunar}
+                    onChange={handleChange}
+                  />
+                  <label className="w-20" htmlFor="lunar">
+                    음력
+                  </label>
+                </span>
+              </div>
             </div>
             <button
               type="submit"
