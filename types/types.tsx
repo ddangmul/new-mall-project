@@ -1,18 +1,9 @@
-import NextAuth from "next-auth";
+import { Address, User } from "next-auth";
 
-export interface Item {
-  title: string;
-  image: string;
-  price: number;
-  category: string;
-  sales: number;
-}
+// 주소 추가 시 사용할 타입
+export type AddressInput = Omit<Address, "id" | "user"> & {
+  id?: number;
+  user?: User;
+};
 
-export interface User {
-  username: string;
-  email: string;
-  password: string;
-  birthdate: string;
-}
-
-
+export type AddressWithCheck = Address & { checked?: boolean };

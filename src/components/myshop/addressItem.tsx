@@ -1,21 +1,20 @@
-"use client";
+import { Address } from "next-auth";
 
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import RegisterAddress from "./register-address";
-import { useSession } from "next-auth/react";
+interface AddressItemProps {
+  address: Address;
+  checked: boolean;
+  onToggle: () => void;
+}
 
-export default function AddressItem({ address }) {
+export default function AddressItem({
+  address,
+  checked,
+  onToggle,
+}: AddressItemProps) {
   return (
-    <li
-      
-      className="border-b-1 border-b-[#cfcdcd] space-y-1 py-3"
-    >
+    <li className="border-b-1 border-b-[#cfcdcd] space-y-1 py-3">
       <div className="address-checkbox flex justify-start gap-2 text-md text-center">
-        <input
-          type="checkbox"
-          // checked={isChecked}
-          // onChange={(e) => onCheck(id, e.target.checked)}
-        ></input>
+        <input type="checkbox" checked={checked} onChange={onToggle} />
         {address.isDefault && (
           <span className="bg-[#313030] text-[#f2f0eb] px-1.5 rounded-sm">
             기본
@@ -30,7 +29,9 @@ export default function AddressItem({ address }) {
           </p>
           <p className="text-[#9d9d9d] text-sm">{address.addressmobile}</p>
         </div>
-        <div className="text-[#7d7c7c] font-bold underline underline-offset-4">수정</div>
+        <div className="text-[#7d7c7c] font-bold underline underline-offset-4">
+          수정
+        </div>
       </div>
     </li>
   );

@@ -1,5 +1,7 @@
-import { prisma } from "@/lib/prisma"; // Prisma 클라이언트 임포트
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
 export async function POST(req: Request) {
   try {
@@ -14,7 +16,13 @@ export async function POST(req: Request) {
     } = await req.json();
 
     // 필수 값 검증
-    if (!addressname || !postcode || !addressmobile || !address || !address) {
+    if (
+      !addressname ||
+      !postcode ||
+      !addressmobile ||
+      !address ||
+      !detailAddress
+    ) {
       return NextResponse.json(
         { success: false, message: "필수 정보를 입력하세요." },
         { status: 400 }
@@ -47,6 +55,32 @@ export async function POST(req: Request) {
     console.error("배송지 추가 오류:", error);
     return NextResponse.json(
       { success: false, message: "배송지 추가 중 오류 발생" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user?.id) {
+      return NextResponse.json(
+        { success: false, message: "인증되지 않은 요청입니다." },
+        { status: 401 }
+      );
+    }
+
+    const addresses = await prisma.address.findMany({
+      where: { userId: Number(session.user.id) }, // userId는 숫자!
+      orderBy: { isDefault: "desc" },
+    });
+
+    return NextResponse.json({ success: true, addresses });
+  } catch (error) {
+    console.error("주소 불러오기 오류:", error);
+    return NextResponse.json(
+      { success: false, message: "주소를 불러오는 중 오류 발생" },
       { status: 500 }
     );
   }

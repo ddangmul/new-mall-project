@@ -27,7 +27,6 @@ export const authOptions = {
 
         let user = await prisma.user.findUnique({
           where: { email: credentials.email },
-          include: { addresses: true },
         });
 
         if (!user) {
@@ -53,13 +52,12 @@ export const authOptions = {
           throw new Error("비밀번호가 일치하지 않습니다.");
         }
 
-        const customUser: User = {
+        const customUser = {
           id: user.id.toString(),
           username: user.username,
           email: user.email,
           birthdate: user.birthdate,
           mobile: user.mobile,
-          addresses: user.addresses || undefined, // 타입 정의가 맞으면 OK
         };
 
         return customUser;
@@ -74,7 +72,6 @@ export const authOptions = {
         token.username = user.username;
         token.birthdate = user.birthdate;
         token.mobile = user.mobile;
-        token.addresses = JSON.stringify(user.addresses); // 추가
       }
       return token;
     },
@@ -85,7 +82,6 @@ export const authOptions = {
         session.user.username = token.username;
         session.user.birthdate = token.birthdate;
         session.user.mobile = token.mobile;
-        session.user.addresses = JSON.parse(token.addresses || "[]");
 
         console.log("session.user:", session.user); // 확인용
       }

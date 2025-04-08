@@ -3,15 +3,18 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useAddress } from "@/store/address-context";
 
 import "./modify.css";
+import { AddressInput } from "../../../types/types";
 
 export default function RegisterAddress() {
+  const { addAddress } = useAddress();
   const router = useRouter();
   const { data: session } = useSession();
   const userId = session.user.id;
   const [formData, setFormData] = useState({
-    userId,
+    userId: Number(userId),
     addressname: "",
     postcode: "",
     address: "",
@@ -19,54 +22,38 @@ export default function RegisterAddress() {
     addressMobile1: "",
     addressMobile2: "",
     addressMobile3: "",
-    defaultAddress: false,
+    isDefault: false,
   });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
+
+    // // 체크박스인 경우에는 HTMLInputElement로 단언 후 checked 사용
+    const isCheckbox = type === "checkbox";
+    const checked = isCheckbox && (e.target as HTMLInputElement).checked;
+
+    // 체크박스일 경우에만 checked값을 따로 추출
+    // const newValue =
+    //   type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: isCheckbox ? checked : value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
     const addressMobile = `${formData.addressMobile1}-${formData.addressMobile2}-${formData.addressMobile3}`;
 
-    const formattedData = {
+    const formattedData: AddressInput = {
       ...formData,
       addressmobile: addressMobile,
     };
 
-    try {
-      console.log("보내는 데이터:", formattedData);
-
-      const res = await fetch("/api/address", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formattedData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message || "배송지 추가 실패");
-
-      alert("배송지 추가 성공!");
-      router.push("/myshop?mode=member&mode2=address");
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+    addAddress(formattedData);
+    router.push("/myshop?address=&mode=member&mode2=address");
   };
 
   return (
@@ -155,10 +142,10 @@ export default function RegisterAddress() {
           </div>
           <div className="flex items-center gap-2 w-full">
             <input
-              name="defaultAddress"
+              name="isDefault"
               type="checkbox"
               id="defaultAddress"
-              checked={formData.defaultAddress}
+              checked={formData.isDefault}
               onChange={handleChange}
             />
             <label>기본 배송지로 저장</label>
