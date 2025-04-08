@@ -31,7 +31,9 @@ export async function POST(req: Request) {
     }
 
     // 이메일 중복 확인
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
 
     if (existingUser) {
       return NextResponse.json(

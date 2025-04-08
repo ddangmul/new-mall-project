@@ -1,0 +1,30 @@
+"use client";
+
+import { useEffect } from "react";
+import { signOut, useSession } from "next-auth/react";
+
+export default function SessionHandler() {
+  const { status } = useSession();
+
+  // 로그인 성공 시 세션 저장
+  useEffect(() => {
+    if (status === "authenticated") {
+      sessionStorage.setItem("isLoggedIn", "true");
+    }
+  }, [status]);
+
+  // 탭 닫힘 감지 및 자동 로그아웃
+  useEffect(() => {
+    const navType = performance?.navigation?.type;
+    const isReload =
+      navType === 1 ||
+      performance.getEntriesByType("navigation")[0]?.type === "reload";
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+
+    if (!isReload && !isLoggedIn) {
+      signOut({ redirect: false });
+    }
+  }, []);
+
+  return null;
+}

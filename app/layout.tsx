@@ -9,8 +9,7 @@ import { SessionProvider } from "next-auth/react";
 import { authOptions } from "@/lib/authOptions";
 import { ToastContainer } from "react-toastify";
 import { AddressProvider } from "@/store/address-context";
-import { useEffect } from "react";
-import { signOut } from "next-auth/react";
+import SessionHandler from "@/components/session-handler";
 
 const metadata: Metadata = {
   title: "Online Mall App",
@@ -22,18 +21,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  useEffect(() => {
-    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
-
-    if (!isLoggedIn) {
-      // 브라우저 새로 켰거나, 세션 초기화 상태라면
-      signOut({ redirect: false });
-    }
-  }, []);
   return (
     <html lang="ko">
       <body>
         <SessionProvider>
+          <SessionHandler />
           <AddressProvider>
             <MainHeader />
             <CartProvider>
