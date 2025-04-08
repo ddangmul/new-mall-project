@@ -15,10 +15,13 @@ export default function SessionHandler() {
 
   // 탭 닫힘 감지 및 자동 로그아웃
   useEffect(() => {
-    const navType = performance?.navigation?.type;
+    const navEntries = performance.getEntriesByType("navigation");
+    const navEntry = navEntries[0] as PerformanceNavigationTiming;
+
+    // 최신 방식으로 리로드 체크
     const isReload =
-      navType === 1 ||
-      performance.getEntriesByType("navigation")[0]?.type === "reload";
+      navEntry?.type === "reload" || performance.navigation.type === 1;
+
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
 
     if (!isReload && !isLoggedIn) {
