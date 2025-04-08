@@ -7,22 +7,30 @@ import Image from "next/image";
 
 const SearchArea: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  // const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
-
-  // 500ms 후에 searchTerm 값을 debouncedSearchTerm에 업데이트
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 500);
+    setIsClient(true);
+  }, []);
 
-    return () => clearTimeout(handler); // 컴포넌트가 다시 렌더링될 때 타이머 클리어
-  }, [searchTerm]);
+  if (!isClient) return null;
+
+  // // 300ms 후에 searchTerm 값을 debouncedSearchTerm에 업데이트
+  // useEffect(() => {
+  //   const handler = setTimeout(() => {
+  //     setDebouncedSearchTerm(searchTerm);
+  //   }, 300);
+
+  //   return () => clearTimeout(handler); // 컴포넌트가 다시 렌더링될 때 타이머 클리어
+  // }, [searchTerm]);
 
   function handleSearch() {
-    if (debouncedSearchTerm.trim().length > 0) {
-      router.push(`/search?q=${encodeURIComponent(debouncedSearchTerm)}`);
+    const trimmed = searchTerm.trim();
+    if (trimmed.length > 0) {
+      router.push(`/search?q=${encodeURIComponent(trimmed)}`);
     }
+    setSearchTerm("");
   }
 
   return (
@@ -33,7 +41,7 @@ const SearchArea: React.FC = () => {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="border-b-1 border-b-amber-50 text-white max-w-30 mx-2"
+        className="border-b-1 border-b-amber-50 text-white max-w-30 mx-2 bg-transparent focus:bg-transparent outline-none"
         onKeyDown={(e) => e.key === "Enter" && handleSearch()} // Enter 키로 검색 가능
       ></input>
       <Image

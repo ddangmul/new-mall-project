@@ -10,9 +10,7 @@ export default function ModifyMember() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
-
   const user = session?.user; // session에서 user 정보 가져오기
-  console.log(user);
 
   useEffect(() => {
     // 세션이 없으면 로그인 페이지로 리디렉션

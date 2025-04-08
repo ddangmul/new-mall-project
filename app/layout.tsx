@@ -9,6 +9,7 @@ import { SessionProvider } from "next-auth/react";
 import { authOptions } from "@/lib/authOptions";
 import { ToastContainer } from "react-toastify";
 import { AddressProvider } from "@/store/address-context";
+import LogoutOnUnload from "@/components/logout";
 
 const metadata: Metadata = {
   title: "Online Mall App",

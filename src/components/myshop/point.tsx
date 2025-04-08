@@ -11,14 +11,19 @@ export default function Point() {
           <tr>
             <th>날짜</th>
             <th>사유/내용</th>
-            <th>포인트 내역</th>
+            <th>내역</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td className="bg-none">2025-04-02</td>
             <td>신규회원 쇼핑지원금</td>
-            <td>+3,000</td>
+            <td>3,000</td>
+          </tr>
+          <tr>
+            <td className="bg-none">2025-04-02</td>
+            <td>신규회원 무료배송 쿠폰</td>
+            <td>1장</td>
           </tr>
         </tbody>
       </table>

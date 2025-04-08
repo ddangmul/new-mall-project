@@ -11,7 +11,6 @@ interface AddressContextType {
   fetchAddresses: () => Promise<void>;
   addAddress: (addressData: AddressInput) => Promise<void>;
   deleteAddress: (addresses: Number[]) => Promise<void>;
-  updateAddress: (id: number, updates: Partial<Address>) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
@@ -91,25 +90,6 @@ export const AddressProvider = ({
     }
   };
 
-  const updateAddress = async (id: number, updates: Partial<Address>) => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/address/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updates),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "배송지 수정 실패");
-
-      await fetchAddresses();
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     fetchAddresses();
   }, []);
@@ -121,7 +101,6 @@ export const AddressProvider = ({
         fetchAddresses,
         addAddress,
         deleteAddress,
-        updateAddress,
         loading,
         error,
       }}

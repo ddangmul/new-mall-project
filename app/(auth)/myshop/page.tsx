@@ -58,7 +58,7 @@ export default function myshop() {
   }
 
   return (
-    <div className="myshop_content basis-4/5 mt-16">
+    <div className="myshop_content basis-4/5 mt-12">
       <div className="myshop-top-area flex gap-4 relative h-70">
         <div className="basis-3/5 h-100% p-6 bg-[#2d2c2a] text-[#d6d2c8] rounded-[6px]">
           <p className="text-2xl font-serif">Welcome</p>
