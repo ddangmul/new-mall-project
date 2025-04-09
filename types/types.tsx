@@ -7,3 +7,14 @@ export type AddressInput = Omit<Address, "id" | "user"> & {
 };
 
 export type AddressWithCheck = Address & { checked?: boolean };
+
+export type Item = {
+  id?: number;
+  title: string;
+  image: string;
+  category: string;
+  description: string;
+  price: number;
+  sales: number;
+  createdAt: Date;
+};

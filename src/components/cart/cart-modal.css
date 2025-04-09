@@ -1,12 +1,11 @@
-/* 배경 덮는 오버레이 스타일 */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정 배경 */
-  z-index: 999; /* 모달이 배경 위에 오도록 설정 */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 /* 모달 스타일 */
@@ -14,12 +13,12 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 화면 중앙에 정렬 */
+  transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* 오버레이보다 위에 표시 */
+  z-index: 1000;
   max-width: 400px;
   width: 90%; /* 반응형 디자인 */
 }

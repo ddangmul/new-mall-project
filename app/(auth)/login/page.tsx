@@ -100,7 +100,7 @@ export default function login() {
             </button>
           </form>
           <button
-            onClick={() => signIn()}
+            onClick={() => signIn("google")}
             className="login_btn text-3xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
           >
             Google LogIn

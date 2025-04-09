@@ -1,3 +1,4 @@
+import { Address } from "@prisma/client";
 import NextAuth, { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
@@ -45,4 +46,8 @@ declare module "next-auth" {
 export type AddressInput = Omit<Address, "id" | "user"> & {
   id?: number;
   user?: User;
+};
+
+export type NewUser = Omit<User, "addresses"> & {
+  addresses?: Address[];
 };

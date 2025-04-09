@@ -1,7 +1,8 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
-import { User } from "next-auth";
+import { NewUser } from "../../types/next-auth";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
   providers: [
@@ -14,11 +15,6 @@ export const authOptions = {
           placeholder: "example@example.com",
         },
         password: { label: "Password", type: "password" },
-        // username: { label: "username", type: "text" },
-        // birthYear: { label: "birthYear", type: "text" },
-        // birthMonth: { label: "birthMonth", type: "text" },
-        // birthDay: { label: "birthDay", type: "text" },
-        // mobile: { label: "mobile", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -30,16 +26,6 @@ export const authOptions = {
         });
 
         if (!user) {
-          // const hashedPassword = await bcrypt.hash(credentials.password, 10);
-          // user = await prisma.user.create({
-          //   data: {
-          //     email: credentials.email,
-          //     password: hashedPassword,
-          //     username: credentials.username,
-          //     birthdate: `${credentials.birthYear}-${credentials.birthMonth}-${credentials.birthDay}`,
-          //     mobile: credentials.mobile,
-          //   },
-          // });
           throw new Error("사용자가 존재하지 않습니다.");
         }
 
@@ -52,7 +38,7 @@ export const authOptions = {
           throw new Error("비밀번호가 일치하지 않습니다.");
         }
 
-        const customUser = {
+        const customUser: NewUser = {
           id: user.id.toString(),
           username: user.username,
           email: user.email,
@@ -62,6 +48,11 @@ export const authOptions = {
 
         return customUser;
       },
+    }),
+    // 구글 로그인 제공자
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   callbacks: {

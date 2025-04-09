@@ -15,10 +15,10 @@ export default function CartModal() {
 
         <div className="modal-btn">
           <button onClick={confirmOpenCart} color="primary">
-            네, 이동할게요!
+            장바구니로 이동하기
           </button>
           <button onClick={closeModal} color="secondary">
-            아니요, 취소할게요
+            쇼핑 계속하기
           </button>
         </div>
       </div>
