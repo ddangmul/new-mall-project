@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 import "./modify.css";
 export default function ModifyMember() {
@@ -20,11 +21,11 @@ export default function ModifyMember() {
   }, [session, router]);
 
   const [formData, setFormData] = useState({
-    useremail: "",
-    mobile1: "",
-    mobile2: "",
-    mobile3: "",
-    birthdate: "",
+    // useremail: "",
+    // mobile1: "",
+    // mobile2: "",
+    // mobile3: "",
+    // birthdate: "",
     old_pw: "",
     new_pw: "",
     new_pw_ck: "",
@@ -67,6 +68,7 @@ export default function ModifyMember() {
       if (!res.ok) throw new Error(data.message || "회원정보 수정 실패");
 
       alert("회원정보 수정 성공!");
+      await signOut({ callbackUrl: "/login" });
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -79,8 +81,8 @@ export default function ModifyMember() {
       <form className="space-y-3" onSubmit={handleSubmit}>
         <div>
           <input
-            name="username"
             type="text"
+            name="username"
             value={user.username}
             placeholder="이름"
             disabled
@@ -88,22 +90,30 @@ export default function ModifyMember() {
         </div>
         <div>
           <input
-            name="useremail"
             type="email"
+            name="useremail"
             placeholder="email"
             value={user.email}
-            required
-            onChange={handleChange}
+            disabled
           />
         </div>
         <div className="phone flex justify-between gap-2 items-center">
-          <input name="mobile1" id="mobile1" className="basis-1/3"></input>
+          <input
+            type="text"
+            name="mobile1"
+            id="mobile1"
+            className="basis-1/3"
+            value={user.mobile.split("-")[0]}
+            disabled
+          ></input>
           -
           <input
             type="text"
             id="mobile2"
             name="mobile2"
             className="basis-1/3"
+            value={user.mobile.split("-")[1]}
+            disabled
           />
           -
           <input
@@ -111,15 +121,17 @@ export default function ModifyMember() {
             id="mobile3"
             name="mobile3"
             className="basis-1/3"
+            value={user.mobile.split("-")[2]}
+            disabled
           />
         </div>
-        <div className="flex justify-between gap-3">
+        <div className="birthdate flex justify-between gap-3">
           <span className="basis-1/3 flex items-center gap-3">
             <input
               name="birthYear"
               type="text"
               placeholder="출생년도"
-              // value={user ? user.birthdate.split("-")[0] : ""}
+              value={user.birthdate.split("-")[0]}
               disabled
             />
             년
@@ -129,7 +141,7 @@ export default function ModifyMember() {
               name="birthMonth"
               type="text"
               placeholder="출생월"
-              // value={user ? user.birthdate.split("-")[1] : ""}
+              value={user.birthdate.split("-")[1]}
               disabled
             />
             월
@@ -139,7 +151,7 @@ export default function ModifyMember() {
               name="birthDay"
               type="text"
               placeholder="출생일"
-              // value={user ? user.birthdate.split("-")[2] : ""}
+              value={user.birthdate.split("-")[2]}
               disabled
             />
             일
