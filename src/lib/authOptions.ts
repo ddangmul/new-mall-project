@@ -1,7 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
-import { NewUser } from "../../types/next-auth";
+// import { NewUser } from "../../types/next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
@@ -38,15 +38,13 @@ export const authOptions = {
           throw new Error("비밀번호가 일치하지 않습니다.");
         }
 
-        const customUser: NewUser = {
-          id: user.id.toString(),
+        return {
+          id: user.id,
           username: user.username,
           email: user.email,
           birthdate: user.birthdate,
           mobile: user.mobile,
         };
-
-        return customUser;
       },
     }),
     // 구글 로그인 제공자
@@ -96,7 +94,7 @@ export const authOptions = {
 
       return true;
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
@@ -104,6 +102,11 @@ export const authOptions = {
         token.birthdate = user.birthdate ?? null;
         token.mobile = user.mobile ?? null;
       }
+
+      if (account?.provider === "google" && account?.access_token) {
+        token.accessToken = account.access_token; // 구글의 accessToken을 JWT에 추가
+      }
+
       return token;
     },
     async session({ session, token }) {
@@ -113,8 +116,9 @@ export const authOptions = {
         session.user.username = token.username;
         session.user.birthdate = token.birthdate;
         session.user.mobile = token.mobile;
+        session.user.accessToken = token.accessToken;
 
-        console.log("session.user:", session.user); // 확인용
+        // console.log("session.user:", session.user); // 확인용
       }
       return session;
     },

@@ -2,9 +2,9 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Address } from "next-auth";
-import { AddressInput, AddressWithCheck } from "../../types/types";
+import { AddressInput } from "../../types/types";
+import { useSession } from "next-auth/react";
 
 interface AddressContextType {
   addresses: Address[];
@@ -25,11 +25,16 @@ export const AddressProvider = ({
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  const { data: session } = useSession();
 
   const fetchAddresses = async () => {
     setLoading(true);
+
     try {
+      if (!session.user) {
+        return;
+      }
+
       const res = await fetch("/api/address");
       const data = await res.json();
       if (data.success) {
@@ -48,6 +53,10 @@ export const AddressProvider = ({
   const addAddress = async (addressData: AddressInput) => {
     setLoading(true);
     try {
+      if (!session.user) {
+        return;
+      }
+
       const res = await fetch("/api/address", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,11 +75,15 @@ export const AddressProvider = ({
 
   const deleteAddress = async (checkedIds: Number[]) => {
     try {
+      if (!session.user) {
+        return;
+      }
+
       if (checkedIds.length === 0) {
         throw new Error("삭제할 주소를 선택해주세요.");
       }
 
-      const res = await fetch("/api/address/delete-multiple", {
+      const res = await fetch("/api/delete-multiple", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ids: checkedIds }),
@@ -81,9 +94,6 @@ export const AddressProvider = ({
       if (!res.ok) {
         throw new Error(result.message || "주소 삭제 실패");
       }
-
-      // 주소 목록 다시 불러오기
-      await fetchAddresses();
     } catch (error: any) {
       console.error("주소 삭제 중 오류:", error);
       setError(error.message);

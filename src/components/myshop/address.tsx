@@ -5,12 +5,14 @@ import RegisterAddress from "./register-address";
 import AddressItem from "./addressItem";
 import { useAddress } from "@/store/address-context";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export default function Address() {
   const { fetchAddresses, addresses, deleteAddress } = useAddress();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const editMode = searchParams.get("mode2");
 
@@ -18,9 +20,11 @@ export default function Address() {
   const [checkedMap, setCheckedMap] = useState<{ [id: number]: boolean }>({});
 
   useEffect(() => {
-    fetchAddresses();
+    if (session?.user) {
+      fetchAddresses();
+    }
 
-    if (addresses.length === 0 || !addresses) {
+    if (addresses.length === 0) {
       setCheckedMap({});
       return;
     }
@@ -32,17 +36,17 @@ export default function Address() {
     }, {} as { [id: number]: boolean });
 
     setCheckedMap(initialCheckedMap);
-  }, [addresses]);
+  }, [session]);
 
   const toggleCheck = (id: number) => {
-    console.log("Toggling check for id:", id, "Previous state:", checkedMap);
+    // console.log("Toggling check for id:", id, "Previous state:", checkedMap);
     setCheckedMap((prev) => ({
       ...prev,
       [id]: !prev[id], // 체크 상태를 반전시킴
     }));
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const checkedIds = Object.entries(checkedMap)
       .filter(([_, checked]) => checked)
       .map(([id]) => parseInt(id));
@@ -52,7 +56,9 @@ export default function Address() {
       alert("삭제할 주소를 선택해주세요.");
       return;
     }
-    deleteAddress(checkedIds); // context에서 배열로 삭제 처리
+
+    await deleteAddress(checkedIds); // 삭제 처리 후 다시 주소 목록을 갱신
+    await fetchAddresses(); // 최신 주소 목록을 다시 가져옴
   };
 
   const changeMode = (mode: string | null) => {
