@@ -14,7 +14,7 @@ export default function QnA() {
             상품문의
           </Link>
           <Link
-            href="/"
+            href="/myshop/qna_post"
             className="bg-[#e9e6e0] text-[#252422] grow-1 p-2 rounded-sm shadow-xs shadow-[#d6cebf]"
           >
             1:1 문의
