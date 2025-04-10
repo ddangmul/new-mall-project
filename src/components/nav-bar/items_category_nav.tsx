@@ -15,7 +15,7 @@ const ItemsCategory: React.FC = () => {
 
   return (
     <section className="items_category">
-      <nav className="items_category_inner py-10">
+      <nav className="items_category_inner py-12">
         <ul className="flex justify-center gap-14 text-xl font-serif">
           <li>
             <Link

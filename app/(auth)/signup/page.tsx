@@ -3,8 +3,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import "./signup.css";
-import { signIn } from "next-auth/react";
-import { toast } from "react-toastify";
 
 export default function Signup() {
   const router = useRouter();

@@ -20,6 +20,7 @@ declare module "next-auth" {
     birthdate: string;
     mobile: string;
     addresses: any[];
+    provider: string;
   }
 
   interface Session {

@@ -53,16 +53,56 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "select_account", // 매번 계정 선택하게 함
+        },
+      },
+      profile(profile) {
+        return {
+          id: profile.sub,
+          email: profile.email,
+          username: profile.name,
+        };
+      },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async signIn({ user, account, profile }) {
+      if (!user) {
+        console.error("Google 로그인 실패: 사용자 정보가 없습니다.");
+        return false;
+      }
+
+      if (account?.provider === "google") {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email! },
+        });
+
+        if (!existingUser) {
+          await prisma.user.create({
+            data: {
+              email: user.email!,
+              username: profile?.name ?? "", // 기본값 설정
+              provider: "google",
+              password: null,
+              birthdate: null,
+              mobile: null,
+              // birthdate, mobile 등은 나중에 입력 받거나 비워두기
+            },
+          });
+        }
+      }
+
+      return true;
+    },
+    async jwt({ token, user, account, profile }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        token.username = user.username;
-        token.birthdate = user.birthdate;
-        token.mobile = user.mobile;
+        token.username = user.username ?? null;
+        token.birthdate = user.birthdate ?? null;
+        token.mobile = user.mobile ?? null;
       }
       return token;
     },
@@ -77,6 +117,10 @@ export const authOptions = {
         console.log("session.user:", session.user); // 확인용
       }
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // 로그인 성공 후 항상 /myshop으로 리디렉션
+      return `${baseUrl}/myshop`;
     },
   },
   session: {

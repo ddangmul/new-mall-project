@@ -9,7 +9,10 @@ import Link from "next/link";
 import "./login.css";
 
 export default function login() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  console.log("Session status:", status);
+  console.log("Session data:", session);
 
   const router = useRouter();
   const [formData, setFormData] = useState({

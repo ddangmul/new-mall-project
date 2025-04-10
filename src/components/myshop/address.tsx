@@ -7,7 +7,7 @@ import { useAddress } from "@/store/address-context";
 import { useState, useEffect } from "react";
 
 export default function Address() {
-  const { addresses, deleteAddress } = useAddress();
+  const { fetchAddresses, addresses, deleteAddress } = useAddress();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -18,6 +18,13 @@ export default function Address() {
   const [checkedMap, setCheckedMap] = useState<{ [id: number]: boolean }>({});
 
   useEffect(() => {
+    fetchAddresses();
+
+    if (addresses.length === 0 || !addresses) {
+      setCheckedMap({});
+      return;
+    }
+
     // 주소 목록이 변경될 때마다 체크 상태 초기화
     const initialCheckedMap = addresses.reduce((acc, address) => {
       acc[address.id] = false; // 기본값으로 false 설정

@@ -30,7 +30,7 @@ export default function RootLayout({
             <MainHeader />
             <CartProvider>
               <div id="modal"></div>
-              <div id="wrap" className="min-h-screen pt-22">
+              <div id="wrap" className="min-h-screen pt-18">
                 {children}
                 <ToastContainer
                   position="bottom-center"

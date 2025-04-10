@@ -91,6 +91,7 @@ export default function ModifyMember() {
             name="useremail"
             type="email"
             placeholder="email"
+            value={user.email}
             required
             onChange={handleChange}
           />
@@ -118,7 +119,7 @@ export default function ModifyMember() {
               name="birthYear"
               type="text"
               placeholder="출생년도"
-              value={user.birthdate.split("-")[0]}
+              // value={user ? user.birthdate.split("-")[0] : ""}
               disabled
             />
             년
@@ -128,7 +129,7 @@ export default function ModifyMember() {
               name="birthMonth"
               type="text"
               placeholder="출생월"
-              value={user.birthdate.split("-")[1]}
+              // value={user ? user.birthdate.split("-")[1] : ""}
               disabled
             />
             월
@@ -138,7 +139,7 @@ export default function ModifyMember() {
               name="birthDay"
               type="text"
               placeholder="출생일"
-              value={user.birthdate.split("-")[2]}
+              // value={user ? user.birthdate.split("-")[2] : ""}
               disabled
             />
             일

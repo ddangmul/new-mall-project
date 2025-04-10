@@ -66,9 +66,9 @@ const MainHeader: React.FC = () => {
   }
 
   return (
-    <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
-      <motion.div
-        className="header-inner bg-[#121111] p-8 "
+    <header id="mainHeader" className="fixed top-0 left-0 w-full z-50 ">
+      <div
+        className="header-inner bg-[#121111] py-6 px-6"
         // style={{
         //   backgroundColor: isClient
         //     ? `rgba(18, 17, 17, ${opacityHeaderBg})`
@@ -103,7 +103,7 @@ const MainHeader: React.FC = () => {
             <SearchArea />
           </div>
         </div>
-      </motion.div>
+      </div>
     </header>
   );
 };

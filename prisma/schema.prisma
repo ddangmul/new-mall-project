@@ -8,12 +8,13 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   
+  id        String   @id @default(cuid())
+  username  String?   
   email     String   @unique
-  password  String
-  birthdate String
-  mobile    String   @default("000-0000-0000") @unique
+  provider  String?
+  password  String?
+  birthdate String?
+  mobile    String?   @default("000-0000-0000") @unique
   createdAt DateTime @default(now())
 
   addresses Address[]
@@ -32,7 +33,7 @@ model Item {
 
 model Address {
   id            Int      @id @default(autoincrement())
-  userId        Int
+  userId        String 
   addressname     String
   addressmobile        String
   postcode      String
