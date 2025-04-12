@@ -18,12 +18,12 @@ const ItemQuantity = ({ item }: { item: Item }) => {
     <>
       <div className="item-quantity-area py-6 px-4 bg-[#eae7e4]">
         <div
-          className="item-quantity-heading text-xl space-y-6 pb-6 mb-8 border-b-1 
+          className="item-quantity-heading text-lg xl:text-xl space-y-6 pb-6 mb-8 border-b-1 
         border-b-[#c3bebc] "
         >
           <p>수량</p>
         </div>
-        <div className="flex justify-between text-xl">
+        <div className="flex justify-between text-lg xl:text-xl">
           <div className="quantity-select flex justify-between items-center min-w-24 bg-[#f6f6f6]">
             <button
               onClick={decreaseQuantity}
@@ -43,27 +43,27 @@ const ItemQuantity = ({ item }: { item: Item }) => {
       </div>
       <div
         id="totalPrice"
-        className="text-2xl font-serif border-t-1 border-t-[#a0a09f] "
+        className="text-xl xl:text-2xl font-serif border-t-1 border-t-[#a0a09f] "
       >
         <div className="mt-6 flex justify-between">
           <span>Total</span>
           <span>{formatterPrice(item.price * quantity)}</span>
         </div>
       </div>
-      <div className="prod_action_btn text-2xl mt-8 flex justify-around gap-4 font-serif">
+      <div className="prod_action_btn text-lg xl:text-xl mt-8 flex justify-between gap-4 font-serif">
         <button
           onClick={() => {
             addCartHandler(item, quantity);
             openModal();
           }}
           type="button"
-          className="bg-[#f8f7f5] text-[#524f4c] px-20 py-3 rounded-xs shadow-lg grow-1"
+          className="bg-[#f8f7f5] text-[#524f4c] basis-1/2 py-2 rounded-xs shadow-lg"
         >
           Cart
         </button>
         <button
           type="button"
-          className="bg-[#524f4c] shadow-lg text-[#f8f7f5] px-20 py-3 rounded-xs grow-1"
+          className="bg-[#524f4c] shadow-lg text-[#f8f7f5] basis-1/2 py-2 rounded-xs"
         >
           Buy
         </button>

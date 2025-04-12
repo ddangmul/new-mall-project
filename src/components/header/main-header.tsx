@@ -66,7 +66,7 @@ const MainHeader: React.FC = () => {
   }
 
   return (
-    <header id="mainHeader" className="fixed top-0 left-0 w-full z-50 ">
+    <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
       <div
         className="header-inner bg-[#121111] py-6 px-6"
         // style={{
@@ -75,8 +75,8 @@ const MainHeader: React.FC = () => {
         //     : `rgb(255, 255, 255)`,
         // }}
       >
-        <div className="flex justify-between items-center text-[#d0d0d0] text-lg font-serif">
-          <div className="basis-1/3 flex gap-8">
+        <div className="flex justify-between items-center text-[#d0d0d0] font-serif">
+          <div className="basis-1/3 flex gap-4 xl:text-lg xl:gap-8">
             <span>
               <Link href="/">Home</Link>
             </span>
@@ -93,9 +93,10 @@ const MainHeader: React.FC = () => {
               alt="hyangnang-logo"
               style={{ width: "100%", height: "auto" }}
               priority
+              className="min-w-20"
             ></Image>
           </Link>
-          <div className="basis-1/3 flex justify-end gap-8">
+          <div className="basis-1/3 flex justify-end xl:text-lg gap-4 xl:gap-8">
             {content}
             <span>
               <Link href="/cart">Cart</Link>

@@ -14,7 +14,7 @@ export default function Order() {
         className="grid grid-cols-1 grid-rows-2 space-y-3 "
       >
         <div className="flex justify-between">
-          <div className="formState text-lg">
+          <div className="formState text-md">
             <select name="order_status" id="order_status">
               <option value="all">전체 주문처리상태</option>
               <option value="shipped_before">입금전</option>
@@ -23,14 +23,14 @@ export default function Order() {
               <option value="shopped_complete">배송완료</option>
             </select>
           </div>
-          <div className="period text-lg flex gap-3 ">
+          <div className="period text-md flex gap-2">
             <Link href="">오늘</Link>
             <Link href="">1개월</Link>
             <Link href="">3개월</Link>
             <Link href="">6개월</Link>
           </div>
         </div>
-        <div className="date w-full flex justify-between items-center col-span-2 text-lg">
+        <div className="date w-full flex justify-between items-center col-span-2 text-md">
           <span className="datepicker flex gap-3 items-center">
             <span className="start_date">
               <input type="date" />
@@ -40,10 +40,10 @@ export default function Order() {
               <input type="date" />
             </span>
           </span>
-          <button className="order_search_btn text-lg">조회</button>
+          <button className="order_search_btn text-md">조회</button>
         </div>
         <div className="order_list flex flex-col gap-3 justify-center items-center">
-          <p className="py-30 text-lg ">최근 주문 내역이 없습니다.</p>
+          <p className="py-30 text-lg">최근 주문 내역이 없습니다.</p>
           <div className="order_history_page py-10">
             <ol>
               <li>

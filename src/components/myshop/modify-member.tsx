@@ -11,7 +11,9 @@ export default function ModifyMember() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
+
   const user = session?.user; // session에서 user 정보 가져오기
+  console.log(user);
 
   useEffect(() => {
     // 세션이 없으면 로그인 페이지로 리디렉션
@@ -83,7 +85,7 @@ export default function ModifyMember() {
           <input
             type="text"
             name="username"
-            value={user.username}
+            value={user.name || user.username}
             placeholder="이름"
             disabled
           />
@@ -103,8 +105,8 @@ export default function ModifyMember() {
             name="mobile1"
             id="mobile1"
             className="basis-1/3"
-            value={user.mobile.split("-")[0]}
-            disabled
+            value={user.mobile === null ? "" : user.mobile.split("-")[0]}
+            onChange={handleChange}
           ></input>
           -
           <input
@@ -112,8 +114,8 @@ export default function ModifyMember() {
             id="mobile2"
             name="mobile2"
             className="basis-1/3"
-            value={user.mobile.split("-")[1]}
-            disabled
+            value={user.mobile === null ? "" : user.mobile.split("-")[1]}
+            onChange={handleChange}
           />
           -
           <input
@@ -121,8 +123,8 @@ export default function ModifyMember() {
             id="mobile3"
             name="mobile3"
             className="basis-1/3"
-            value={user.mobile.split("-")[2]}
-            disabled
+            value={user.mobile === null ? "" : user.mobile.split("-")[2]}
+            onChange={handleChange}
           />
         </div>
         <div className="birthdate flex justify-between gap-3">
@@ -131,8 +133,10 @@ export default function ModifyMember() {
               name="birthYear"
               type="text"
               placeholder="출생년도"
-              value={user.birthdate.split("-")[0]}
-              disabled
+              value={
+                user.birthdate === null ? "" : user.birthdate.split("-")[0]
+              }
+              onChange={handleChange}
             />
             년
           </span>
@@ -141,8 +145,10 @@ export default function ModifyMember() {
               name="birthMonth"
               type="text"
               placeholder="출생월"
-              value={user.birthdate.split("-")[1]}
-              disabled
+              value={
+                user.birthdate === null ? "" : user.birthdate.split("-")[1]
+              }
+              onChange={handleChange}
             />
             월
           </span>
@@ -151,8 +157,10 @@ export default function ModifyMember() {
               name="birthDay"
               type="text"
               placeholder="출생일"
-              value={user.birthdate.split("-")[2]}
-              disabled
+              value={
+                user.birthdate === null ? "" : user.birthdate.split("-")[2]
+              }
+              onChange={handleChange}
             />
             일
           </span>

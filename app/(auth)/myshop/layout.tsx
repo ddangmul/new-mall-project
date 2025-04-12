@@ -7,8 +7,8 @@ export default function MyshopLayout({
 }>) {
   return (
     <section>
-      <div className="flex gap-2 px-16 mt-24">
-        <div className="myshop-conetents-nav basis-1/5">
+      <div className="flex flex-col xl:flex-row gap-2 px-10 xl:px-16 mt-10">
+        <div className="myshop-conetents-nav xl:basis-1/5">
           <MyshopContentsNavBar />
         </div>
         {children}

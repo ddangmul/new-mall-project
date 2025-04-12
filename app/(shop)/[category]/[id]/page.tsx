@@ -21,30 +21,29 @@ export default async function ItemDetailPage({
   const formattedPrice = formatterPrice(item.price);
 
   return (
-    <div className="item-detail-wrap mx-20 py-20 overflow-hidden">
+    <div className="item-detail-wrap mx-10 xl:mx-20 py-18 overflow-hidden">
       <div className="item-datail-inner">
-        <section className="item-heading-info grid grid-cols-1 xl:grid-cols-2 gap-4">
+        <section className="item-heading-info grid grid-cols-1 space-y-10 xl:grid-cols-2 xl:gap-4">
           <div className="item-img-slider">
             <Image
               src={item.image}
               alt={item.title}
-              width={700}
+              width={600}
               height={900}
-              className="w-full max-w-[600px] mx-auto"
+              className="w-[400px] xl:w-full max-w-[600px] mx-auto"
             ></Image>
           </div>
-          <div className="item-info-txt my-2 space-y-6">
+          <div className="item-info-txt my-2 space-y-10">
             <div className="item-heading-txt space-y-5 font-serif">
-              <h1 className="text-4xl">{item.title}</h1>
-              <h2 className="text-3xl">{formattedPrice}</h2>
+              <h1 className="text-2xl xl:text-3xl">{item.title}</h1>
+              <h2 className="text-xl xl:text-2xl">{formattedPrice}</h2>
             </div>
             <ItemTabs />
             <ItemQuantity item={item} />
-            <div>배송 관련</div>
           </div>
         </section>
         <section className="item-main-info text-[#505050]">
-          <div className="detail-contents-nav mt-24 p-20 mb-8 border-b-1 border-[#a0a09f]">
+          <div className="detail-contents-nav mt-24 py-20 border-b-1 border-[#a0a09f]">
             <DetailContentsNavBar />
           </div>
           <div className="detail-contents-wrap">

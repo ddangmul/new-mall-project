@@ -58,15 +58,15 @@ export default function myshop() {
   }
 
   return (
-    <div className="myshop_content basis-4/5 mt-12">
+    <div className="myshop_content xl:basis-4/5 mt-10">
       <div className="myshop-top-area flex gap-4 relative h-70">
         <div className="basis-3/5 h-100% p-6 bg-[#2d2c2a] text-[#d6d2c8] rounded-[6px]">
-          <p className="text-2xl font-serif">Welcome</p>
-          <p className="text-3xl">
-            <span>{user.username}</span>
+          <p className="text-lg xl:text-xl font-serif mb-2">Welcome</p>
+          <p className="text-xl xl:text-2xl">
+            <span>{user.name || user.username}</span>
             님, 환영합니다.
           </p>
-          <ul className="flex gap-5 text-lg absolute bottom-6 ">
+          <ul className="flex gap-2 xl:gap-4 text-sm xl:text-lg absolute bottom-3 xl:bottom-6">
             <li className="bg-[#615e58] text-[#d6d2c8] px-4 py-1 text-center rounded-[5px]">
               <Link href="/myshop?mode=member">회원정보 수정</Link>
             </li>
@@ -80,19 +80,19 @@ export default function myshop() {
         </div>
         <div className="basis-2/5 space-y-4">
           <div className="bg-[#d8d4cc] h-33 rounded-[6px] p-3 relative">
-            <p className="text-sm ">
+            <p className="text-sm">
               <Link href="/">쿠폰</Link>
             </p>
-            <p className="count_number absolute bottom-5 text-2xl ">
+            <p className="count_number absolute bottom-5 text-xl ">
               {/* {쿠폰 수} */}
               <span>1장</span>
             </p>
           </div>
           <div className="bg-[#d8d4cc] h-33 rounded-[6px] p-3 relative">
-            <p className="text-sm ">
+            <p className="text-sm">
               <Link href="/">포인트</Link>
             </p>
-            <p className="count_number absolute bottom-5 text-2xl">
+            <p className="count_number absolute bottom-5 text-xl">
               {/* 마일리지 점수 */}
               <span>3,000원</span>
             </p>

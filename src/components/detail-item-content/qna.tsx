@@ -2,20 +2,20 @@ import Link from "next/link";
 
 export default function QnA() {
   return (
-    <article>
+    <article className="py-4 space-y-6">
       <div>
         <p>구매하시려는 상품에 궁금한 점이 있으면 문의주세요.</p>
-        <nav className="flex gap-4 w-50 text-center my-4">
+        <nav className="flex gap-4 w-50 text-center mt-10">
           <Link
             href="/"
-            className="bg-[#252422] text-[#d6d2c8] grow-1 p-2 rounded-sm shadow-2xs
-            shadow-[#1a1918]"
+            className="bg-[#252422] text-[#d6d2c8] px-4 py-2 rounded-sm shadow-2xs
+            shadow-[#232121]"
           >
             상품문의
           </Link>
           <Link
             href="/myshop/qna_post"
-            className="bg-[#e9e6e0] text-[#252422] grow-1 p-2 rounded-sm shadow-xs shadow-[#d6cebf]"
+            className="bg-[#e9e6e0] text-[#252422] px-4 p-2 rounded-sm shadow-xs shadow-[#d6cebf]"
           >
             1:1 문의
           </Link>

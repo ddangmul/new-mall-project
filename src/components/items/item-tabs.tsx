@@ -7,7 +7,7 @@ export default function ItemTabs() {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <div className="prod_heading_info_inner text-xl">
+    <div className="prod_heading_info_inner text-md xl:text-xl">
       {/* 탭 버튼 */}
       <ul className="flex gap-5 mb-3">
         {["제품 설명", "전성분", "사용 방법"].map((tab, index) => (
@@ -28,7 +28,7 @@ export default function ItemTabs() {
       </ul>
 
       {/* 탭 콘텐츠 (애니메이션 적용) */}
-      <div className=" min-h-[50px]">
+      <div className="min-h-[50px]">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}

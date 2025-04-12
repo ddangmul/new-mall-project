@@ -4,11 +4,10 @@ import { Item } from "../../../types/types";
 export default function Review({ item }: { item: Item }) {
   return (
     <article>
-      <div className="post-add-btn my-6">
+      <div className="post-add-btn my-6 text-md">
         <Link
           href="/"
-          className="bg-[#252422] text-[#d6d2c8] grow-1 p-3 rounded-sm shadow-2xs
-            shadow-[#151312]"
+          className="bg-[#252422] text-[#d6d2c8] px-4 py-2 rounded-sm"
         >
           구매평 작성
         </Link>

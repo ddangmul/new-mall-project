@@ -1,4 +1,10 @@
+"use client";
+
 const Footer: React.FC = () => {
+  const MoveToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer
       id="footer"
@@ -49,10 +55,8 @@ const Footer: React.FC = () => {
       </div>
       <div className="footer_bottom_hinoki col-span-full row-span-2 mt-6 grid grid-cols-2">
         <div>©hyangnang</div>
-        <div>
-          <p>
-            <span className="text-left">Top ↑</span>
-          </p>
+        <div className="text-left" onClick={MoveToTop}>
+          Top ↑
         </div>
       </div>
     </footer>

@@ -2,18 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
 
 import Link from "next/link";
 import "./login.css";
 
 export default function login() {
-  const { data: session, status } = useSession();
-
-  console.log("Session status:", status);
-  console.log("Session data:", session);
-
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
@@ -51,7 +46,7 @@ export default function login() {
     <section className="login w-full min-h-screen mt-10 relative">
       <div className="absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5">
         <div className="login-heading py-8 border-b-1 border-b-[#9e9e9e] mb-8">
-          <p className="text-4xl font-serif">Log In</p>
+          <p className="text-3xl font-serif">Log In</p>
         </div>
         <div className="login-form-wrap">
           <form onSubmit={handleLogin} className="space-y-4 w-full">
@@ -97,24 +92,24 @@ export default function login() {
             </div>
             <button
               type="submit"
-              className="login_btn text-3xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
+              className="login_btn text-2xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
             >
               Log In
             </button>
           </form>
           <button
             onClick={() => signIn("google")}
-            className="login_btn text-3xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
+            className="login_btn text-2xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
           >
             Google LogIn
           </button>
           <div className="mt-20 py-4 border-t-1 border-t-[#9e9e9e]">
-            <p className="text-4xl font-serif my-2">Sign Up</p>
+            <p className="text-3xl font-serif my-2">Sign Up</p>
             <span className="signup-link">
               <Link
                 href="/signup"
                 type="submit"
-                className="signup_btn text-3xl py-4 my-4 font-serif bg-[#313030] text-[#f2f0eb] block w-full text-center"
+                className="signup_btn text-2xl py-4 my-4 font-serif bg-[#313030] text-[#f2f0eb] block w-full text-center"
               >
                 Create Account
               </Link>

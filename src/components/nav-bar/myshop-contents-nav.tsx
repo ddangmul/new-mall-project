@@ -16,11 +16,11 @@ const MyshopContentsNavBar: React.FC = () => {
   };
 
   return (
-    <div className="mt-10">
+    <div className="mt-4">
       <Link href="/myshop" className="text-3xl font-serif">
         MyPage
       </Link>
-      <nav className="w-50 flex flex-col items-start gap-8 mt-12 text-xl">
+      <nav className="flex flex-row w-full xl:w-50 xl:flex-col justify-arounded items-start gap-4 xl:gap-8 mt-12 text-md xl:text-xl">
         <button
           onClick={() => changeMode("order")}
           className={

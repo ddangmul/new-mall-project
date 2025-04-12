@@ -54,41 +54,83 @@ export const authOptions = {
       authorization: {
         params: {
           prompt: "select_account", // 매번 계정 선택하게 함
+          scope:
+            "openid email profile https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.phonenumbers.read",
         },
       },
-      profile(profile) {
+      profile: (profile, tokens) => {
+        console.log("Google 기본 프로필:", profile);
+        console.log("Google accessToken:", tokens.access_token);
+
+        // const res = await fetch(
+        //   "https://people.googleapis.com/v1/people/me?personFields=birthdays,phoneNumbers",
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${tokens.access_token}`,
+        //     },
+        //   }
+        // );
+
+        // const data = await res.json();
+        // console.log("Google People API 응답", JSON.stringify(data, null, 2));
+
         return {
-          id: profile.sub,
+          id: profile.sub ?? profile.id,
+          name: profile.name,
           email: profile.email,
-          username: profile.name,
+          // mobile: data.phoneNumbers?.[0]?.value ?? null,
+          // birthdate: data.birthdays?.[0]?.date
+          //   ? `${data.birthdays[0].date.year}-${data.birthdays[0].date.month
+          //       .toString()
+          //       .padStart(2, "0")}-${data.birthdays[0].date.day
+          //       .toString()
+          //       .padStart(2, "0")}`
+          //   : null,
         };
       },
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (!user) {
-        console.error("Google 로그인 실패: 사용자 정보가 없습니다.");
-        return false;
-      }
+    signIn: async ({ user, account }) => {
+      if (account?.provider === "google" && account.access_token) {
+        try {
+          const res = await fetch(
+            "https://people.googleapis.com/v1/people/me?personFields=birthdays,phoneNumbers",
+            {
+              headers: {
+                Authorization: `Bearer ${account.access_token}`,
+              },
+            }
+          );
+          const data = await res.json();
 
-      if (account?.provider === "google") {
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email! },
-        });
+          const phone = data.phoneNumbers?.[0]?.value ?? null;
+          const birthday = data.birthdays?.[0]?.date
+            ? `${data.birthdays[0].date.year}-${data.birthdays[0].date.month
+                .toString()
+                .padStart(2, "0")}-${data.birthdays[0].date.day
+                .toString()
+                .padStart(2, "0")}`
+            : null;
 
-        if (!existingUser) {
-          await prisma.user.create({
-            data: {
-              email: user.email!,
-              username: profile?.name ?? "", // 기본값 설정
-              provider: "google",
-              password: null,
-              birthdate: null,
-              mobile: null,
-              // birthdate, mobile 등은 나중에 입력 받거나 비워두기
-            },
+          const existingUser = await prisma.user.findUnique({
+            where: { email: user.email! },
           });
+
+          if (!existingUser) {
+            await prisma.user.create({
+              data: {
+                email: user.email!,
+                username: user.name ?? "",
+                provider: "google",
+                password: null,
+                birthdate: birthday,
+                mobile: phone,
+              },
+            });
+          }
+        } catch (err) {
+          console.error("People API 에러:", err);
         }
       }
 

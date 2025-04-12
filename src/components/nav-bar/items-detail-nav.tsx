@@ -16,7 +16,7 @@ const DetailContentsNavBar: React.FC = () => {
   };
 
   return (
-    <nav className="text-center flex justify-center gap-10 text-xl ">
+    <nav className="text-center flex justify-center text-md gap-6 xl:gap-10 xl:text-xl">
       <button
         onClick={() => changeMode("Explanation")}
         className={mode === "Explanation" ? "text-[#8e8a88]" : ""}
