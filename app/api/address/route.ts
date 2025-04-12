@@ -12,17 +12,17 @@ export async function POST(req: Request) {
       address,
       detailAddress,
       addressmobile,
-      defaultAddress,
+      isDefault,
     } = await req.json();
 
+    if (!userId) {
+      return new Response(JSON.stringify({ message: "userId가 필요합니다." }), {
+        status: 400,
+      });
+    }
+
     // 필수 값 검증
-    if (
-      !addressname ||
-      !postcode ||
-      !addressmobile ||
-      !address ||
-      !detailAddress
-    ) {
+    if (!addressname || !postcode || !addressmobile || !address) {
       return NextResponse.json(
         { success: false, message: "필수 정보를 입력하세요." },
         { status: 400 }
@@ -30,9 +30,9 @@ export async function POST(req: Request) {
     }
 
     // 기존 기본 배송지가 있다면 isDefault = false로 변경
-    if (defaultAddress) {
+    if (isDefault) {
       await prisma.address.updateMany({
-        where: { userId: Number(userId), isDefault: true },
+        where: { userId: userId, isDefault: true },
         data: { isDefault: false },
       });
     }
@@ -40,13 +40,13 @@ export async function POST(req: Request) {
     // 배송지 추가
     const newAddress = await prisma.address.create({
       data: {
-        userId: Number(userId),
+        userId: userId,
         addressname,
         postcode,
         address,
         detailAddress,
         addressmobile,
-        isDefault: defaultAddress,
+        isDefault,
       },
     });
 
@@ -72,7 +72,7 @@ export async function GET(req: Request) {
     }
 
     const addresses = await prisma.address.findMany({
-      where: { userId: Number(session.user.id) }, // userId는 숫자!
+      where: { userId: session.user.id }, // userId는 숫자!
       orderBy: { isDefault: "desc" },
     });
 

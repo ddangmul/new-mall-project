@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useAddress } from "@/store/address-context";
 
@@ -12,9 +12,8 @@ export default function RegisterAddress() {
   const { addAddress } = useAddress();
   const router = useRouter();
   const { data: session } = useSession();
-  const userId = session.user.id;
   const [formData, setFormData] = useState({
-    userId: Number(userId),
+    userId: "",
     addressname: "",
     postcode: "",
     address: "",
@@ -25,14 +24,24 @@ export default function RegisterAddress() {
     isDefault: false,
   });
 
+  // 세션 업데이트되면 userId 설정
+  useEffect(() => {
+    if (session?.user?.id) {
+      setFormData((prev) => ({
+        ...prev,
+        userId: session.user.id,
+      }));
+    }
+  }, [session]);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
 
     // // 체크박스인 경우에는 HTMLInputElement로 단언 후 checked 사용
-    const isCheckbox = type === "checkbox";
-    const checked = isCheckbox && (e.target as HTMLInputElement).checked;
+    // const isCheckbox = type === "checkbox";
+    // const checked = isCheckbox && (e.target as HTMLInputElement).checked;
 
     // 체크박스일 경우에만 checked값을 따로 추출
     // const newValue =
@@ -40,19 +49,21 @@ export default function RegisterAddress() {
 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: isCheckbox ? checked : value,
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const addressMobile = `${formData.addressMobile1}-${formData.addressMobile2}-${formData.addressMobile3}`;
 
     const formattedData: AddressInput = {
       ...formData,
       addressmobile: addressMobile,
     };
-
-    addAddress(formattedData);
+    console.log("등록 전 데이터 👉", formattedData); // 여기에 isDefault 확인
+    await addAddress(formattedData);
     router.push("/myshop?address=&mode=member&mode2=address");
   };
 
@@ -144,9 +155,14 @@ export default function RegisterAddress() {
             <input
               name="isDefault"
               type="checkbox"
-              id="defaultAddress"
+              id="isDefault"
               checked={formData.isDefault}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  isDefault: e.target.checked,
+                }))
+              }
             />
             <label>기본 배송지로 저장</label>
           </div>
