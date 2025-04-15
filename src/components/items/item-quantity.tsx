@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Item } from "../../../types/types";
 import { formatterPrice } from "@/utils/formatter";
 import { useCart } from "@/store/cart-context";
+import CheckoutButton from "../payment/checkout-btn";
 
 const ItemQuantity = ({ item }: { item: Item }) => {
   const { addCartHandler, openModal } = useCart();
@@ -61,12 +62,7 @@ const ItemQuantity = ({ item }: { item: Item }) => {
         >
           Cart
         </button>
-        <button
-          type="button"
-          className="bg-[#524f4c] shadow-lg text-[#f8f7f5] basis-1/2 py-2 rounded-xs"
-        >
-          Buy
-        </button>
+        <CheckoutButton />
       </div>
     </>
   );

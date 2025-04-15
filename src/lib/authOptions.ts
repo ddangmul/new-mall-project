@@ -196,6 +196,7 @@ export const authOptions = {
           console.error("카카오 로그인 처리 중 에러:", err);
         }
       }
+      
       return true;
     },
     async jwt({ token, user, account }) {

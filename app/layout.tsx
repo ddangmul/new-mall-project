@@ -1,6 +1,7 @@
 "use client";
 
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import MainHeader from "@/components/header/main-header";
 import Footer from "@/components/footer/footer";
@@ -11,10 +12,10 @@ import { ToastContainer } from "react-toastify";
 import { AddressProvider } from "@/store/address-context";
 import SessionHandler from "@/components/session-handler";
 
-const metadata: Metadata = {
-  title: "Online Mall App",
-  description: "online shop homepage",
-};
+// const metadata: Metadata = {
+//   title: "Online Mall App",
+//   description: "online shop homepage",
+// };
 
 export default function RootLayout({
   children,
@@ -23,6 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <Script
+          src="https://js.tosspayments.com/v1/payment"
+          strategy="beforeInteractive"
+        />
+      </head>
       <body>
         <SessionProvider>
           <SessionHandler />
