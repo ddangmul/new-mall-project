@@ -24,10 +24,10 @@ export default function ModifyMember() {
 
   const [formData, setFormData] = useState({
     // useremail: "",
-    // mobile1: "",
-    // mobile2: "",
-    // mobile3: "",
-    // birthdate: "",
+    mobile1: "",
+    mobile2: "",
+    mobile3: "",
+    // birthYear: "",
     old_pw: "",
     new_pw: "",
     new_pw_ck: "",
@@ -105,7 +105,11 @@ export default function ModifyMember() {
             name="mobile1"
             id="mobile1"
             className="basis-1/3"
-            value={user.mobile === null ? "" : user.mobile.split("-")[0]}
+            value={
+              user.mobile === null
+                ? formData.mobile1
+                : user.mobile.split("-")[0]
+            }
             onChange={handleChange}
           ></input>
           -
@@ -114,7 +118,11 @@ export default function ModifyMember() {
             id="mobile2"
             name="mobile2"
             className="basis-1/3"
-            value={user.mobile === null ? "" : user.mobile.split("-")[1]}
+            value={
+              user.mobile === null
+                ? formData.mobile2
+                : user.mobile.split("-")[1]
+            }
             onChange={handleChange}
           />
           -
@@ -123,7 +131,11 @@ export default function ModifyMember() {
             id="mobile3"
             name="mobile3"
             className="basis-1/3"
-            value={user.mobile === null ? "" : user.mobile.split("-")[2]}
+            value={
+              user.mobile === null
+                ? formData.mobile3
+                : user.mobile.split("-")[2]
+            }
             onChange={handleChange}
           />
         </div>

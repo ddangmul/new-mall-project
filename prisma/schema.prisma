@@ -14,7 +14,7 @@ model User {
   provider  String?
   password  String?
   birthdate String?
-  mobile    String?   @default("000-0000-0000") @unique
+  mobile    String?   @default("000-0000-0000")
   createdAt DateTime @default(now())
 
   addresses Address[]

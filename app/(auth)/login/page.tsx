@@ -103,6 +103,12 @@ export default function login() {
           >
             Google LogIn
           </button>
+          <button
+            onClick={() => signIn("kakao")}
+            className="login_btn text-2xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
+          >
+            Kakao LogIn
+          </button>
           <div className="mt-20 py-4 border-t-1 border-t-[#9e9e9e]">
             <p className="text-3xl font-serif my-2">Sign Up</p>
             <span className="signup-link">

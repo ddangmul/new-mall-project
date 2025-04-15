@@ -4,9 +4,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
 export async function POST(req: Request) {
+  const session = await getServerSession(authOptions);
+  console.log("세션 확인:", session?.user);
+
   try {
     const {
-      userId,
       addressname,
       postcode,
       address,
@@ -15,10 +17,20 @@ export async function POST(req: Request) {
       isDefault,
     } = await req.json();
 
+    const userId = session?.user?.id;
     if (!userId) {
       return new Response(JSON.stringify({ message: "userId가 필요합니다." }), {
         status: 400,
       });
+    }
+
+    const userExists = await prisma.user.findUnique({ where: { id: userId } });
+
+    if (!userExists) {
+      return NextResponse.json(
+        { success: false, message: "존재하지 않는 사용자입니다." },
+        { status: 404 }
+      );
     }
 
     // 필수 값 검증
@@ -40,7 +52,7 @@ export async function POST(req: Request) {
     // 배송지 추가
     const newAddress = await prisma.address.create({
       data: {
-        userId: userId,
+        userId,
         addressname,
         postcode,
         address,

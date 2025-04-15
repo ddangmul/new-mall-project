@@ -1,8 +1,10 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
+import NextAuth from "next-auth";
 // import { NewUser } from "../../types/next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import KakaoProvider from "next-auth/providers/kakao";
 
 export const authOptions = {
   providers: [
@@ -89,9 +91,13 @@ export const authOptions = {
         };
       },
     }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID!,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET || "", // 카카오는 clientSecret 없어도 작동하지만 명시 가능
+    }),
   ],
   callbacks: {
-    signIn: async ({ user, account }) => {
+    signIn: async ({ user, account, profile }) => {
       if (account?.provider === "google" && account.access_token) {
         try {
           const res = await fetch(
@@ -113,7 +119,7 @@ export const authOptions = {
                 .padStart(2, "0")}`
             : null;
 
-          const existingUser = await prisma.user.findUnique({
+          let existingUser = await prisma.user.findUnique({
             where: { email: user.email! },
           });
 
@@ -125,15 +131,69 @@ export const authOptions = {
                 provider: "google",
                 password: null,
                 birthdate: birthday,
-                mobile: phone,
+                ...(phone && { mobile: phone }),
               },
             });
+
+            // 생성 후 다시 조회해서 user.id 얻기
+            existingUser = await prisma.user.findUnique({
+              where: { email: user.email! },
+            });
+
+            // user 객체에 prisma의 id 설정
+            if (existingUser) {
+              user.id = existingUser.id;
+              user.username = existingUser.username;
+              user.birthdate = existingUser.birthdate;
+              user.mobile = existingUser.mobile;
+            }
           }
         } catch (err) {
           console.error("People API 에러:", err);
         }
       }
 
+      if (account?.provider === "kakao") {
+        try {
+          const kakaoAccount = profile?.kakao_account;
+          const kakaoProfile = kakaoAccount?.profile;
+
+          const email = kakaoAccount?.email;
+          const username = kakaoProfile?.nickname || "카카오사용자";
+
+          if (!email) {
+            throw new Error("카카오 이메일 정보를 가져올 수 없습니다.");
+          }
+
+          let existingUser = await prisma.user.findUnique({
+            where: { email },
+          });
+
+          if (!existingUser) {
+            await prisma.user.create({
+              data: {
+                email,
+                username,
+                provider: "kakao",
+                password: null,
+                birthdate: null,
+                mobile: null,
+              },
+            });
+
+            existingUser = await prisma.user.findUnique({ where: { email } });
+          }
+
+          if (existingUser) {
+            user.id = existingUser.id;
+            user.username = existingUser.username;
+            user.birthdate = existingUser.birthdate;
+            user.mobile = existingUser.mobile;
+          }
+        } catch (err) {
+          console.error("카카오 로그인 처리 중 에러:", err);
+        }
+      }
       return true;
     },
     async jwt({ token, user, account }) {
