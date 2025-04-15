@@ -27,7 +27,7 @@ export const AddressProvider = ({
   const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession();
 
-  console.log(session?.user);
+  // console.log(session?.user);
 
   const fetchAddresses = async () => {
     setLoading(true);

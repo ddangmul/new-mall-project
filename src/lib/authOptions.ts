@@ -147,6 +147,8 @@ export const authOptions = {
               user.birthdate = existingUser.birthdate;
               user.mobile = existingUser.mobile;
             }
+
+            console.log("SignIn → user.id:", user.id);
           }
         } catch (err) {
           console.error("People API 에러:", err);
@@ -197,31 +199,41 @@ export const authOptions = {
       return true;
     },
     async jwt({ token, user, account }) {
-      if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.username = user.username ?? null;
-        token.birthdate = user.birthdate ?? null;
-        token.mobile = user.mobile ?? null;
+      console.log("JWT 콜백 시작");
+      console.log("user:", user);
+      console.log("token:", token);
+      if (user?.email) {
+        // 항상 이메일로 DB에서 유저 ID 조회
+        const dbUser = await prisma.user.findUnique({
+          where: { email: user.email },
+        });
+
+        if (dbUser) {
+          token.id = dbUser.id;
+          token.email = dbUser.email;
+          token.username = dbUser.username;
+          token.birthdate = dbUser.birthdate;
+          token.mobile = dbUser.mobile;
+        }
       }
 
       if (account?.provider === "google" && account?.access_token) {
         token.accessToken = account.access_token; // 구글의 accessToken을 JWT에 추가
       }
-
+      console.log("JWT token.email:", token.email);
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
+      if (token && session.user) {
         session.user.id = token.id;
         session.user.email = token.email;
         session.user.username = token.username;
         session.user.birthdate = token.birthdate;
         session.user.mobile = token.mobile;
         session.user.accessToken = token.accessToken;
-
-        // console.log("session.user:", session.user); // 확인용
       }
+      console.log("Final Session:", session);
+      console.log("Token:", token);
       return session;
     },
     async redirect({ url, baseUrl }) {

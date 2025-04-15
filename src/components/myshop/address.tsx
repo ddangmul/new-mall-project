@@ -12,7 +12,7 @@ export default function Address() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const editMode = searchParams.get("mode2");
 
@@ -20,7 +20,8 @@ export default function Address() {
   const [checkedMap, setCheckedMap] = useState<{ [id: number]: boolean }>({});
 
   useEffect(() => {
-    if (session?.user) {
+    if (session?.user && status === "authenticated") {
+      console.log("로그인된 사용자:", session.user);
       fetchAddresses();
     }
 
@@ -36,7 +37,7 @@ export default function Address() {
     }, {} as { [id: number]: boolean });
 
     setCheckedMap(initialCheckedMap);
-  }, [session]);
+  }, [session, status]);
 
   const toggleCheck = (id: number) => {
     // console.log("Toggling check for id:", id, "Previous state:", checkedMap);
