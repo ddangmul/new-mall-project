@@ -1,12 +1,12 @@
 "use client";
 
-import { Item } from "../../types/types";
+import { Item, ItemWithQuantity } from "../../types/types";
 import CartModal from "@/components/cart/cart-modal";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
 
 interface CartContextType {
-  cartItems: Item[];
+  cartItems: ItemWithQuantity[];
   addCartHandler: (item: Item, quantity: number) => void;
   deleteCartHandler: (item: Item) => void;
   updateItemQuantity: (id: string, quantity: number) => void;
@@ -35,7 +35,7 @@ export function useCart() {
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [cartItems, setCartItems] = useState<Item[]>([]);
+  const [cartItems, setCartItems] = useState<ItemWithQuantity[]>([]);
   const [isLoaded, setIsLoaded] = useState(false); //Hydration 오류 방지
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -86,7 +86,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const updateItemQuantity = (id: string, quantity: number) => {
     setCartItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity } : item))
+      prev.map((item) =>
+        String(item.id) === id ? { ...item, quantity } : item
+      )
     );
   };
 

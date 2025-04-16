@@ -1,13 +1,13 @@
 "use client";
 
-import { Item } from "../../../types/types";
+import { ItemWithQuantity } from "../../../types/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/store/cart-context";
 import { formatterPrice } from "@/utils/formatter";
 
 interface CartItemProps {
-  item: Item;
+  item: ItemWithQuantity;
   isChecked: boolean;
   onCheck: (id: string, checked: boolean) => void;
 }
@@ -18,7 +18,9 @@ const CartItem: React.FC<CartItemProps> = ({ item, onCheck, isChecked }) => {
   const { updateItemQuantity } = useCart(); // 컨텍스트에서 수량 업데이트
 
   const increaseQuantity = () => {
-    updateItemQuantity(String(id), quantity + 1); // 수량 증가
+    if (quantity) {
+      updateItemQuantity(String(id), quantity + 1); // 수량 증가
+    }
   };
 
   const decreaseQuantity = () => {

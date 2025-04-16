@@ -18,3 +18,8 @@ export type Item = {
   sales: number;
   createdAt: Date;
 };
+
+// quantity가 추가된 Item
+export interface ItemWithQuantity extends Item {
+  quantity: number;
+}
