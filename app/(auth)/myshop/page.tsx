@@ -9,9 +9,9 @@ import Point from "@/components/myshop/point";
 import QnA from "@/components/detail-item-content/qna";
 import OneQnA from "@/components/myshop/one-qna";
 import Member from "@/components/myshop/member/member";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { signOut } from "next-auth/react";
 
@@ -20,6 +20,7 @@ export default function myshop() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const mode = searchParams.get("mode") || "order";
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/" }); // 로그아웃 후 홈으로 이동
@@ -31,6 +32,17 @@ export default function myshop() {
     }
   }, [status, router]); // 상태가 바뀔 때만 실행되도록 설정
 
+  useEffect(() => {
+    const isFirstVisitWithoutMode =
+      pathname === "/myshop" && !searchParams.get("mode");
+
+    const active = window.innerWidth < 1280;
+
+    window.scrollTo({
+      top: isFirstVisitWithoutMode ? 0 : active ? 550 : 0,
+      behavior: "smooth",
+    });
+  }, [pathname, searchParams]);
   if (status === "loading" || status === "unauthenticated") {
     return <p>Loading...</p>; // 로그인 안 된 경우 아무것도 렌더링하지 않음
   }
@@ -66,7 +78,7 @@ export default function myshop() {
             <span>{user.name || user.username}</span>
             님, 환영합니다.
           </p>
-          <ul className="flex gap-2 xl:gap-4 text-sm xl:text-lg absolute bottom-3 xl:bottom-6">
+          <ul className="flex gap-2 xl:gap-4 text-sm xl:text-lg absolute bottom-5">
             <li className="bg-[#615e58] text-[#d6d2c8] px-4 py-1 text-center rounded-[5px]">
               <Link href="/myshop?mode=member">회원정보 수정</Link>
             </li>
@@ -99,7 +111,7 @@ export default function myshop() {
           </div>
         </div>
       </div>
-      <div className="myshop-content-area mt-14">{myshopContent}</div>
+      <div className="myshop-content-area mt-14 min-h-100">{myshopContent}</div>
     </div>
   );
 }

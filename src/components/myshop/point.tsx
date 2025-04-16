@@ -2,7 +2,7 @@ import "./point.css";
 
 export default function Point() {
   return (
-    <article className="myshop-point">
+    <article className="myshop-point pb-25">
       <div className="heading">
         <h1 className="text-2xl pt-5 pb-10">포인트 내역</h1>
       </div>

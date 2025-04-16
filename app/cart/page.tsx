@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useCart, CartProvider } from "@/store/cart-context";
+import { useCart } from "@/store/cart-context";
 import CartItem from "@/components/cart/cart-item";
 import { formatterPrice } from "@/utils/formatter";
+import CheckoutButton from "@/components/payment/checkout-btn";
 
 export default function cart() {
-  const { cartItems, addCartHandler, deleteCartHandler, totalPrice } =
-    useCart();
+  const { cartItems, deleteCartHandler, totalPrice } = useCart();
 
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
@@ -24,7 +24,7 @@ export default function cart() {
     setCheckedItems([]); // 체크 리스트 초기화
   };
 
-  console.log(cartItems);
+  // console.log(cartItems);
   return (
     <section className="cart-page py-10 px-20">
       <div className="cart-heading flex gap-3 items-center">
@@ -33,24 +33,22 @@ export default function cart() {
           {cartItems.length}
         </span>
       </div>
-      <div className="cart_action_btn flex gap-5 mt-10 py-2 justify-end">
+      <div className="cart_action_btn flex gap-4 mt-10 justify-end text-xs xl:text-md">
         <button
           onClick={() =>
             setCheckedItems(
               cartItems.length === checkedItems.length
                 ? []
-                : cartItems.map((item) => item.id)
+                : cartItems.map((item) => String(item.id))
             )
           }
-          className="bg-[#494643] text-[#d6d2c8] p-2 rounded-sm shadow-2xs
-            "
+          className="bg-[#494643] text-[#d6d2c8] p-2 rounded-sm shadow-2xs"
         >
           전체 선택
         </button>
         <button
           onClick={handleRemoveSelected}
-          className="bg-[#494643] text-[#d6d2c8] p-2 rounded-sm shadow-2xs
-            "
+          className="bg-[#494643] text-[#d6d2c8] p-2 rounded-sm shadow-2xs"
         >
           선택 삭제
         </button>
@@ -68,32 +66,36 @@ export default function cart() {
             <li key={`${item.id} ${index}`}>
               <CartItem
                 item={item}
-                isChecked={checkedItems.includes(item.id)}
+                isChecked={checkedItems.includes(String(item.id))}
                 onCheck={handleCheck}
               />
             </li>
           ))}
         </ul>
       </div>
-      <div className="total-cart-items border-t-1 border-b-1 border-[#2e2d2c] mt-20">
-        <div className="border-b-1 border-[#afaeac] py-2 text-2xl font-serif">
-          Total
-        </div>
-        <div className="py-10 flex justify-center gap-10 text-2xl text-center">
+      <div className="total-cart-items border-t-1 border-b-1 border-[#2e2d2c] mt-20 text-lg xl:text-xl">
+        <div className="border-b-1 border-[#afaeac] py-2 font-serif">Total</div>
+        <div className="py-10 flex justify-center gap-10 text-center text-sm xl:text-xl">
           <div className="flex flex-col">
             <span>{formatterPrice(totalPrice)}</span>
-            <span className="text-xl text-[#787675]">상품금액</span>
+            <span className="text-[#787675]">상품금액</span>
           </div>
           +
           <div className="flex flex-col">
             <span>{formatterPrice(2500)}</span>
-            <span className="text-xl text-[#787675]">배송비</span>
+            <span className="text-[#787675]">배송비</span>
           </div>
           =
           <div className="flex flex-col">
             <span>{formatterPrice(totalPrice + 2500)}</span>
-            <span className="text-xl text-[#787675]">총 주문금액</span>
+            <span className="text-[#787675]">총 주문금액</span>
           </div>
+        </div>
+      </div>
+
+      <div className="mt-10 w-full flex justify-end">
+        <div className="checkout_btn flex justify-end w-50">
+          <CheckoutButton />
         </div>
       </div>
     </section>

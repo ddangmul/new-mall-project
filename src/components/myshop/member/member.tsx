@@ -23,7 +23,7 @@ export default function Member() {
 
   return (
     <>
-      <div className="basis-2/3">
+      <div className="basis-2/3 pt-5">
         <div className="tap_btn flex gap-5 w-full text-lg pb-5 border-b-1 border-b-[#a9a9a9] mb-5">
           <button
             onClick={() => changeMode("member")}

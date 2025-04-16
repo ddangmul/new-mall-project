@@ -9,10 +9,10 @@ export default function CheckoutButton() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  useEffect(() => {
-    // 확인용 로그
-    console.log("TossPayments?", (window as any).TossPayments);
-  }, []);
+  // useEffect(() => {
+  //   // 확인용 로그
+  //   console.log("TossPayments?", (window as any).TossPayments);
+  // }, []);
 
   const handlePayment = async () => {
     if (!session) {
