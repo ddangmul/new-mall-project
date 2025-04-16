@@ -11,6 +11,7 @@ import { authOptions } from "@/lib/authOptions";
 import { ToastContainer } from "react-toastify";
 import { AddressProvider } from "@/store/address-context";
 import SessionHandler from "@/components/session-handler";
+import ScrollButtons from "@/components/scroll-btn";
 
 // const metadata: Metadata = {
 //   title: "Online Mall App",
@@ -47,6 +48,7 @@ export default function RootLayout({
                   theme="dark"
                 />
               </div>
+              <ScrollButtons />
             </CartProvider>
           </AddressProvider>
           <Footer />
