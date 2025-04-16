@@ -33,10 +33,10 @@ export async function GET(req: NextRequest) {
 
   if (!response.ok) {
     console.error("[결제 승인 실패]", data);
-    return NextResponse.redirect("/payment/fail");
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/payment/fail`);
   }
 
   console.log("[결제 성공]", data);
 
-  return NextResponse.redirect("http://localhost:3000/payment/success");
+  return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/payment/success`);
 }
