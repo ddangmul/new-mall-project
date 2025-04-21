@@ -7,6 +7,7 @@ import ItemTabs from "@/components/items/item-tabs";
 import ItemQuantity from "@/components/items/item-quantity";
 import DetailContentsNavBar from "@/components/nav-bar/items-detail-nav";
 import ContentContainer from "@/components/detail-item-content/content-container";
+import { Metadata } from "next";
 
 interface PageProps {
   params: {
@@ -15,14 +16,45 @@ interface PageProps {
   };
 }
 
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const item: Item = await getItemById(id);
+
+  if (!item) {
+    return {
+      title: "상품을 찾을 수 없습니다",
+      description: "요청하신 상품이 존재하지 않습니다.",
+    };
+  }
+
+  return {
+    title: item.title,
+    description: item.description,
+    openGraph: {
+      images: [item.image],
+    },
+    keywords: [
+      "쇼핑몰",
+      "인센스",
+      "향수",
+      "향낭",
+      item.title,
+      item.description,
+      item.category,
+    ],
+  };
+}
+
 export default async function ItemDetailPage({ params }: PageProps) {
   try {
     // nextjs 14부터 params도 비동기적으로 제공
-    const { id } = await params; //
+    const { id } = await params;
     const item: Item = await getItemById(id);
 
     if (!item) {
-      notFound();
+      return notFound();
     }
 
     const formattedPrice = formatterPrice(item.price);
@@ -73,6 +105,6 @@ export default async function ItemDetailPage({ params }: PageProps) {
       </div>
     );
   } catch (error) {
-    // notFound();
+    return notFound();
   }
 }
