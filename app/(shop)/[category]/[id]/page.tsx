@@ -2,6 +2,7 @@ import { Item } from "../../../../types/types";
 import Image from "next/image";
 import { getItemById } from "@/lib/items/queries";
 import { formatterPrice } from "@/utils/formatter";
+import { notFound } from "next/navigation";
 import ItemTabs from "@/components/items/item-tabs";
 import ItemQuantity from "@/components/items/item-quantity";
 import DetailContentsNavBar from "@/components/nav-bar/items-detail-nav";
@@ -20,9 +21,9 @@ export default async function ItemDetailPage({ params }: PageProps) {
     const { id } = await params; //
     const item: Item = await getItemById(id);
 
-    // if (!item) {
-    //   notFound();
-    // }
+    if (!item) {
+      notFound();
+    }
 
     const formattedPrice = formatterPrice(item.price);
 

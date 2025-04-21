@@ -35,6 +35,11 @@ export default function Signup() {
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    if (error) {
+      setError(null);
+      setLoading(false);
+    }
   };
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -72,7 +77,7 @@ export default function Signup() {
 
       if (!res.ok) throw new Error(data.message || "회원가입 실패");
 
-      alert("회원가입 성공!");
+      // alert("회원가입 성공!");
       router.push("/login"); // 로그인 페이지로 이동
     } catch (err: any) {
       setError(err.message);

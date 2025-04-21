@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export default function CheckoutButton() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function CheckoutButton() {
 
   const handlePayment = async () => {
     if (!session) {
-      alert("회원가입이 필요합니다.");
+      toast.error("회원가입이 필요합니다.");
       router.push("/login");
       return;
     }
@@ -42,7 +42,7 @@ export default function CheckoutButton() {
       }
     );
     if (!response.ok) {
-      alert("주문 생성에 실패했습니다.");
+      toast.error("주문 생성에 실패했습니다.");
       return;
     }
 
@@ -50,7 +50,7 @@ export default function CheckoutButton() {
     const tossPayments = (window as any).TossPayments?.(clientKey);
 
     if (!tossPayments) {
-      alert("TossPayments SDK가 아직 로드되지 않았습니다.");
+      toast.error("TossPayments SDK가 아직 로드되지 않았습니다.");
       return;
     }
 
@@ -64,7 +64,7 @@ export default function CheckoutButton() {
         failUrl: `${window.location.origin}/api/payment/fail`,
       });
     } catch (error) {
-      alert("결제창 에러: " + error);
+      toast.error("결제창 에러: " + error);
     }
   };
   return (

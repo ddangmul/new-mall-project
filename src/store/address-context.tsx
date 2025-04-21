@@ -125,7 +125,7 @@ export const AddressProvider = ({
 export const useAddress = () => {
   const context = useContext(AddressContext);
   if (!context) {
-    throw new Error("useAddressContext must be used within AddressProvider");
+    throw new Error("useAddressContext가 AddressProvider 안에 없습니다.");
   }
   return context;
 };

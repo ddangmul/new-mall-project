@@ -6,9 +6,14 @@ import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 import "./modify.css";
+import Link from "next/link";
+import SuccessModal from "../successModal";
+
 export default function ModifyMember() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -42,6 +47,11 @@ export default function ModifyMember() {
       ...prevData,
       [name]: value,
     }));
+
+    if (error) {
+      setError(null);
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +62,7 @@ export default function ModifyMember() {
     console.log("보내는 데이터:", formData);
 
     if (formData.new_pw !== formData.new_pw_ck) {
-      setError("비밀번호 미일치");
+      setError("비밀번호가 일치하지 않습니다.");
       setLoading(false);
       return;
     }
@@ -69,8 +79,9 @@ export default function ModifyMember() {
 
       if (!res.ok) throw new Error(data.message || "회원정보 수정 실패");
 
-      alert("회원정보 수정 성공!");
-      await signOut({ callbackUrl: "/login" });
+      // toast.info("회원정보 수정 성공!");
+      // await signOut({ callbackUrl: "/login" });
+      setSuccessModal(true);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -210,14 +221,21 @@ export default function ModifyMember() {
               영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
             </p>
           </div>
+          {error && <div className="text-red-500">{error}</div>}
         </div>
         <button
           type="submit"
-          className="mt-12 bg-[#2d2c2a] text-[#d6d2c8] rounded-sm text-xl w-full h-16"
+          className="mt-12 bg-[#2d2c2a] text-[#d6d2c8] rounded-sm text-xl w-full py-3"
         >
-          수정하기
+          {loading ? "수정 중..." : "회원정보 수정"}
         </button>
       </form>
+      <div className="mt-6 bg-[#d6d2c8] rounded-sm text-xl w-full py-3 text-center">
+        <Link href="/">회원 탈퇴하기</Link>
+      </div>
+      {successModal && (
+        <SuccessModal onConfirm={() => signOut({ callbackUrl: "/login" })} />
+      )}
     </section>
   );
 }

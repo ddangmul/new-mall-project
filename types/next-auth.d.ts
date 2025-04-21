@@ -8,7 +8,7 @@ declare module "next-auth" {
     address: String;
     detailAddress: String;
     isDefault: Boolean;
-    userId: number;
+    userId: string;
     addressname: String;
     addressmobile: String;
     user: User;

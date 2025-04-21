@@ -6,6 +6,7 @@ import AddressItem from "./addressItem";
 import { useAddress } from "@/store/address-context";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 export default function Address() {
   const { fetchAddresses, addresses, deleteAddress } = useAddress();
@@ -54,7 +55,7 @@ export default function Address() {
     console.log("삭제할 ID들:", checkedIds);
 
     if (checkedIds.length === 0) {
-      alert("삭제할 주소를 선택해주세요.");
+      toast.error("삭제할 주소를 선택해주세요.");
       return;
     }
 

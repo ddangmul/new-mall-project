@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { toast } from "react-toastify";
 
 import Link from "next/link";
 import "./login.css";
@@ -22,6 +21,10 @@ export default function login() {
       ...prevData,
       [name]: value,
     }));
+
+    if (error) {
+      setError(null);
+    }
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +38,6 @@ export default function login() {
 
     if (res?.error) {
       setError("이메일 또는 비밀번호가 잘못되었습니다.");
-      toast.error("이메일 또는 비밀번호가 잘못되었습니다.");
       sessionStorage.setItem("isLoggedIn", "true");
     } else {
       router.push("/myshop"); // 로그인 성공 후 이동할 페이지

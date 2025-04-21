@@ -23,6 +23,7 @@ export default function RegisterAddress() {
     addressMobile3: "",
     isDefault: false,
   });
+  const [error, setError] = useState("");
 
   // 세션 업데이트되면 userId 설정
   useEffect(() => {
@@ -51,18 +52,27 @@ export default function RegisterAddress() {
       ...prevData,
       [name]: value,
     }));
+
+    if (error) {
+      setError(null);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const mobileRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
     const addressMobile = `${formData.addressMobile1}-${formData.addressMobile2}-${formData.addressMobile3}`;
+
+    if (!mobileRegex.test(addressMobile)) {
+      setError("전화번호는 010-1234-5678 형식이어야 합니다.");
+      return;
+    }
 
     const formattedData: AddressInput = {
       ...formData,
       addressmobile: addressMobile,
     };
-    console.log("등록 전 데이터 👉", formattedData); // 여기에 isDefault 확인
     await addAddress(formattedData);
     router.push("/myshop?address=&mode=member&mode2=address");
   };
@@ -106,7 +116,7 @@ export default function RegisterAddress() {
             <input
               name="detailAddress"
               type="text"
-              placeholder="나머지주소"
+              placeholder="나머지주소 (선택)"
               value={formData.detailAddress}
               onChange={handleChange}
             />
@@ -166,6 +176,7 @@ export default function RegisterAddress() {
             />
             <label>기본 배송지로 저장</label>
           </div>
+          {error && <div className="text-red-600">{error}</div>}
           <div className="adress_action_btn flex justify-between mt-8">
             <button
               onClick={() => {
