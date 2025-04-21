@@ -59,7 +59,7 @@ export default function ModifyMember() {
     setLoading(true);
     setError("");
 
-    console.log("보내는 데이터:", formData);
+    // console.log("보내는 데이터:", formData);
 
     if (formData.new_pw !== formData.new_pw_ck) {
       setError("비밀번호가 일치하지 않습니다.");
