@@ -20,6 +20,7 @@ export default function ModifyMember() {
   const router = useRouter();
 
   const user = session?.user; // session에서 user 정보 가져오기
+  const isOAuth = user?.provider !== "credentials";
 
   useEffect(() => {
     // 세션이 없으면 로그인 페이지로 리디렉션
@@ -189,41 +190,43 @@ export default function ModifyMember() {
             일
           </span>
         </div>
-        <div className="mt-8 space-y-3">
-          <h2 className="text-xl mb-6">비밀번호 변경</h2>
-          <input
-            type="text"
-            id="oldPw"
-            name="old_pw"
-            placeholder="기존 비밀번호"
-            onChange={handleChange}
-          />
-          <div>
+        {!isOAuth && (
+          <div className="mt-8 space-y-3">
+            <h2 className="text-xl mb-6">비밀번호 변경</h2>
             <input
               type="text"
-              id="newPw"
-              name="new_pw"
-              placeholder="변경할 비밀번호"
+              id="oldPw"
+              name="old_pw"
+              placeholder="기존 비밀번호"
               onChange={handleChange}
             />
-            <p className="text-sm mt-2">
-              영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
-            </p>
+            <div>
+              <input
+                type="text"
+                id="newPw"
+                name="new_pw"
+                placeholder="변경할 비밀번호"
+                onChange={handleChange}
+              />
+              <p className="text-sm mt-2">
+                영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
+              </p>
+            </div>
+            <div>
+              <input
+                type="text"
+                id="new_pw_ck"
+                name="new_pw_ck"
+                placeholder="변경할 비밀번호 확인"
+                onChange={handleChange}
+              />
+              <p className="text-sm mt-2">
+                영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
+              </p>
+            </div>
+            {error && <div className="text-red-500">{error}</div>}
           </div>
-          <div>
-            <input
-              type="text"
-              id="new_pw_ck"
-              name="new_pw_ck"
-              placeholder="변경할 비밀번호 확인"
-              onChange={handleChange}
-            />
-            <p className="text-sm mt-2">
-              영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
-            </p>
-          </div>
-          {error && <div className="text-red-500">{error}</div>}
-        </div>
+        )}
         <button
           type="submit"
           className="mt-12 bg-[#2d2c2a] text-[#d6d2c8] rounded-sm text-xl w-full py-3"

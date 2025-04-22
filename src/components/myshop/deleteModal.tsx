@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { X } from "lucide-react";
 
 interface DeleteModalProps {
@@ -14,6 +14,9 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
   const [formData, setFormData] = useState({
     pw: "",
   });
+
+  const { data: session } = useSession();
+  const isOAuth = session?.user?.provider !== "credentials";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -67,17 +70,21 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
           <X size={30} />
         </button>
         <h2 className="text-xl font-bold mb-4">회원정보 탈퇴</h2>
-        <p className="mb-6 text-gray-600">
-          본인확인을 위해 비밀번호를 입력해주세요.
-        </p>
         <form className="mt-8 space-y-3" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            id="Pw"
-            name="pw"
-            placeholder="기존 비밀번호"
-            onChange={handleChange}
-          />
+          {!isOAuth && (
+            <>
+              <p className="mb-6 text-gray-600">
+                본인확인을 위해 비밀번호를 입력해주세요.
+              </p>
+              <input
+                type="text"
+                id="Pw"
+                name="pw"
+                placeholder="기존 비밀번호"
+                onChange={handleChange}
+              />
+            </>
+          )}
           <button
             type="submit"
             className="bg-[#2d2d2de3] text-[#ffffff] px-4 py-2 rounded hover:bg-gray-800 transition"

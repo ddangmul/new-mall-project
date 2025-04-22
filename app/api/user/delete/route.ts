@@ -25,12 +25,24 @@ export async function DELETE(req: Request): Promise<Response> {
     );
   }
 
-  const isPasswordCorrect = await bcrypt.compare(pw, user.password || "");
-  if (!isPasswordCorrect) {
-    return NextResponse.json(
-      { message: "비밀번호가 일치하지 않습니다." },
-      { status: 401 }
-    );
+  const isOAuth = user.provider !== "credentials";
+
+  if (!isOAuth) {
+    if (!pw || pw === "") {
+      return NextResponse.json(
+        { message: "비밀번호를 입력해주세요." },
+        { status: 400 }
+      );
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(pw, user.password || "");
+
+    if (!isPasswordCorrect) {
+      return NextResponse.json(
+        { message: "비밀번호가 일치하지 않습니다." },
+        { status: 401 }
+      );
+    }
   }
 
   try {

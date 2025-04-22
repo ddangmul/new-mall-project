@@ -196,13 +196,23 @@ export const authOptions = {
           console.error("카카오 로그인 처리 중 에러:", err);
         }
       }
-      
+
+      if (account?.provider === "credentials") {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email! },
+        });
+
+        if (existingUser && !existingUser.provider) {
+          await prisma.user.update({
+            where: { email: user.email! },
+            data: { provider: "credentials" },
+          });
+        }
+      }
+
       return true;
     },
     async jwt({ token, user, account }) {
-      console.log("JWT 콜백 시작");
-      console.log("user:", user);
-      console.log("token:", token);
       if (user?.email) {
         // 항상 이메일로 DB에서 유저 ID 조회
         const dbUser = await prisma.user.findUnique({
@@ -215,6 +225,7 @@ export const authOptions = {
           token.username = dbUser.username;
           token.birthdate = dbUser.birthdate;
           token.mobile = dbUser.mobile;
+          token.provider = dbUser.provider;
         }
       }
 
@@ -232,6 +243,7 @@ export const authOptions = {
         session.user.birthdate = token.birthdate;
         session.user.mobile = token.mobile;
         session.user.accessToken = token.accessToken;
+        session.user.provider = token.provider;
       }
       console.log("Final Session:", session);
       console.log("Token:", token);
