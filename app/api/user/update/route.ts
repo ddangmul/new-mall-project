@@ -38,17 +38,10 @@ export async function POST(req: Request) {
     // 새 비밀번호 암호화
     const hashedPassword = await bcrypt.hash(new_pw, 10);
 
-    let newData;
-
-    if (mobile !== "") {
-      newData = { email: useremail, password: hashedPassword, mobile };
-    }
-    newData = { email: useremail, password: hashedPassword };
-
     // 비밀번호 업데이트
     await prisma.user.update({
       where: { id: user.id },
-      data: newData,
+      data: { email: useremail, password: hashedPassword, mobile },
     });
 
     return Response.json({

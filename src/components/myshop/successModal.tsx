@@ -1,4 +1,19 @@
+"use client";
+
+import { useEffect } from "react";
+
 export default function SuccessModal({ onConfirm }: { onConfirm: () => void }) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        onConfirm();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onConfirm]);
+
   return (
     <div className="fixed inset-0 bg-[#2d2d2de3] z-50 flex justify-center items-center">
       <div className="bg-[#ffffff] p-6 rounded-md text-center max-w-sm w-[90%] shadow-lg">
