@@ -30,6 +30,7 @@ declare module "next-auth" {
       birthdate: string;
       mobile: string;
       addresses: Address[]; // 실제 타입으로 바꿔도 좋음
+      provider: string;
     } & DefaultSession["user"];
   }
 
@@ -40,6 +41,7 @@ declare module "next-auth" {
     birthdate?: string | null;
     mobile?: string | null;
     addresses?: string | null;
+    provider?: string;
   }
 }
 

@@ -1,8 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
-import NextAuth from "next-auth";
-// import { NewUser } from "../../types/next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 
@@ -25,6 +23,7 @@ export const authOptions = {
 
         let user = await prisma.user.findUnique({
           where: { email: credentials.email },
+          include: { addresses: true },
         });
 
         if (!user) {
@@ -46,6 +45,8 @@ export const authOptions = {
           email: user.email,
           birthdate: user.birthdate,
           mobile: user.mobile,
+          provider: user.provider, // 추가된 필드
+          addresses: user.addresses, // 추가된 필드
         };
       },
     }),
@@ -61,8 +62,8 @@ export const authOptions = {
         },
       },
       profile: (profile, tokens) => {
-        console.log("Google 기본 프로필:", profile);
-        console.log("Google accessToken:", tokens.access_token);
+        // console.log("Google 기본 프로필:", profile);
+        // console.log("Google accessToken:", tokens.access_token);
 
         // const res = await fetch(
         //   "https://people.googleapis.com/v1/people/me?personFields=birthdays,phoneNumbers",
@@ -80,14 +81,11 @@ export const authOptions = {
           id: profile.sub ?? profile.id,
           name: profile.name,
           email: profile.email,
-          // mobile: data.phoneNumbers?.[0]?.value ?? null,
-          // birthdate: data.birthdays?.[0]?.date
-          //   ? `${data.birthdays[0].date.year}-${data.birthdays[0].date.month
-          //       .toString()
-          //       .padStart(2, "0")}-${data.birthdays[0].date.day
-          //       .toString()
-          //       .padStart(2, "0")}`
-          //   : null,
+          mobile: null,
+          birthdate: null,
+          username: profile.name ?? "구글 사용자",
+          provider: "google",
+          addresses: [],
         };
       },
     }),

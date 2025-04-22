@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import { AuthOptions } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
 export async function DELETE(req: Request): Promise<Response> {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions as AuthOptions);
 
   if (!session?.user?.email) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
