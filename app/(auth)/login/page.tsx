@@ -14,6 +14,7 @@ export default function login() {
     password: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,6 +23,7 @@ export default function login() {
       [name]: value,
     }));
 
+    setLoading(false);
     if (error) {
       setError(null);
     }
@@ -29,7 +31,7 @@ export default function login() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     const res = await signIn("credentials", {
       email: formData.email,
       password: formData.password,
@@ -38,9 +40,10 @@ export default function login() {
 
     if (res?.error) {
       setError("이메일 또는 비밀번호가 잘못되었습니다.");
-      sessionStorage.setItem("isLoggedIn", "true");
     } else {
+      sessionStorage.setItem("isLoggedIn", "true");
       router.push("/myshop"); // 로그인 성공 후 이동할 페이지
+      setLoading(false);
     }
   };
 

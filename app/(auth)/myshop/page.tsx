@@ -11,7 +11,7 @@ import OneQnA from "@/components/myshop/one-qna";
 import Member from "@/components/myshop/member/member";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import { signOut } from "next-auth/react";
 

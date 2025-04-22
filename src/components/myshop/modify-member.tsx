@@ -7,18 +7,19 @@ import { signOut } from "next-auth/react";
 
 import "./modify.css";
 import Link from "next/link";
-import SuccessModal from "../successModal";
+import SuccessModal from "./successModal";
+import DeleteModal from "./deleteModal";
 
 export default function ModifyMember() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const { data: session } = useSession();
   const router = useRouter();
 
   const user = session?.user; // session에서 user 정보 가져오기
-  console.log(user);
 
   useEffect(() => {
     // 세션이 없으면 로그인 페이지로 리디렉션
@@ -231,10 +232,13 @@ export default function ModifyMember() {
         </button>
       </form>
       <div className="mt-6 bg-[#d6d2c8] rounded-sm text-xl w-full py-3 text-center">
-        <Link href="/">회원 탈퇴하기</Link>
+        <button onClick={() => setDeleteModal(true)}>회원 탈퇴하기</button>
       </div>
       {successModal && (
         <SuccessModal onConfirm={() => signOut({ callbackUrl: "/login" })} />
+      )}
+      {deleteModal && (
+        <DeleteModal onClose={() => setDeleteModal(false)}></DeleteModal>
       )}
     </section>
   );
