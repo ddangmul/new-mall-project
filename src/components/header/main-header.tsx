@@ -1,44 +1,46 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import hyangnangLogo from "@/assets/logo/HyangNang-Logo-White.png";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import logo_light from "@/assets/logo/HyangNang-Logo-White.png";
+import logo_dark from "@/assets/logo/HyangNang-Logo-Dark.png";
+import { useEffect, useState, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import SearchArea from "./search-area";
 
 const MainHeader: React.FC = () => {
-  // const [opacityHeaderBg, setOpacityHeaderBg] = useState(0); // 배경 불투명도 상태
-  // const [isClient, setIsClient] = useState(false);
+  const [scrollRatio, setScrollRatio] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
-  // useEffect(() => {
-  //   setIsClient(true); // 클라이언트에서만 실행되도록 설정
-  // }, []);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = Math.min(scrollTop / maxScroll, 1);
+      setScrollRatio(ratio);
+    };
 
-  //   const handleScroll = () => {
-  //     const scrollPosition = window.scrollY;
-  //     const maxScroll =
-  //       document.documentElement.scrollHeight - window.innerHeight;
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  //     const newOpacity = (scrollPosition / maxScroll) * 2;
+  const backgroundColor = useMemo(() => {
+    // #f2f0eb = rgb(242, 240, 235)
+    const r = 18 + (242 - 18) * scrollRatio;
+    const g = 17 + (240 - 17) * scrollRatio;
+    const b = 17 + (235 - 17) * scrollRatio;
+    return `rgb(${r}, ${g}, ${b})`;
+  }, [scrollRatio]);
 
-  //     const clampedOpacity = Math.min(Math.max(newOpacity, 0), 1);
-
-  //     setOpacityHeaderBg(clampedOpacity);
-  //   };
-
-  //   // 스크롤 이벤트 리스너 추가
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   // 컴포넌트 언마운트 시 이벤트 리스너 제거
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+  const textColor = useMemo(() => {
+    const val = 208 + (18 - 208) * scrollRatio;
+    return `rgb(${val}, ${val}, ${val})`;
+  }, [scrollRatio]);
 
   const { data: session, status } = useSession();
   const user = session?.user;
@@ -67,15 +69,15 @@ const MainHeader: React.FC = () => {
 
   return (
     <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
-      <div
-        className="header-inner bg-[#121111] py-6 px-6"
-        // style={{
-        //   backgroundColor: isClient
-        //     ? `rgba(18, 17, 17, ${opacityHeaderBg})`
-        //     : `rgb(255, 255, 255)`,
-        // }}
+      <motion.div
+        className="header-inner py-6 px-6"
+        animate={{
+          backgroundColor,
+          color: textColor,
+        }}
+        transition={{ duration: 0.3 }}
       >
-        <div className="flex justify-between items-center text-[#d0d0d0] font-serif">
+        <div className="flex justify-between items-center font-serif">
           <div className="basis-1/3 flex gap-4 xl:text-lg xl:gap-8">
             <span>
               <Link href="/">Home</Link>
@@ -88,13 +90,19 @@ const MainHeader: React.FC = () => {
             </span>
           </div>
           <Link href="/">
-            <Image
-              src={hyangnangLogo}
-              alt="hyangnang-logo"
-              style={{ width: "100%", height: "auto" }}
-              priority
-              className="min-w-20"
-            ></Image>
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={scrollRatio > 0.5 ? "light" : "dark"}
+                src={(scrollRatio > 0.5 ? logo_dark : logo_light).src}
+                alt="hyangnang-logo"
+                style={{ width: "100%", height: "auto" }}
+                className="min-w-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              ></motion.img>
+            </AnimatePresence>
           </Link>
           <div className="basis-1/3 flex justify-end xl:text-lg gap-4 xl:gap-8">
             {content}
@@ -104,7 +112,7 @@ const MainHeader: React.FC = () => {
             <SearchArea />
           </div>
         </div>
-      </div>
+      </motion.div>
     </header>
   );
 };
