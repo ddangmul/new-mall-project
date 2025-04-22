@@ -3,15 +3,16 @@ import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import { AuthOptions } from "next-auth";
 
 export async function POST(req: Request) {
   try {
     // 요청 본문에서 업데이트할 데이터 가져오기
-    const { useremail, new_pw, old_pw } = await req.json();
-    console.log("Received data:", { useremail, new_pw, old_pw });
+    const { useremail, new_pw, old_pw, mobile } = await req.json();
+    console.log("Received data:", { useremail, new_pw });
 
     // 현재 로그인한 사용자 정보 가져오기
-    const session = await getServerSession(authOptions); // 세션에서 사용자 정보 가져오기 (필요 시)
+    const session = await getServerSession(authOptions as AuthOptions); // 세션에서 사용자 정보 가져오기 (필요 시)
     if (!session?.user) return new Response("Unauthorized", { status: 401 });
 
     const user = await prisma.user.findUnique({
@@ -37,10 +38,17 @@ export async function POST(req: Request) {
     // 새 비밀번호 암호화
     const hashedPassword = await bcrypt.hash(new_pw, 10);
 
+    let newData;
+
+    if (mobile !== "") {
+      newData = { email: useremail, password: hashedPassword, mobile };
+    }
+    newData = { email: useremail, password: hashedPassword };
+
     // 비밀번호 업데이트
     await prisma.user.update({
       where: { id: user.id },
-      data: { email: useremail, password: hashedPassword },
+      data: newData,
     });
 
     return Response.json({

@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 import "./modify.css";
-import Link from "next/link";
 import SuccessModal from "./successModal";
 import DeleteModal from "./deleteModal";
 
@@ -30,11 +29,9 @@ export default function ModifyMember() {
   }, [session, router]);
 
   const [formData, setFormData] = useState({
-    // useremail: "",
-    mobile1: "",
-    mobile2: "",
-    mobile3: "",
-    // birthYear: "",
+    mobile1: user.mobile?.split("-")[0] || "",
+    mobile2: user.mobile?.split("-")[1] || "",
+    mobile3: user.mobile?.split("-")[2] || "",
     old_pw: "",
     new_pw: "",
     new_pw_ck: "",
@@ -68,21 +65,34 @@ export default function ModifyMember() {
       setLoading(false);
       return;
     }
+
+    const mobileRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+    const mobileNumber = `${formData.mobile1}-${formData.mobile2}-${formData.mobile3}`;
+
+    if (!mobileRegex.test(mobileNumber)) {
+      setError("전화번호는 010-1234-5678 형식이어야 합니다.");
+      setLoading(false);
+      return;
+    }
+
+    const formattedData = {
+      ...formData,
+      mobile: mobileNumber,
+    };
+
     try {
       const res = await fetch("/api/user/update", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formattedData),
       });
 
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || "회원정보 수정 실패");
 
-      // toast.info("회원정보 수정 성공!");
-      // await signOut({ callbackUrl: "/login" });
       setSuccessModal(true);
     } catch (err: any) {
       setError(err.message);
@@ -115,28 +125,22 @@ export default function ModifyMember() {
         <div className="phone flex justify-between gap-2 items-center">
           <input
             type="text"
-            name="mobile1"
             id="mobile1"
+            name="mobile1"
             className="basis-1/3"
-            value={
-              user.mobile === null
-                ? formData.mobile1
-                : user.mobile.split("-")[0]
-            }
+            value={formData.mobile1}
             onChange={handleChange}
-          ></input>
+            autoComplete="off"
+          />
           -
           <input
             type="text"
             id="mobile2"
             name="mobile2"
             className="basis-1/3"
-            value={
-              user.mobile === null
-                ? formData.mobile2
-                : user.mobile.split("-")[1]
-            }
+            value={formData.mobile2}
             onChange={handleChange}
+            autoComplete="off"
           />
           -
           <input
@@ -144,12 +148,9 @@ export default function ModifyMember() {
             id="mobile3"
             name="mobile3"
             className="basis-1/3"
-            value={
-              user.mobile === null
-                ? formData.mobile3
-                : user.mobile.split("-")[2]
-            }
+            value={formData.mobile3}
             onChange={handleChange}
+            autoComplete="off"
           />
         </div>
         <div className="birthdate flex justify-between gap-3">
@@ -162,6 +163,7 @@ export default function ModifyMember() {
                 user.birthdate === null ? "" : user.birthdate.split("-")[0]
               }
               onChange={handleChange}
+              autoComplete="off"
             />
             년
           </span>
@@ -174,6 +176,7 @@ export default function ModifyMember() {
                 user.birthdate === null ? "" : user.birthdate.split("-")[1]
               }
               onChange={handleChange}
+              autoComplete="off"
             />
             월
           </span>
@@ -186,6 +189,7 @@ export default function ModifyMember() {
                 user.birthdate === null ? "" : user.birthdate.split("-")[2]
               }
               onChange={handleChange}
+              autoComplete="off"
             />
             일
           </span>
@@ -194,7 +198,7 @@ export default function ModifyMember() {
           <div className="mt-8 space-y-3">
             <h2 className="text-xl mb-6">비밀번호 변경</h2>
             <input
-              type="text"
+              type="password"
               id="oldPw"
               name="old_pw"
               placeholder="기존 비밀번호"
@@ -202,7 +206,7 @@ export default function ModifyMember() {
             />
             <div>
               <input
-                type="text"
+                type="password"
                 id="newPw"
                 name="new_pw"
                 placeholder="변경할 비밀번호"
@@ -214,7 +218,7 @@ export default function ModifyMember() {
             </div>
             <div>
               <input
-                type="text"
+                type="password"
                 id="new_pw_ck"
                 name="new_pw_ck"
                 placeholder="변경할 비밀번호 확인"

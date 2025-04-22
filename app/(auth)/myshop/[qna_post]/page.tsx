@@ -49,7 +49,12 @@ export default function QnAPost() {
           <div className="p-2 text-[#7e7d7b]">
             작성자 : {session.user.username}
           </div>
-          <input type="text" placeholder="제목을 입력하세요" className="p-2" />
+          <input
+            type="text"
+            placeholder="제목을 입력하세요"
+            className="p-2"
+            autoComplete="off"
+          />
         </div>
         <div className="flex justify-start gap-2 mb-3 border p-2 bg-[#565451] text-white">
           <button

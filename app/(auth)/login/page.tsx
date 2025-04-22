@@ -72,7 +72,7 @@ export default function login() {
                 required
                 placeholder="Email"
                 className="text-xl bg-[#ffffff]"
-                autoComplete="email"
+                autoComplete="off"
                 value={formData.email}
                 onChange={handleChange}
               />

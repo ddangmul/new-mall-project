@@ -77,7 +77,7 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
                 본인확인을 위해 비밀번호를 입력해주세요.
               </p>
               <input
-                type="text"
+                type="password"
                 id="Pw"
                 name="pw"
                 placeholder="기존 비밀번호"

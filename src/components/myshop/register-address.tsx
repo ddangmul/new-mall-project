@@ -90,6 +90,7 @@ export default function RegisterAddress() {
               required
               value={formData.addressname}
               onChange={handleChange}
+              autoComplete="off"
             />
           </div>
           <div className="space-y-3">
@@ -101,6 +102,7 @@ export default function RegisterAddress() {
                 required
                 value={formData.postcode}
                 onChange={handleChange}
+                autoComplete="off"
               />
               <button className="w-[6rem]">우편번호</button>
             </span>
@@ -111,6 +113,7 @@ export default function RegisterAddress() {
               required
               value={formData.address}
               onChange={handleChange}
+              autoComplete="off"
             />
 
             <input
@@ -119,6 +122,7 @@ export default function RegisterAddress() {
               placeholder="나머지주소 (선택)"
               value={formData.detailAddress}
               onChange={handleChange}
+              autoComplete="off"
             />
           </div>
           <div className="mobile flex justify-between gap-2 items-center">
@@ -149,6 +153,7 @@ export default function RegisterAddress() {
               required
               value={formData.addressMobile2}
               onChange={handleChange}
+              autoComplete="off"
             />
             -
             <input
@@ -159,6 +164,7 @@ export default function RegisterAddress() {
               required
               value={formData.addressMobile3}
               onChange={handleChange}
+              autoComplete="off"
             />
           </div>
           <div className="flex items-center gap-2 w-full">
@@ -173,6 +179,7 @@ export default function RegisterAddress() {
                   isDefault: e.target.checked,
                 }))
               }
+              autoComplete="off"
             />
             <label>기본 배송지로 저장</label>
           </div>

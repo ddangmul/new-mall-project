@@ -116,7 +116,7 @@ export default function Signup() {
                 className="text-xl bg-[#ffffff]"
                 value={formData.email}
                 onChange={handleChange}
-                autoComplete="email"
+                autoComplete="off"
               />
             </div>
             <div>
@@ -134,7 +134,7 @@ export default function Signup() {
                 required
                 value={formData.username}
                 onChange={handleChange}
-                autoComplete="name"
+                autoComplete="off"
               />
             </div>
             <div>
@@ -195,6 +195,7 @@ export default function Signup() {
                 required
                 value={formData.mobile2}
                 onChange={handleChange}
+                autoComplete="off"
               />
               -
               <input
@@ -205,6 +206,7 @@ export default function Signup() {
                 required
                 value={formData.mobile3}
                 onChange={handleChange}
+                autoComplete="off"
               />
             </div>
             {/* <div className="address space-y-4">
