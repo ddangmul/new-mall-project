@@ -16,10 +16,10 @@ const Footer: React.FC = () => {
           <p className="underline">Brand</p>
           <ul>
             <li>
-              <a href="/">Privacy Policy</a>
+              <a href="/privacy">Privacy Policy</a>
             </li>
             <li>
-              <a href="">Terms of Use</a>
+              <a href="/useterm">Terms of Use</a>
             </li>
             <li>
               <a href="">Order Tracking</a>
