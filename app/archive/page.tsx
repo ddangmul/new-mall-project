@@ -1,17 +1,47 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { PrismaClient } from "@prisma/client";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
-const prisma = new PrismaClient();
+export default function Archive() {
+  const [archives, setArchives] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function Archive() {
-  const archives = await prisma.archive.findMany();
+  useEffect(() => {
+    const fetchArchives = async () => {
+      try {
+        const res = await fetch("/api/archive");
+        const data = await res.json();
+        setArchives(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("아카이브 데이터를 불러오는 데 실패했습니다.", error);
+      }
+    };
+
+    fetchArchives();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <main className="mt-20 mx-14">
       <h1 className="text-4xl font-serif mb-10">Archive</h1>
       <ul className="w-full flex flex-col items-center space-y-8">
-        {archives.map((archive) => (
-          <li key={archive.id} className="w-full flex flex-col ">
+        {archives.map((archive, index) => (
+          <motion.li
+            key={archive.id}
+            className="w-full flex flex-col"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.15,
+              ease: "easeOut",
+            }}
+          >
             <Link href={`/archive/${archive.slug}`}>
               <div className="w-full h-[400px] relative">
                 <Image
@@ -23,14 +53,14 @@ export default async function Archive() {
                 />
               </div>
               <div className="flex justify-between px-4 py-8">
-                <span className="text-xl font-serif">{archive.category}</span>
+                <span className="text-xl font-serif text-[#868686]">{archive.category}</span>
                 <div className="flex flex-col text-right">
                   <span className="text-2xl font-serif">{archive.title}</span>
-                  <span>{archive.description}</span>
+                  <span className="text-[#868686]">{archive.description}</span>
                 </div>
               </div>
             </Link>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </main>
