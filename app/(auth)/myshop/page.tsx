@@ -15,7 +15,7 @@ import { useEffect } from "react";
 
 import { signOut } from "next-auth/react";
 
-export default function myshop() {
+export default function Myshop() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const router = useRouter();

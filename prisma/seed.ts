@@ -1,11 +1,13 @@
 import { PrismaClient } from "@prisma/client";
+import slugify from "slugify";
 
-const itemsPrisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 async function main() {
-  await itemsPrisma.item.deleteMany();
+  await prisma.archive.deleteMany();
+  await prisma.item.deleteMany();
 
-  await itemsPrisma.item.createMany({
+  await prisma.item.createMany({
     data: [
       {
         title: "Corn Incense",
@@ -98,6 +100,45 @@ async function main() {
     ],
   });
 
+  const archives = [
+    {
+      title: "2025 New Year Edition",
+      category: "Edition",
+      description: "모든 걸 비우고 새로 시작하는 정화의 향",
+      image: "",
+    },
+    {
+      title: "Skin Reverie Hand Cream",
+      category: "Collaboration",
+      description: "LUMIERÉ PARCEL x YUME",
+      image: "",
+    },
+    {
+      title: "Cedar Wood",
+      category: "Edition",
+      description: "정적인 평화로움",
+      image: "",
+    },
+    {
+      title: "Smoky Wood",
+      category: "Edition",
+      description: "숲과 불의 잔상",
+      image: "",
+    },
+  ];
+
+  for (const archive of archives) {
+    await prisma.archive.create({
+      data: {
+        title: archive.title,
+        slug: slugify(archive.title, { lower: true }),
+        category: archive.category,
+        description: archive.description,
+        image: archive.image,
+      },
+    });
+  }
+
   console.log("초기 데이터 삽입 완료!");
 }
 
@@ -107,5 +148,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await itemsPrisma.$disconnect();
+    await prisma.$disconnect();
   });

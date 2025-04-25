@@ -43,3 +43,12 @@ model Address {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model archive {
+  id          Int           @id @default(autoincrement())
+  title       String         @unique
+  category    String
+  slug        String         @unique
+  description String
+  image       String
+}

@@ -6,7 +6,7 @@ import CartItem from "@/components/cart/cart-item";
 import { formatterPrice } from "@/utils/formatter";
 import CheckoutButton from "@/components/payment/checkout-btn";
 
-export default function cart() {
+export default function Cart() {
   const { cartItems, deleteCartHandler, totalPrice } = useCart();
 
   const [checkedItems, setCheckedItems] = useState<string[]>([]);

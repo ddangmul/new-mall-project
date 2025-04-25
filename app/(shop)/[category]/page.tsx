@@ -17,7 +17,6 @@ export default async function CategoryPage({
 
   let items: Item[];
 
-  // 분기처리 필요
   if (category === "All") {
     items = await getAllItems();
   } else if (category === "Best") {

@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import "./login.css";
 
-export default function login() {
+export default function Login() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
