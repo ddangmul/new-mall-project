@@ -11,7 +11,7 @@ export default async function Archive() {
       <ul>
         {archives.map((archive) => (
           <div key={archive.id}>
-            <Link href={`/archive/${archive.title}`}>{archive.title}</Link>
+            <Link href={`/archive/${archive.slug}`}>{archive.title}</Link>
           </div>
         ))}
       </ul>
