@@ -105,25 +105,19 @@ async function main() {
       title: "2025 New Year Edition",
       category: "Edition",
       description: "모든 걸 비우고 새로 시작하는 정화의 향",
-      image: "",
+      image: "/archive/archive1.jpg",
     },
     {
-      title: "Skin Reverie Hand Cream",
+      title: "Hinoki Hand Cream",
       category: "Collaboration",
       description: "LUMIERÉ PARCEL x YUME",
-      image: "",
+      image: "/archive/archive2.jpg",
     },
     {
       title: "Cedar Wood",
       category: "Edition",
       description: "정적인 평화로움",
-      image: "",
-    },
-    {
-      title: "Smoky Wood",
-      category: "Edition",
-      description: "숲과 불의 잔상",
-      image: "",
+      image: "/archive/archive3.jpg",
     },
   ];
 
