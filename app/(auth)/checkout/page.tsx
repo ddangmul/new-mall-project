@@ -7,6 +7,7 @@ import { useCart } from "@/store/cart-context";
 import CheckoutButton from "@/components/payment/checkout-btn"; // 너가 만든 버튼 import
 import { toast } from "react-toastify";
 import LoadingIndicator from "@/components/loading-indicator";
+import { useSearchParams } from "next/navigation";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -19,7 +20,20 @@ export default function CheckoutPage() {
     }
   }, [status, session?.user, router]);
 
-  const { cartItems, totalPrice } = useCart();
+  const { cartItems } = useCart();
+  const searchParams = useSearchParams();
+
+  const idsParam = searchParams.get("ids");
+  const selectedIds = idsParam ? idsParam.split(",") : [];
+
+  const productsToBuy = idsParam
+    ? cartItems.filter((item) => selectedIds.includes(String(item.id)))
+    : cartItems;
+
+  const calculatedTotalPrice = productsToBuy.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   const [form, setForm] = useState({
     name: "",
@@ -82,12 +96,12 @@ export default function CheckoutPage() {
         </select>
 
         <div className="text-right text-lg font-bold mb-4">
-          총 결제 금액: {totalPrice.toLocaleString()}원
+          총 결제 금액: {calculatedTotalPrice.toLocaleString()}원
         </div>
 
         <CheckoutButton
           form={form}
-          cartItems={cartItems.map((item) => ({
+          cartItems={productsToBuy.map((item) => ({
             itemId: item.id,
             quantity: item.quantity,
           }))}

@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 import { useCart } from "@/store/cart-context";
 import CartItem from "@/components/cart/cart-item";
 import { formatterPrice } from "@/utils/formatter";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Cart() {
+  const BTN_CSS = "bg-[#494643] text-[#f3f3f2] py-2 rounded-sm px-3";
+  const router = useRouter();
+
   const { cartItems, deleteCartHandler, totalPrice } = useCart();
 
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -20,6 +23,33 @@ export default function Cart() {
     setCheckedItems((prev) =>
       checked ? [...prev, id] : prev.filter((itemId) => itemId !== id)
     );
+  };
+
+  // 선택 구매
+  const handleBuySelected = () => {
+    const selectedItems = cartItems.filter((item) =>
+      checkedItems.includes(String(item.id))
+    );
+
+    if (selectedItems.length === 0) {
+      alert("선택된 상품이 없습니다.");
+      return;
+    }
+
+    console.log("선택 구매할 항목들:", selectedItems);
+    const selectedIds = checkedItems.join(",");
+    router.push(`/checkout?ids=${selectedIds}`);
+  };
+
+  // 전체 구매
+  const handleBuyAll = () => {
+    if (cartItems.length === 0) {
+      alert("장바구니가 비어있습니다.");
+      return;
+    }
+
+    console.log("전체 구매할 항목들:", cartItems);
+    router.push(`/checkout?ids=all`);
   };
 
   // 선택된 아이템만 삭제
@@ -103,15 +133,13 @@ export default function Cart() {
         </div>
       </div>
 
-      <div className="mt-10 w-full flex justify-end">
-        <div className="checkout_btn flex justify-end w-50">
-          <Link
-            href="/checkout"
-            className="bg-[#524f4c] shadow-lg text-[#f8f7f5] basis-1/2 py-2 rounded-xs text-center"
-          >
-            전체 구매
-          </Link>
-        </div>
+      <div className="w-full mt-10 checkout_btn flex justify-end space-x-5">
+        <button onClick={handleBuySelected} className={BTN_CSS}>
+          선택한 상품 구매
+        </button>
+        <button onClick={handleBuyAll} className={BTN_CSS}>
+          전체 상품 구매
+        </button>
       </div>
     </section>
   );
