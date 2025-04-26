@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/store/cart-context";
 import CartItem from "@/components/cart/cart-item";
 import { formatterPrice } from "@/utils/formatter";
-import CheckoutButton from "@/components/payment/checkout-btn";
 import Link from "next/link";
 
 export default function Cart() {
   const { cartItems, deleteCartHandler, totalPrice } = useCart();
 
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
+
+  useEffect(() => {
+    console.log("현재 체크된 항목들:", checkedItems);
+  }, [checkedItems]);
 
   // 체크 상태 변경 핸들러
   const handleCheck = (id: string, checked: boolean) => {
@@ -21,8 +24,14 @@ export default function Cart() {
 
   // 선택된 아이템만 삭제
   const handleRemoveSelected = () => {
-    checkedItems.forEach((id) => deleteCartHandler({ id } as any)); // 아이템 삭제
-    setCheckedItems([]); // 체크 리스트 초기화
+    console.log("선택된 항목:", checkedItems);
+    const itemsToDelete = cartItems.filter((item) =>
+      checkedItems.includes(String(item.id))
+    );
+    deleteCartHandler(itemsToDelete);
+    setCheckedItems([]);
+
+    console.log("삭제 후 선택된 항목:", checkedItems);
   };
 
   // console.log(cartItems);
@@ -100,7 +109,7 @@ export default function Cart() {
             href="/checkout"
             className="bg-[#524f4c] shadow-lg text-[#f8f7f5] basis-1/2 py-2 rounded-xs text-center"
           >
-            Buy
+            전체 구매
           </Link>
         </div>
       </div>

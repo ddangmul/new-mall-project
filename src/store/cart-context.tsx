@@ -8,7 +8,7 @@ import { createContext, useContext, useState, useEffect, useMemo } from "react";
 interface CartContextType {
   cartItems: ItemWithQuantity[];
   addCartHandler: (item: Item, quantity: number) => void;
-  deleteCartHandler: (item: Item) => void;
+  deleteCartHandler: (items: Item[] | Item) => void;
   updateItemQuantity: (id: string, quantity: number) => void;
   totalPrice: number;
   isModalOpen: boolean;
@@ -80,8 +80,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }, [cartItems]);
 
-  const deleteCartHandler = (item: Item) => {
-    setCartItems((prev) => prev.filter((cartItem) => cartItem.id !== item.id));
+  const deleteCartHandler = (items: Item[] | Item) => {
+    setCartItems((prev) => {
+      const idsToDelete = Array.isArray(items)
+        ? items.map((item) => item.id)
+        : [items.id];
+      return prev.filter((cartItem) => !idsToDelete.includes(cartItem.id));
+    });
   };
 
   const updateItemQuantity = (id: string, quantity: number) => {

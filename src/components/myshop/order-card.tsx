@@ -28,7 +28,7 @@ export default function OrderCard({ order }) {
         <p className="text-sm text-gray-500">주문상태: {order.status}</p>
       </div>
 
-      <div className="ml-auto">
+      <div className="ml-auto m">
         <Link href={`/order/${order.id}`} className="text-sm">
           상세 보기
         </Link>

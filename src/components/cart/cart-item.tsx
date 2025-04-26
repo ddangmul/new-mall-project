@@ -51,7 +51,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onCheck, isChecked }) => {
           </div>
           <div className="item-txt space-y-3 xl:space-y-6 flex flex-col justify-center">
             <div className="item-title font-serif xl:text-xl">
-              <Link href={`/product/${category}/${id}/`}>{title}</Link>
+              <Link href={`/${category}/${id}/`}>{title}</Link>
             </div>
             <p className="item-price">{formatterPrice(price)}</p>
           </div>
