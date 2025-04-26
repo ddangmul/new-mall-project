@@ -45,7 +45,7 @@ export default function Myshop() {
     });
   }, [pathname, searchParams]);
   if (status === "loading" || status === "unauthenticated") {
-    return <LoadingIndicator />; // 로그인 안 된 경우 아무것도 렌더링하지 않음
+    return <LoadingIndicator />;
   }
 
   const user = session?.user;

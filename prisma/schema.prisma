@@ -18,6 +18,7 @@ model User {
   createdAt DateTime @default(now())
 
   addresses Address[]
+  orders    Order[]
 }
 
 model Item {
@@ -43,6 +44,8 @@ model Order {
   paidAt        DateTime?  
   orderItems    OrderItem[]  
   orderId       String?       @unique  @default(uuid())
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id])
 }
 
 model OrderItem {
