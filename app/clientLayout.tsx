@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
 import SessionHandler from "@/components/session-handler";
 import { AddressProvider } from "@/store/address-context";
@@ -15,9 +14,6 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    console.log("클라이언트에서 실행됨!");
-  }, []);
 
   return (
     <>

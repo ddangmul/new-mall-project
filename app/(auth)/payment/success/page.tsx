@@ -1,20 +1,22 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import PaymentResult from "@/components/payment/payment-result";
 
 const PaymentSuccess = () => {
   const searchParams = useSearchParams();
-  const [message, setMessage] = useState("");
-  const router = useRouter();
+  const [status, setStatus] = useState<"loading" | "success" | "fail">(
+    "loading"
+  );
+
   useEffect(() => {
     const paymentKey = searchParams.get("paymentKey");
     const orderId = searchParams.get("orderId");
     const amount = searchParams.get("amount");
 
     if (!paymentKey || !orderId || !amount) {
-      setMessage("필수 결제 정보가 없습니다.");
+      setStatus("fail");
       return;
     }
 
@@ -24,42 +26,29 @@ const PaymentSuccess = () => {
       );
 
       if (res.ok) {
-        setMessage("결제가 정상적으로 완료되었습니다.");
+        setStatus("success");
       } else {
-        setMessage("결제 승인에 실패했습니다.");
+        setStatus("fail");
       }
     };
 
     confirmPayment();
   }, [searchParams]);
 
+  if (status === "loading") {
+    return <p className="text-center mt-10">결제 확인 중...</p>;
+  }
+
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
-      <div className="bg-white rounded-lg shadow-xl p-10 max-w-md w-full">
-        {!message ? (
-          <p className="text-lg">결제 확인 중...</p>
-        ) : (
-          <>
-            <h1 className="text-2xl font-bold mb-4">{message}</h1>
-            <p className="mb-8">구매해 주셔서 감사합니다.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="http://localhost:3000/myshop?mode=order"
-                className="bg-[#313030] text-[#f2f0eb] px-6 py-2 rounded-lg hover:bg-[#363532] transition"
-              >
-                주문내역 확인
-              </Link>
-              <button
-                onClick={() => router.push("/")}
-                className="bg-[#d6d2c8] px-6 py-2 rounded-lg hover:bg-[#c4c0b6]"
-              >
-                쇼핑 계속하기
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </section>
+    <PaymentResult
+      title={status === "success" ? "결제가 완료되었습니다." : "결제 승인 실패"}
+      description={
+        status === "success"
+          ? "구매해 주셔서 감사합니다."
+          : "문제가 발생했습니다. 다시 시도해 주세요."
+      }
+      isSuccess={status === "success"}
+    />
   );
 };
 
