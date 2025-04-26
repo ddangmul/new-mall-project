@@ -19,21 +19,10 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     if (!paymentKey || !orderId || !amount) {
-      return; // 아직 준비 안 됐으면 아무것도 안 함
+      setStatus("fail");
+    } else {
+      setStatus("success");
     }
-    const confirmPayment = async () => {
-      const res = await fetch(
-        `/api/payment/success?paymentKey=${paymentKey}&orderId=${orderId}&amount=${amount}`
-      );
-
-      if (res.ok) {
-        setStatus("success");
-      } else {
-        setStatus("fail");
-      }
-    };
-
-    confirmPayment();
   }, [paymentKey, orderId, amount]);
 
   if (status === "loading") {

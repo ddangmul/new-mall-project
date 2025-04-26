@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -41,7 +42,18 @@ export async function GET(req: NextRequest) {
 
   console.log("[결제 성공]", data);
 
-  // 결제 성공 후 성공 페이지로 리다이렉트
+  try {
+    await prisma.order.update({
+      where: { orderId: orderId },
+      data: {
+        status: "paid",
+        paidAt: new Date(),
+      },
+    });
+  } catch (err) {
+    console.error("주문 업데이트 실패", err);
+  }
+
   return NextResponse.redirect(
     `${process.env.NEXTAUTH_URL}/payment/success?paymentKey=${paymentKey}&orderId=${orderId}&amount=${amount}`
   );
