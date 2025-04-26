@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import PaymentResult from "@/components/payment/payment-result";
 
 const PaymentSuccess = () => {
@@ -10,16 +10,17 @@ const PaymentSuccess = () => {
     "loading"
   );
 
+  const paymentKey = useMemo(
+    () => searchParams.get("paymentKey"),
+    [searchParams]
+  );
+  const orderId = useMemo(() => searchParams.get("orderId"), [searchParams]);
+  const amount = useMemo(() => searchParams.get("amount"), [searchParams]);
+
   useEffect(() => {
-    const paymentKey = searchParams.get("paymentKey");
-    const orderId = searchParams.get("orderId");
-    const amount = searchParams.get("amount");
-
     if (!paymentKey || !orderId || !amount) {
-      setStatus("fail");
-      return;
+      return; // 아직 준비 안 됐으면 아무것도 안 함
     }
-
     const confirmPayment = async () => {
       const res = await fetch(
         `/api/payment/success?paymentKey=${paymentKey}&orderId=${orderId}&amount=${amount}`
@@ -33,7 +34,7 @@ const PaymentSuccess = () => {
     };
 
     confirmPayment();
-  }, [searchParams]);
+  }, [paymentKey, orderId, amount]);
 
   if (status === "loading") {
     return <p className="text-center mt-10">결제 확인 중...</p>;

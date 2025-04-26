@@ -7,7 +7,10 @@ export async function GET(req: NextRequest) {
   const amount = searchParams.get("amount");
 
   if (!paymentKey || !orderId || !amount) {
-    return NextResponse.json({ error: "Missing parameters" }, { status: 400 });
+    return NextResponse.json(
+      { error: "필수 파라미터가 없습니다." },
+      { status: 400 }
+    );
   }
 
   const secretKey = process.env.TOSS_SECRET_KEY!;
@@ -38,5 +41,8 @@ export async function GET(req: NextRequest) {
 
   console.log("[결제 성공]", data);
 
-  return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/payment/success`);
+  // 결제 성공 후 성공 페이지로 리다이렉트
+  return NextResponse.redirect(
+    `${process.env.NEXTAUTH_URL}/payment/success?paymentKey=${paymentKey}&orderId=${orderId}&amount=${amount}`
+  );
 }

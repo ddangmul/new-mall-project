@@ -5,6 +5,7 @@ import { useCart } from "@/store/cart-context";
 import CartItem from "@/components/cart/cart-item";
 import { formatterPrice } from "@/utils/formatter";
 import CheckoutButton from "@/components/payment/checkout-btn";
+import Link from "next/link";
 
 export default function Cart() {
   const { cartItems, deleteCartHandler, totalPrice } = useCart();
@@ -95,7 +96,12 @@ export default function Cart() {
 
       <div className="mt-10 w-full flex justify-end">
         <div className="checkout_btn flex justify-end w-50">
-          <CheckoutButton />
+          <Link
+            href="/checkout"
+            className="bg-[#524f4c] shadow-lg text-[#f8f7f5] basis-1/2 py-2 rounded-xs text-center"
+          >
+            Buy
+          </Link>
         </div>
       </div>
     </section>
