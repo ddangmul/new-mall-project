@@ -9,9 +9,14 @@ const PaymentSuccess = () => {
   const [message, setMessage] = useState("");
   const router = useRouter();
   useEffect(() => {
-    const paymentKey = searchParams.get("paymentKey")!;
-    const orderId = searchParams.get("orderId")!;
-    const amount = searchParams.get("amount")!;
+    const paymentKey = searchParams.get("paymentKey");
+    const orderId = searchParams.get("orderId");
+    const amount = searchParams.get("amount");
+
+    if (!paymentKey || !orderId || !amount) {
+      setMessage("필수 결제 정보가 없습니다.");
+      return;
+    }
 
     const confirmPayment = async () => {
       const res = await fetch(
@@ -45,7 +50,7 @@ const PaymentSuccess = () => {
                 주문내역 확인
               </Link>
               <button
-                onClick={() => router.back()}
+                onClick={() => router.push("/")}
                 className="bg-[#d6d2c8] px-6 py-2 rounded-lg hover:bg-[#c4c0b6]"
               >
                 쇼핑 계속하기
