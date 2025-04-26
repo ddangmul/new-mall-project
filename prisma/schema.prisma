@@ -29,7 +29,34 @@ model Item {
   price       Int
   sales       Int      @default(0)
   createdAt   DateTime @default(now())
+  orderItems  OrderItem[] 
 }
+
+model Order {
+  id            Int          @id @default(autoincrement())
+  name          String
+  address       String
+  phone         String
+  paymentMethod String
+  status        String
+  createdAt     DateTime     @default(now())
+  paidAt        DateTime?  
+  orderItems    OrderItem[]  
+  orderId       String?       @unique  @default(uuid())
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   Int
+  item      Item    @relation(fields: [itemId], references: [id])
+  itemId    Int
+  quantity  Int     @default(1)
+
+  @@unique([orderId, itemId])
+}
+
+
 
 model Address {
   id            Int      @id @default(autoincrement())

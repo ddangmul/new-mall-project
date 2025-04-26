@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import LoadingIndicator from "@/components/loading-indicator";
 
 export default function Archive() {
   const [archives, setArchives] = useState([]);
@@ -24,7 +25,7 @@ export default function Archive() {
     fetchArchives();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingIndicator />;
 
   return (
     <main className="mt-20">

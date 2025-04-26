@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
 import { signOut } from "next-auth/react";
+import LoadingIndicator from "@/components/loading-indicator";
 
 export default function Myshop() {
   const { data: session, status } = useSession();
@@ -44,7 +45,7 @@ export default function Myshop() {
     });
   }, [pathname, searchParams]);
   if (status === "loading" || status === "unauthenticated") {
-    return <p>Loading...</p>; // 로그인 안 된 경우 아무것도 렌더링하지 않음
+    return <LoadingIndicator />; // 로그인 안 된 경우 아무것도 렌더링하지 않음
   }
 
   const user = session?.user;

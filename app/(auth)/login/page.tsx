@@ -99,20 +99,20 @@ export default function Login() {
               type="submit"
               className="login_btn text-2xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
             >
-              Log In
+              {loading ? "loading..." : "LogIn"}
             </button>
           </form>
           <button
             onClick={() => signIn("google")}
             className="login_btn text-2xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
           >
-            Google LogIn
+            {loading ? "loading..." : "Google LogIn"}
           </button>
           <button
             onClick={() => signIn("kakao")}
             className="login_btn text-2xl w-full py-3 my-2 font-serif bg-[#313030] text-[#f2f0eb]"
           >
-            Kakao LogIn
+            {loading ? "loading..." : "Kakao LogIn"}
           </button>
           <div className="mt-20 py-4 border-t-1 border-t-[#9e9e9e]">
             <p className="text-3xl font-serif my-2">Sign Up</p>

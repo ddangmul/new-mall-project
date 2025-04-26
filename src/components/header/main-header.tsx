@@ -70,7 +70,7 @@ const MainHeader: React.FC = () => {
   return (
     <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
       <motion.div
-        className="header-inner py-6 px-6"
+        className="header-inner py-5 px-4"
         animate={{
           backgroundColor,
           color: textColor,
@@ -78,7 +78,7 @@ const MainHeader: React.FC = () => {
         transition={{ duration: 0.3 }}
       >
         <div className="flex justify-between items-center font-serif">
-          <div className="basis-1/3 flex gap-4 xl:text-lg xl:gap-8">
+          <div className="basis-1/3 flex gap-4 text-sm md:text-lg xl:text-lg xl:gap-8 ">
             <span>
               <Link href="/">Home</Link>
             </span>
@@ -95,8 +95,7 @@ const MainHeader: React.FC = () => {
                 key={scrollRatio > 0.5 ? "light" : "dark"}
                 src={(scrollRatio > 0.5 ? logo_dark : logo_light).src}
                 alt="hyangnang-logo"
-                style={{ width: "100%", height: "auto" }}
-                className="min-w-20"
+                className="w-16 sm:w-20 md:w-24 lg:w-28 xl:w-32 2xl:w-36 h-auto min-w-[80px] transition-all duration-300"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}

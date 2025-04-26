@@ -15,9 +15,14 @@ export default async function ArchiveDetailPage({ params }: Props) {
   if (!archive) notFound();
 
   return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold">{archive.title}</h1>
-      <p>아래는 해당 archive 게시글 이미지 공간입니다.</p>
+    <main className="p-10 px-10 mt-10">
+      <h1 className="text-3xl font-bold mb-6">{archive.title}</h1>
+      <section className="mb-6">
+        <h2 className="text-xl font-semibold mb-10">{archive.description}</h2>
+        <p className="h-[100rem] bg-amber-50 p-10">
+          해당 아카이브에 관한 상세 내용 이미지 요소.
+        </p>
+      </section>
     </main>
   );
 }
