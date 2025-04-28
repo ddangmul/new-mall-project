@@ -20,7 +20,7 @@
         "name": "next"
       }
     ],
-    "types": ["next-auth"],
+    "types": ["next-auth", "jest", "node"],
     "paths": {
       "@/*": ["./src/*"]
     }
