@@ -1,10 +1,25 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+import { NextAuthOptions } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
+import { TokenSet } from "next-auth";
 
-export const authOptions = {
+// Kakao 프로필 타입 정의
+interface KakaoAccount {
+  email: string | null;
+  profile: {
+    nickname: string;
+  };
+}
+
+interface KakaoProfile {
+  id: number; // 카카오는 number 타입을 반환하므로 number로 설정
+  kakao_account: KakaoAccount;
+}
+
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -21,7 +36,7 @@ export const authOptions = {
           throw new Error("이메일과 비밀번호를 입력해주세요.");
         }
 
-        let user = await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
           where: { email: credentials.email },
           include: { addresses: true },
         });
@@ -45,38 +60,23 @@ export const authOptions = {
           email: user.email,
           birthdate: user.birthdate,
           mobile: user.mobile,
-          provider: user.provider, // 추가된 필드
-          addresses: user.addresses, // 추가된 필드
+          provider: user.provider,
+          addresses: user.addresses,
         };
       },
     }),
-    // 구글 로그인 제공자
+
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
-          prompt: "select_account", // 매번 계정 선택하게 함
+          prompt: "select_account",
           scope:
             "openid email profile https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.phonenumbers.read",
         },
       },
-      profile: (profile, tokens) => {
-        // console.log("Google 기본 프로필:", profile);
-        // console.log("Google accessToken:", tokens.access_token);
-
-        // const res = await fetch(
-        //   "https://people.googleapis.com/v1/people/me?personFields=birthdays,phoneNumbers",
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${tokens.access_token}`,
-        //     },
-        //   }
-        // );
-
-        // const data = await res.json();
-        // console.log("Google People API 응답", JSON.stringify(data, null, 2));
-
+      profile: (profile) => {
         return {
           id: profile.sub ?? profile.id,
           name: profile.name,
@@ -89,11 +89,39 @@ export const authOptions = {
         };
       },
     }),
+
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!,
-      clientSecret: process.env.KAKAO_CLIENT_SECRET || "", // 카카오는 clientSecret 없어도 작동하지만 명시 가능
+      clientSecret: process.env.KAKAO_CLIENT_SECRET || "",
+      profile: (profile: KakaoProfile, tokens: TokenSet) => {
+        // TokenSet 사용
+        // Kakao 프로필에서 직접 이메일과 닉네임을 가져옴
+        const kakaoAccount = profile.kakao_account;
+
+        if (!kakaoAccount) {
+          throw new Error("카카오 계정 정보가 없습니다.");
+        }
+
+        const kakaoProfile = kakaoAccount.profile;
+
+        const email = kakaoAccount.email || "이메일 없음"; // 이메일이 없을 경우 기본값 설정
+        const username = kakaoProfile.nickname || "카카오사용자"; // 닉네임이 없을 경우 기본값 설정
+
+        // id를 string으로 변환하여 반환
+        return {
+          id: String(profile.id), // `profile.id`를 string으로 변환
+          name: kakaoProfile?.nickname || "카카오사용자",
+          email: email,
+          mobile: null,
+          birthdate: null,
+          username: username,
+          provider: "kakao",
+          addresses: [],
+        };
+      },
     }),
   ],
+
   callbacks: {
     signIn: async ({ user, account, profile }) => {
       if (account?.provider === "google" && account.access_token) {
@@ -133,12 +161,10 @@ export const authOptions = {
               },
             });
 
-            // 생성 후 다시 조회해서 user.id 얻기
             existingUser = await prisma.user.findUnique({
               where: { email: user.email! },
             });
 
-            // user 객체에 prisma의 id 설정
             if (existingUser) {
               user.id = existingUser.id;
               user.username = existingUser.username;
@@ -155,11 +181,11 @@ export const authOptions = {
 
       if (account?.provider === "kakao") {
         try {
-          const kakaoAccount = profile?.kakao_account;
-          const kakaoProfile = kakaoAccount?.profile;
+          // const kakaoAccount = profile?.kakao_account;
+          // const kakaoProfile = kakaoAccount?.profile;
 
-          const email = kakaoAccount?.email;
-          const username = kakaoProfile?.nickname || "카카오사용자";
+          const email = profile?.email || "이메일 없음"; // 이메일이 없을 경우 기본값 설정
+          const username = profile?.name || "카카오사용자"; // 닉네임이 없을 경우 기본값 설정
 
           if (!email) {
             throw new Error("카카오 이메일 정보를 가져올 수 없습니다.");
@@ -210,9 +236,9 @@ export const authOptions = {
 
       return true;
     },
+
     async jwt({ token, user, account }) {
       if (user?.email) {
-        // 항상 이메일로 DB에서 유저 ID 조회
         const dbUser = await prisma.user.findUnique({
           where: { email: user.email },
         });
@@ -228,33 +254,41 @@ export const authOptions = {
       }
 
       if (account?.provider === "google" && account?.access_token) {
-        token.accessToken = account.access_token; // 구글의 accessToken을 JWT에 추가
+        token.accessToken = account.access_token;
       }
+
       console.log("JWT token.email:", token.email);
       return token;
     },
+
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id;
-        session.user.email = token.email;
-        session.user.username = token.username;
-        session.user.birthdate = token.birthdate;
-        session.user.mobile = token.mobile;
-        session.user.accessToken = token.accessToken;
-        session.user.provider = token.provider;
+        session.user.id = token.id as string; // 타입 강제변환
+        session.user.email = token.email as string;
+        session.user.username = token.username as string;
+        session.user.birthdate = token.birthdate as string;
+        session.user.mobile = token.mobile as string;
+        session.user.provider = token.provider as string;
       }
+
+      if (token.accessToken) {
+        session.user.accessToken = token.accessToken as string;
+      }
+
       console.log("Final Session:", session);
       console.log("Token:", token);
       return session;
     },
-    async redirect({ url, baseUrl }) {
-      // 로그인 성공 후 항상 /myshop으로 리디렉션
-      return `${baseUrl}/myshop`;
+
+    async redirect({ baseUrl }) {
+      return baseUrl;
     },
   },
+
   session: {
     strategy: "jwt",
   },
+
   secret: process.env.NEXTAUTH_SECRET,
   debug: true,
 };

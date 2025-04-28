@@ -29,7 +29,8 @@ declare module "next-auth" {
       username: string;
       birthdate: string;
       mobile: string;
-      addresses: Address[]; // 실제 타입으로 바꿔도 좋음
+      addresses?: Address[];
+      accessToken?: string;
       provider: string;
     } & DefaultSession["user"];
   }
@@ -44,13 +45,3 @@ declare module "next-auth" {
     provider?: string;
   }
 }
-
-// 주소 추가 시 사용할 타입
-export type AddressInput = Omit<Address, "id" | "user"> & {
-  id?: number;
-  user?: User;
-};
-
-export type NewUser = Omit<User, "addresses"> & {
-  addresses?: Address[];
-};

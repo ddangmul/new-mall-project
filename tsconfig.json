@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "noUncheckedIndexedAccess": false,
     "noEmit": true,
     "esModuleInterop": true,
@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -23,7 +23,13 @@
     "types": ["next-auth", "jest", "node"],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "noImplicitAny": false, // 암시적인 any 사용 허용
+    "strictNullChecks": false, // null과 undefined에 대한 엄격한 검사 비활성화
+    "noUnusedLocals": false, // 사용하지 않는 로컬 변수에 대해 에러 발생 안 함
+    "noUnusedParameters": false, // 사용하지 않는 매개변수에 대해 에러 발생 안 함
+    "noImplicitReturns": false, // 반환 값 명시 요구하지 않음
+    "noImplicitThis": false // this 타입을 명시적으로 설정하지 않아도 됨
   },
   "include": [
     "next-env.d.ts",
