@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     amount: order.orderItems.reduce(
       (total, item) => total + item.quantity * item.item.price,
       0
-    ), // 주문 금액 계산
+    ), 
     name,
   });
 }

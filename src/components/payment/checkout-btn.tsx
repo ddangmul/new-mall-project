@@ -9,7 +9,7 @@ type CheckoutButtonProps = {
     paymentMethod: string;
   };
   cartItems: {
-    itemId: number;
+    itemId: string;
     quantity: number;
   }[];
 };
@@ -18,7 +18,6 @@ export default function CheckoutButton({
   form,
   cartItems,
 }: CheckoutButtonProps) {
-
   const handlePayment = async () => {
     if (!form.name || !form.address || !form.phone) {
       toast.error("모든 정보를 입력해 주세요.");

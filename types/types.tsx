@@ -3,7 +3,7 @@ import { Address, User } from "next-auth";
 export type AddressWithCheck = Address & { checked?: boolean };
 
 export type Item = {
-  id?: number;
+  id?: string;
   title: string;
   image: string;
   category: string;

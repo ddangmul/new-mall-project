@@ -1,26 +1,37 @@
 "use client";
 
-// import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/store/cart-context";
 import LoadingIndicator from "@/components/loading-indicator";
-import { useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import CheckoutButton from "@/components/payment/checkout-btn";
 
 export default function CheckoutPage() {
-  const router = useRouter();
-  // const { data: session, status } = useSession();
-
-  // useEffect(() => {
-  //   if (status === "loading") return; // 세션 로딩 중일 때는 아무 것도 하지 않음
-  //   if (!session?.user) {
-  //     router.push("/login");
-  //   }
-  // }, [status, session?.user, router]);
-
+  const { data: session } = useSession();
   const { cartItems } = useCart();
   const searchParams = useSearchParams();
+
+  const [addressList, setAddressList] = useState([]);
+  const [form, setForm] = useState(null);
+
+  useEffect(() => {
+    fetch("api/address")
+      .then((res) => res.json())
+      .then((data) => setAddressList(data.addresses))
+      .catch((error) => notFound());
+  }, []);
+
+  useEffect(() => {
+    if (session && addressList) {
+      setForm({
+        name: session.user?.username || "",
+        address: addressList[0],
+        phone: session.user?.mobile || "",
+        paymentMethod: "신용카드",
+      });
+    }
+  }, [session, addressList]);
 
   const idsParam = searchParams.get("ids");
   const productsToBuy =
@@ -33,19 +44,11 @@ export default function CheckoutPage() {
       : [];
 
   const deliveryFee = 2500;
-
   const calculatedTotalPrice = productsToBuy.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
   const totalPrice = calculatedTotalPrice + deliveryFee;
-
-  const [form, setForm] = useState({
-    name: "",
-    address: "",
-    phone: "",
-    paymentMethod: "card",
-  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -53,12 +56,12 @@ export default function CheckoutPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  if (!cartItems.length) {
+  if (!session || !form || !cartItems.length) {
     return <LoadingIndicator />;
   }
 
   return (
-    <div className="max-w-xl mx-auto p-4">
+    <div className="max-w-xl mx-auto p-4 mt-20">
       <h1 className="text-2xl font-bold mb-4">구매 정보 입력</h1>
 
       <div className="space-y-4">
@@ -71,15 +74,19 @@ export default function CheckoutPage() {
           required
           className="w-full border p-2 rounded"
         />
-        <input
-          type="text"
+        <select
           name="address"
-          placeholder="주소"
           value={form.address}
           onChange={handleChange}
           required
           className="w-full border p-2 rounded"
-        />
+        >
+          {addressList.map((addr, index) => (
+            <option key={index} value={addr}>
+              {addr.address}
+            </option>
+          ))}
+        </select>
         <input
           type="tel"
           name="phone"
