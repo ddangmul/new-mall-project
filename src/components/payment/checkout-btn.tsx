@@ -18,7 +18,6 @@ export default function CheckoutButton({
   form,
   cartItems,
 }: CheckoutButtonProps) {
-  const router = useRouter();
 
   const handlePayment = async () => {
     if (!form.name || !form.address || !form.phone) {

@@ -26,12 +26,13 @@ export default function Myshop() {
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/" }); // 로그아웃 후 홈으로 이동
   };
+  const user = session?.user;
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]); // 상태가 바뀔 때만 실행되도록 설정
+  // useEffect(() => {
+  //   if (status === "unauthenticated") {
+  //     router.push("/login");
+  //   }
+  // }, [status, router]); // 상태가 바뀔 때만 실행되도록 설정
 
   useEffect(() => {
     const isFirstVisitWithoutMode =
@@ -47,8 +48,6 @@ export default function Myshop() {
   if (status === "loading" || status === "unauthenticated") {
     return <LoadingIndicator />;
   }
-
-  const user = session?.user;
 
   let myshopContent;
 

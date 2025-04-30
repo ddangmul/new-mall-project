@@ -16,7 +16,7 @@ const ItemsCategory: React.FC = () => {
   return (
     <section className="items_category">
       <nav className="items_category_inner py-12">
-        <ul className="flex justify-center gap-14 text-xl font-serif">
+        <ul className="flex justify-center gap-4 md:gap-14 md:text-xl font-serif">
           <li>
             <Link
               href="/All"

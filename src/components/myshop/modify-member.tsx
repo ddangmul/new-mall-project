@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { validateMobileNumber } from "@/utils/validation";
 
 import "./modify.css";
 import SuccessModal from "./successModal";
@@ -66,10 +67,14 @@ export default function ModifyMember() {
       return;
     }
 
-    const mobileRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
-    const mobileNumber = `${formData.mobile1}-${formData.mobile2}-${formData.mobile3}`;
+    const { mobile1, mobile2, mobile3 } = formData;
+    const { result, mobileNumber } = validateMobileNumber(
+      mobile1,
+      mobile2,
+      mobile3
+    );
 
-    if (!mobileRegex.test(mobileNumber)) {
+    if (!result) {
       setError("전화번호는 010-1234-5678 형식이어야 합니다.");
       setLoading(false);
       return;

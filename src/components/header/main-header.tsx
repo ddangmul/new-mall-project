@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import logo_light from "@/assets/logo/HyangNang-Logo-White.png";
 import logo_dark from "@/assets/logo/HyangNang-Logo-Dark.png";
@@ -21,7 +22,7 @@ const MainHeader: React.FC = () => {
       const scrollTop = window.scrollY;
       const maxScroll =
         document.documentElement.scrollHeight - window.innerHeight;
-      const ratio = Math.min(scrollTop / maxScroll, 1);
+      const ratio = Math.min((scrollTop / maxScroll) * 2, 1);
       setScrollRatio(ratio);
     };
 
@@ -78,37 +79,50 @@ const MainHeader: React.FC = () => {
         transition={{ duration: 0.3 }}
       >
         <div className="flex justify-between items-center font-serif">
-          <div className="basis-1/3 flex gap-4 text-sm md:text-lg xl:text-lg xl:gap-8 ">
-            <span>
+          <div className="basis-1/3 flex gap-4 text-sm md:text-lg xl:text-lg xl:gap-8">
+            <span className="hidden md:block">
               <Link href="/">Home</Link>
             </span>
             <span>
-              <Link href="/about">About</Link>
+              <Link href="/about" className="md: block">
+                About
+              </Link>
             </span>
-            <span>
+            <span className="hidden md:block">
               <Link href="/archive">Archive</Link>
             </span>
           </div>
           <Link href="/">
             <AnimatePresence mode="wait">
-              <motion.img
+              <motion.div
                 key={scrollRatio > 0.5 ? "light" : "dark"}
-                src={(scrollRatio > 0.5 ? logo_dark : logo_light).src}
-                alt="hyangnang-logo"
-                className="w-16 sm:w-20 md:w-24 lg:w-28 xl:w-32 2xl:w-36 h-auto min-w-[80px] transition-all duration-300"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-              ></motion.img>
+                className="relative w-24 h-6"
+              >
+                <Image
+                  src={scrollRatio > 0.5 ? logo_dark : logo_light}
+                  alt="hyangnang-logo"
+                  fill
+                  sizes="200px"
+                  style={{ objectFit: "contain" }} // 이미지 비율 유지
+                  priority
+                />
+              </motion.div>
             </AnimatePresence>
           </Link>
-          <div className="basis-1/3 flex justify-end xl:text-lg gap-4 xl:gap-8">
+          <div className="basis-1/3 flex justify-end text-sm md:text-lg gap-4 xl:gap-8">
             {content}
             <span>
-              <Link href="/cart">Cart</Link>
+              <Link href="/cart" className="hidden md:block">
+                Cart
+              </Link>
             </span>
-            <SearchArea />
+            <span className="hidden md:block">
+              <SearchArea />
+            </span>
           </div>
         </div>
       </motion.div>

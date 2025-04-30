@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { validateMobileNumber } from "@/utils/validation";
 
 import "./signup.css";
 
@@ -52,10 +53,9 @@ export default function Signup() {
       return;
     }
 
-    const mobileRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
-    const mobileNumber = `${formData.mobile1}-${formData.mobile2}-${formData.mobile3}`;
+    const { mobile1, mobile2, mobile3 } = formData;
 
-    if (!mobileRegex.test(mobileNumber)) {
+    if (!validateMobileNumber(mobile1, mobile2, mobile3)) {
       setError("전화번호는 010-1234-5678 형식이어야 합니다.");
       setLoading(false);
       return;
@@ -63,7 +63,7 @@ export default function Signup() {
 
     const formattedData = {
       ...formData,
-      mobile: mobileNumber,
+      mobile: `${mobile1}-${mobile2}-${mobile3}`,
     };
 
     try {

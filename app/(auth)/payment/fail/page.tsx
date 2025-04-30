@@ -1,6 +1,6 @@
 "use client";
 
-import PaymentResult from "@/components/payment/payment-result"; // 컴포넌트 import
+import PaymentResult from "@/components/payment/payment-result";
 
 const PaymentFailPage = () => {
   return (

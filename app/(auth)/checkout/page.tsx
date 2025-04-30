@@ -1,39 +1,44 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useCart } from "@/store/cart-context";
-import CheckoutButton from "@/components/payment/checkout-btn"; // 너가 만든 버튼 import
-import { toast } from "react-toastify";
 import LoadingIndicator from "@/components/loading-indicator";
 import { useSearchParams } from "next/navigation";
+import CheckoutButton from "@/components/payment/checkout-btn";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
 
-  useEffect(() => {
-    if (status === "loading") return; // 세션 로딩 중일 때는 아무 것도 하지 않음
-    if (!session?.user) {
-      router.push("/login");
-    }
-  }, [status, session?.user, router]);
+  // useEffect(() => {
+  //   if (status === "loading") return; // 세션 로딩 중일 때는 아무 것도 하지 않음
+  //   if (!session?.user) {
+  //     router.push("/login");
+  //   }
+  // }, [status, session?.user, router]);
 
   const { cartItems } = useCart();
   const searchParams = useSearchParams();
 
   const idsParam = searchParams.get("ids");
-  const selectedIds = idsParam ? idsParam.split(",") : [];
+  const productsToBuy =
+    idsParam === "all"
+      ? cartItems
+      : idsParam
+      ? cartItems.filter((item) =>
+          idsParam.split(",").includes(String(item.id))
+        )
+      : [];
 
-  const productsToBuy = idsParam
-    ? cartItems.filter((item) => selectedIds.includes(String(item.id)))
-    : cartItems;
+  const deliveryFee = 2500;
 
   const calculatedTotalPrice = productsToBuy.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  const totalPrice = calculatedTotalPrice + deliveryFee;
 
   const [form, setForm] = useState({
     name: "",
@@ -48,7 +53,7 @@ export default function CheckoutPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  if (status === "loading") {
+  if (!cartItems.length) {
     return <LoadingIndicator />;
   }
 
@@ -96,7 +101,7 @@ export default function CheckoutPage() {
         </select>
 
         <div className="text-right text-lg font-bold mb-4">
-          총 결제 금액: {calculatedTotalPrice.toLocaleString()}원
+          총 결제 금액: {totalPrice.toLocaleString()}원
         </div>
 
         <CheckoutButton

@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useAddress } from "@/store/address-context";
+import { validateMobileNumber } from "@/utils/validation";
+import { AddressInput } from "../../../types/types";
 
 import "./modify.css";
-import { AddressInput } from "../../../types/types";
 
 export default function RegisterAddress() {
   const { addAddress } = useAddress();
@@ -61,17 +62,21 @@ export default function RegisterAddress() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const mobileRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
-    const addressMobile = `${formData.addressMobile1}-${formData.addressMobile2}-${formData.addressMobile3}`;
+    const { addressMobile1, addressMobile2, addressMobile3 } = formData;
 
-    if (!mobileRegex.test(addressMobile)) {
+    const { result, mobileNumber } = validateMobileNumber(
+      addressMobile1,
+      addressMobile2,
+      addressMobile3
+    );
+    if (!result) {
       setError("전화번호는 010-1234-5678 형식이어야 합니다.");
       return;
     }
 
     const formattedData: AddressInput = {
       ...formData,
-      addressmobile: addressMobile,
+      addressmobile: mobileNumber,
     };
     await addAddress(formattedData);
     router.push("/myshop?address=&mode=member&mode2=address");

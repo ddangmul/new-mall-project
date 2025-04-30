@@ -48,8 +48,9 @@ export default function Cart() {
       return;
     }
 
-    console.log("전체 구매할 항목들:", cartItems);
-    router.push(`/checkout?ids=all`);
+    const allItemIds = cartItems.map(item => item.id).join(",");
+    router.push(`/checkout?ids=${allItemIds}`);
+  
   };
 
   // 선택된 아이템만 삭제
