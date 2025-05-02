@@ -8,3 +8,47 @@ export const validateMobileNumber = (
 
   return { result: mobileRegex.test(mobileNumber), mobileNumber };
 };
+
+export const validateNewAddress = (newAddress) => {
+  const {
+    addressname,
+    postcode,
+    address,
+    addressMobile1,
+    addressMobile2,
+    addressMobile3,
+  } = newAddress;
+
+  if (!addressname.trim()) {
+    console.log("이름을 입력해주세요.");
+    return false;
+  }
+
+  if (!postcode.trim()) {
+    console.log("우편번호를 입력해주세요.");
+    return false;
+  }
+
+  if (!address.trim()) {
+    console.log("기본주소를 입력해주세요.");
+    return false;
+  }
+
+  if (!addressMobile1 || !addressMobile2.trim() || !addressMobile3.trim()) {
+    console.log("휴대폰 번호를 모두 입력해주세요.");
+    return false;
+  }
+
+  const { result } = validateMobileNumber(
+    addressMobile1,
+    addressMobile2,
+    addressMobile3
+  );
+
+  if (!result) {
+    console.log("휴대폰 번호 형식이 올바르지 않습니다.");
+    return false;
+  }
+
+  return true;
+};

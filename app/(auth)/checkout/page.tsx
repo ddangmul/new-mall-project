@@ -9,6 +9,8 @@ import CheckoutButton from "@/components/payment/checkout-btn";
 import { useAddress } from "@/store/address-context";
 import Image from "next/image";
 import { formatterPrice } from "@/utils/formatter";
+import { validateNewAddress } from "@/utils/validation";
+import { toast } from "react-toastify";
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
@@ -75,6 +77,33 @@ export default function CheckoutPage() {
   );
   const totalPrice = productTotal + deliveryFee - (form?.mileage || 0);
 
+  const registerNewAddress = async () => {
+    if (!validateNewAddress(newAddress)) return;
+
+    try {
+      const response = await fetch("/api/address/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newAddress),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("신규 배송지가 등록되었습니다.");
+        setUseNewAddress(false);
+        fetchAddresses(); // 등록 후 주소 목록 갱신
+      } else {
+        alert(result.error || "등록 중 오류 발생");
+      }
+    } catch (err) {
+      console.error("Error registering address:", err);
+      alert("등록 실패");
+    }
+  };
+
   const handleInputChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -128,97 +157,102 @@ export default function CheckoutPage() {
             </div>
           </div>
         ) : (
-          <div className="space-y-2">
-            <input
-              name="addressname"
-              type="text"
-              placeholder="이름"
-              required
-              value={newAddress.addressname}
-              onChange={handleNewAddressChange}
-              autoComplete="off"
-              className={INPUT_STYLE}
-            />
-            <div className="space-y-3">
-              <span className="flex justify-between items-center gap-4 h-13">
+          <form onSubmit={registerNewAddress} className="flex flex-col">
+            <div className="space-y-2">
+              <input
+                name="addressname"
+                type="text"
+                placeholder="이름"
+                required
+                value={newAddress.addressname}
+                onChange={handleNewAddressChange}
+                autoComplete="off"
+                className={INPUT_STYLE}
+              />
+              <div className="space-y-3">
+                <span className="flex justify-between items-center gap-4 h-13">
+                  <input
+                    name="postcode"
+                    type="text"
+                    placeholder="우편번호"
+                    required
+                    value={newAddress.postcode}
+                    onChange={handleNewAddressChange}
+                    autoComplete="off"
+                    className={INPUT_STYLE}
+                  />
+                  <button className="w-[6rem]">우편번호</button>
+                </span>
                 <input
-                  name="postcode"
+                  name="address"
                   type="text"
-                  placeholder="우편번호"
+                  placeholder="기본주소"
                   required
-                  value={newAddress.postcode}
+                  value={newAddress.address}
                   onChange={handleNewAddressChange}
                   autoComplete="off"
                   className={INPUT_STYLE}
                 />
-                <button className="w-[6rem]">우편번호</button>
-              </span>
-              <input
-                name="address"
-                type="text"
-                placeholder="기본주소"
-                required
-                value={newAddress.address}
-                onChange={handleNewAddressChange}
-                autoComplete="off"
-                className={INPUT_STYLE}
-              />
 
-              <input
-                name="detailAddress"
-                type="text"
-                placeholder="나머지주소 (선택)"
-                value={newAddress.detailAddress}
-                onChange={handleNewAddressChange}
-                autoComplete="off"
-                className={INPUT_STYLE}
-              />
+                <input
+                  name="detailAddress"
+                  type="text"
+                  placeholder="나머지주소 (선택)"
+                  value={newAddress.detailAddress}
+                  onChange={handleNewAddressChange}
+                  autoComplete="off"
+                  className={INPUT_STYLE}
+                />
+              </div>
+              <div className="mobile flex justify-between gap-2 items-center">
+                <select
+                  name="addressMobile1"
+                  id="addressMobile1"
+                  className="basis-1/3"
+                  required
+                  value={newAddress.addressMobile1}
+                  onChange={(e) =>
+                    setNewAddress({
+                      ...newAddress,
+                      addressMobile1: e.target.value,
+                    })
+                  }
+                >
+                  <option value="010">010</option>
+                  <option value="011">011</option>
+                  <option value="016">016</option>
+                  <option value="017">017</option>
+                  <option value="018">018</option>
+                  <option value="019">019</option>
+                </select>
+                -
+                <input
+                  type="text"
+                  id="addressMobile2"
+                  name="addressMobile2"
+                  className={`basis-1/3 ${INPUT_STYLE}`}
+                  required
+                  value={newAddress.addressMobile2}
+                  onChange={handleNewAddressChange}
+                  autoComplete="off"
+                />
+                -
+                <input
+                  type="text"
+                  id="addressMobile3"
+                  name="addressMobile3"
+                  className={`basis-1/3 ${INPUT_STYLE}`}
+                  required
+                  value={newAddress.addressMobile3}
+                  onChange={handleNewAddressChange}
+                  autoComplete="off"
+                />
+              </div>
             </div>
-            <div className="mobile flex justify-between gap-2 items-center">
-              <select
-                name="addressMobile1"
-                id="addressMobile1"
-                className="basis-1/3"
-                required
-                value={newAddress.addressMobile1}
-                onChange={(e) =>
-                  setNewAddress({
-                    ...newAddress,
-                    addressMobile1: e.target.value,
-                  })
-                }
-              >
-                <option value="010">010</option>
-                <option value="011">011</option>
-                <option value="016">016</option>
-                <option value="017">017</option>
-                <option value="018">018</option>
-                <option value="019">019</option>
-              </select>
-              -
-              <input
-                type="text"
-                id="addressMobile2"
-                name="addressMobile2"
-                className={`basis-1/3 ${INPUT_STYLE}`}
-                required
-                value={newAddress.addressMobile2}
-                onChange={handleNewAddressChange}
-                autoComplete="off"
-              />
-              -
-              <input
-                type="text"
-                id="addressMobile3"
-                name="addressMobile3"
-                className={`basis-1/3 ${INPUT_STYLE}`}
-                required
-                value={newAddress.addressMobile3}
-                onChange={handleNewAddressChange}
-                autoComplete="off"
-              />
-            </div>
-          </div>
+            <button type="submit" className="text-right rounded p-2 mt-4">
+              신규 배송지 등록
+            </button>
+          </form>
         )}
         <div className="flex flex-col mt-4">
           {!useNewAddress && (
@@ -327,13 +361,25 @@ export default function CheckoutPage() {
           총 결제 금액: {totalPrice.toLocaleString()}원
         </span>
         <span>
-          <CheckoutButton
-            form={form}
-            cartItems={productsToBuy.map((item) => ({
-              itemId: item.id,
-              quantity: item.quantity,
-            }))}
-          />
+          {!useNewAddress || validateNewAddress(newAddress) ? (
+            <CheckoutButton
+              form={form}
+              cartItems={productsToBuy.map((item) => ({
+                itemId: item.id,
+                quantity: item.quantity,
+              }))}
+            />
+          ) : (
+            <button
+              type="button"
+              className="bg-[#524f4c] shadow-lg text-[#f8f7f5] py-2 rounded-xs px-3"
+              onClick={() =>
+                toast.error("신규 배송지 정보를 모두 입력해 주세요.")
+              }
+            >
+              결제하기
+            </button>
+          )}
         </span>
       </section>
     </div>

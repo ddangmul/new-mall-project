@@ -19,7 +19,7 @@ export default function CheckoutButton({
   cartItems,
 }: CheckoutButtonProps) {
   const handlePayment = async () => {
-    if (!form.name || !form.address || !form.phone) {
+    if (!form.address || !form.phone) {
       toast.error("모든 정보를 입력해 주세요.");
       return;
     }
