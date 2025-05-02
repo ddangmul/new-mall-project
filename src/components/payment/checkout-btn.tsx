@@ -1,5 +1,5 @@
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { validateNewAddress } from "@/utils/validation";
 
 type CheckoutButtonProps = {
   form: {
@@ -12,18 +12,57 @@ type CheckoutButtonProps = {
     itemId: string;
     quantity: number;
   }[];
+  useNewAddress: boolean;
+  newAddress: {
+    addressname: string;
+    postcode: string;
+    address: string;
+    detailAddress?: string;
+    addressmobile: string;
+    isDefault?: boolean;
+  };
 };
 
 export default function CheckoutButton({
   form,
   cartItems,
+  useNewAddress,
+  newAddress,
 }: CheckoutButtonProps) {
   const handlePayment = async () => {
-    if (!form.address || !form.phone) {
-      toast.error("모든 정보를 입력해 주세요.");
+    if (!validateNewAddress(newAddress)) {
+      toast.error("입력한 배송지 정보가 유효하지 않습니다.");
       return;
     }
 
+    // 신규 배송지 저장
+    if (useNewAddress) {
+      const { addressname, postcode, address, detailAddress, addressmobile } =
+        newAddress;
+
+      if (!addressname || !postcode || !address || !addressmobile) {
+        toast.error("배송지 정보를 모두 입력해주세요.");
+        return;
+      }
+
+      const saveAddressRes = await fetch("/api/address", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...newAddress,
+          isDefault: false,
+        }),
+      });
+
+      const result = await saveAddressRes.json();
+
+      if (!saveAddressRes.ok) {
+        toast.error("배송지 저장에 실패했습니다." + result.message);
+        return;
+      }
+    }
+
+    // 주문 생성
     const response = await fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

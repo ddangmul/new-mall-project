@@ -37,7 +37,7 @@ export default function CheckoutPage() {
     if (session) {
       fetchAddresses();
     }
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     if (addresses.length > 0) {
@@ -76,32 +76,10 @@ export default function CheckoutPage() {
     0
   );
   const totalPrice = productTotal + deliveryFee - (form?.mileage || 0);
-
-  const registerNewAddress = async () => {
-    if (!validateNewAddress(newAddress)) return;
-
-    try {
-      const response = await fetch("/api/address/new", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newAddress),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        alert("신규 배송지가 등록되었습니다.");
-        setUseNewAddress(false);
-        fetchAddresses(); // 등록 후 주소 목록 갱신
-      } else {
-        alert(result.error || "등록 중 오류 발생");
-      }
-    } catch (err) {
-      console.error("Error registering address:", err);
-      alert("등록 실패");
-    }
+  const newAddressWithmobile = {
+    ...newAddress,
+    addressmobile: `${newAddress.addressMobile1}-${newAddress.addressMobile2}-${newAddress.addressMobile3}`,
+    isDefault: false,
   };
 
   const handleInputChange = (e) => {
@@ -157,7 +135,7 @@ export default function CheckoutPage() {
             </div>
           </div>
         ) : (
-          <form onSubmit={registerNewAddress} className="flex flex-col">
+          <>
             <div className="space-y-2">
               <input
                 name="addressname"
@@ -218,6 +196,7 @@ export default function CheckoutPage() {
                     })
                   }
                 >
+                  <option value="">(선택)</option>
                   <option value="010">010</option>
                   <option value="011">011</option>
                   <option value="016">016</option>
@@ -249,10 +228,7 @@ export default function CheckoutPage() {
                 />
               </div>
             </div>
-            <button type="submit" className="text-right rounded p-2 mt-4">
-              신규 배송지 등록
-            </button>
-          </form>
+          </>
         )}
         <div className="flex flex-col mt-4">
           {!useNewAddress && (
@@ -361,25 +337,15 @@ export default function CheckoutPage() {
           총 결제 금액: {totalPrice.toLocaleString()}원
         </span>
         <span>
-          {!useNewAddress || validateNewAddress(newAddress) ? (
-            <CheckoutButton
-              form={form}
-              cartItems={productsToBuy.map((item) => ({
-                itemId: item.id,
-                quantity: item.quantity,
-              }))}
-            />
-          ) : (
-            <button
-              type="button"
-              className="bg-[#524f4c] shadow-lg text-[#f8f7f5] py-2 rounded-xs px-3"
-              onClick={() =>
-                toast.error("신규 배송지 정보를 모두 입력해 주세요.")
-              }
-            >
-              결제하기
-            </button>
-          )}
+          <CheckoutButton
+            form={form}
+            cartItems={productsToBuy.map((item) => ({
+              itemId: item.id,
+              quantity: item.quantity,
+            }))}
+            useNewAddress={useNewAddress}
+            newAddress={newAddressWithmobile}
+          />
         </span>
       </section>
     </div>

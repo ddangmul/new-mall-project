@@ -10,6 +10,7 @@ export const validateMobileNumber = (
 };
 
 export const validateNewAddress = (newAddress) => {
+  console.log(newAddress);
   const {
     addressname,
     postcode,
@@ -34,16 +35,13 @@ export const validateNewAddress = (newAddress) => {
     return false;
   }
 
-  if (!addressMobile1 || !addressMobile2.trim() || !addressMobile3.trim()) {
-    console.log("휴대폰 번호를 모두 입력해주세요.");
-    return false;
-  }
-
   const { result } = validateMobileNumber(
     addressMobile1,
     addressMobile2,
     addressMobile3
   );
+
+  console.log(result);
 
   if (!result) {
     console.log("휴대폰 번호 형식이 올바르지 않습니다.");
