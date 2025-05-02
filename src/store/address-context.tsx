@@ -27,16 +27,10 @@ export const AddressProvider = ({
   const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession();
 
-  // console.log(session?.user);
-
   const fetchAddresses = async () => {
     setLoading(true);
 
     try {
-      if (!session.user) {
-        return;
-      }
-
       const res = await fetch("/api/address");
       const data = await res.json();
       if (data.success) {

@@ -40,8 +40,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/payment/fail`);
   }
 
-  console.log("[결제 성공]", data);
-
   try {
     await prisma.order.update({
       where: { orderId: orderId },

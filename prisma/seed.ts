@@ -130,8 +130,6 @@ async function main() {
       },
     });
   }
-
-  console.log("초기 데이터 삽입 완료!");
 }
 
 main()

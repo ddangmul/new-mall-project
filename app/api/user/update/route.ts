@@ -9,7 +9,6 @@ export async function POST(req: Request) {
   try {
     // 요청 본문에서 업데이트할 데이터 가져오기
     const { useremail, new_pw, old_pw, mobile } = await req.json();
-    console.log("Received data:", { useremail, new_pw });
 
     // 현재 로그인한 사용자 정보 가져오기
     const session = await getServerSession(authOptions as AuthOptions); // 세션에서 사용자 정보 가져오기 (필요 시)

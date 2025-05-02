@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   const order = await prisma.order.create({
     data: {
       name,
-      address,
+      address: JSON.stringify(address),
       phone,
       paymentMethod,
       status: "pending",
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     amount: order.orderItems.reduce(
       (total, item) => total + item.quantity * item.item.price,
       0
-    ), 
+    ),
     name,
   });
 }

@@ -4,9 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json(); // JSON 데이터 파싱
-    console.log(data);
-    // 요청의 body를 JSON 형식으로 파싱
+    const data = await req.json();
     const { email, password, username, birthdate, isLunar, isSolar, mobile } =
       data;
 

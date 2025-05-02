@@ -8,7 +8,6 @@ export async function GET() {
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
-  console.log(session);
 
   const orders = await prisma.order.findMany({
     where: {

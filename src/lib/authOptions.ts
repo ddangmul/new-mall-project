@@ -171,8 +171,6 @@ export const authOptions: NextAuthOptions = {
               user.birthdate = existingUser.birthdate;
               user.mobile = existingUser.mobile;
             }
-
-            console.log("SignIn → user.id:", user.id);
           }
         } catch (err) {
           console.error("People API 에러:", err);
@@ -257,7 +255,6 @@ export const authOptions: NextAuthOptions = {
         token.accessToken = account.access_token;
       }
 
-      console.log("JWT token.email:", token.email);
       return token;
     },
 
@@ -275,8 +272,6 @@ export const authOptions: NextAuthOptions = {
         session.user.accessToken = token.accessToken as string;
       }
 
-      console.log("Final Session:", session);
-      console.log("Token:", token);
       return session;
     },
 
@@ -290,5 +285,5 @@ export const authOptions: NextAuthOptions = {
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true,
+  debug: false,
 };

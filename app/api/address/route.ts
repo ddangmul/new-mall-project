@@ -5,7 +5,6 @@ import { authOptions } from "@/lib/authOptions";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
-  console.log("세션 확인:", session?.user);
 
   try {
     const {

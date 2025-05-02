@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCart } from "@/store/cart-context";
 import CartItem from "@/components/cart/cart-item";
 import { formatterPrice } from "@/utils/formatter";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Cart() {
   const BTN_CSS = "bg-[#494643] text-[#f3f3f2] py-2 rounded-sm px-3";
@@ -13,10 +14,6 @@ export default function Cart() {
   const { cartItems, deleteCartHandler, totalPrice } = useCart();
 
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-
-  useEffect(() => {
-    console.log("현재 체크된 항목들:", checkedItems);
-  }, [checkedItems]);
 
   // 체크 상태 변경 핸들러
   const handleCheck = (id: string, checked: boolean) => {
@@ -32,11 +29,10 @@ export default function Cart() {
     );
 
     if (selectedItems.length === 0) {
-      alert("선택된 상품이 없습니다.");
+      toast.error("구매할 상품을 선택해주세요.");
       return;
     }
 
-    console.log("선택 구매할 항목들:", selectedItems);
     const selectedIds = checkedItems.join(",");
     router.push(`/checkout?ids=${selectedIds}`);
   };
@@ -48,24 +44,19 @@ export default function Cart() {
       return;
     }
 
-    const allItemIds = cartItems.map(item => item.id).join(",");
+    const allItemIds = cartItems.map((item) => item.id).join(",");
     router.push(`/checkout?ids=${allItemIds}`);
-  
   };
 
   // 선택된 아이템만 삭제
   const handleRemoveSelected = () => {
-    console.log("선택된 항목:", checkedItems);
     const itemsToDelete = cartItems.filter((item) =>
       checkedItems.includes(String(item.id))
     );
     deleteCartHandler(itemsToDelete);
     setCheckedItems([]);
-
-    console.log("삭제 후 선택된 항목:", checkedItems);
   };
 
-  // console.log(cartItems);
   return (
     <section className="cart-page py-10 px-20">
       <div className="cart-heading flex gap-3 items-center">

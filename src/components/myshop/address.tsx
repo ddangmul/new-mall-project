@@ -22,7 +22,6 @@ export default function Address() {
 
   useEffect(() => {
     if (session?.user && status === "authenticated") {
-      console.log("로그인된 사용자:", session.user);
       fetchAddresses();
     }
 
@@ -41,7 +40,6 @@ export default function Address() {
   }, [session, status]);
 
   const toggleCheck = (id: number) => {
-    // console.log("Toggling check for id:", id, "Previous state:", checkedMap);
     setCheckedMap((prev) => ({
       ...prev,
       [id]: !prev[id], // 체크 상태를 반전시킴
@@ -52,7 +50,6 @@ export default function Address() {
     const checkedIds = Object.entries(checkedMap)
       .filter(([_, checked]) => checked)
       .map(([id]) => parseInt(id));
-    console.log("삭제할 ID들:", checkedIds);
 
     if (checkedIds.length === 0) {
       toast.error("삭제할 주소를 선택해주세요.");

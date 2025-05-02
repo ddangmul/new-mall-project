@@ -53,7 +53,6 @@ export async function getItemById(id: string) {
 
   const numericId = Number(id);
   if (isNaN(numericId)) {
-    console.log(numericId);
     throw new Error("올바른 id 값이 아닙니다.");
   }
 
@@ -78,7 +77,6 @@ export async function getItemsBySearchTerm(searchTerm: string) {
       },
     });
 
-    console.log("검색 결과:", items); // 검색 결과 로그 확인
     return items;
   } catch (error) {
     console.error("데이터베이스 검색 오류:", error);

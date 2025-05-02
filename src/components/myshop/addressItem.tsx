@@ -1,5 +1,4 @@
 import { Address } from "next-auth";
-import { useAddress } from "@/store/address-context";
 
 interface AddressItemProps {
   address: Address;
