@@ -30,13 +30,13 @@ export default function CheckoutButton({
   newAddress,
 }: CheckoutButtonProps) {
   const handlePayment = async () => {
-    if (!validateNewAddress(newAddress)) {
-      toast.error("입력한 배송지 정보가 유효하지 않습니다.");
-      return;
-    }
-
-    // 신규 배송지 저장
     if (useNewAddress) {
+      if (!validateNewAddress(newAddress)) {
+        toast.error("입력한 배송지 정보가 유효하지 않습니다.");
+        return;
+      }
+
+      // 신규 배송지 저장
       const { addressname, postcode, address, detailAddress, addressmobile } =
         newAddress;
 
@@ -108,7 +108,7 @@ export default function CheckoutButton({
   return (
     <button
       onClick={handlePayment}
-      className="bg-[#524f4c] shadow-lg text-[#f8f7f5] basis-1/2 py-2 rounded-xs px-3"
+      className="bg-[#524f4c] shadow-lg text-[#f8f7f5] py-1 rounded-xs px-2"
     >
       결제하기
     </button>

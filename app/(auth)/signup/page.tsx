@@ -209,14 +209,6 @@ export default function Signup() {
                 autoComplete="off"
               />
             </div>
-            {/* <div className="address space-y-4">
-              <span className="flex justify-between items-center gap-4 h-13">
-                <input type="number" placeholder="우편번호" required />
-                <button className="w-[6rem]">우편번호</button>
-              </span>
-              <input type="text" placeholder="기본주소" required />
-              <input type="text" placeholder="나머지주소" />
-            </div> */}
             <div className="flex justify-between gap-4">
               <span className="basis-3/5 flex items-center gap-3">
                 <label

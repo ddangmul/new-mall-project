@@ -9,8 +9,8 @@ import CheckoutButton from "@/components/payment/checkout-btn";
 import { useAddress } from "@/store/address-context";
 import Image from "next/image";
 import { formatterPrice } from "@/utils/formatter";
-import { validateNewAddress } from "@/utils/validation";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
@@ -30,6 +30,7 @@ export default function CheckoutPage() {
   });
   const [useNewAddress, setUseNewAddress] = useState(false);
   const [isAddressOpen, setIsAddressOpen] = useState(false);
+  const router = useRouter();
 
   const INPUT_STYLE = "w-full border p-2 rounded-xs";
 
@@ -82,6 +83,14 @@ export default function CheckoutPage() {
     isDefault: false,
   };
 
+  const handleSelectAddress = (addr) => {
+    setForm((prev) => ({
+      ...prev,
+      address: addr,
+    }));
+    toast.info(`${addr.addressname} 배송지를 선택했습니다.`);
+  };
+
   const handleInputChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -121,20 +130,47 @@ export default function CheckoutPage() {
             </button>
           </label>
         </div>
-
-        {!useNewAddress ? (
-          <div className="border-b-1 border-b-[#cfcdcd] space-y-1 px-2 py-3">
-            <div>{form?.address?.addressname}</div>
-            <div className="flex flex-col">
-              <span>
-                {form?.address?.address} {form?.address?.detailAddress}
-              </span>
-              <span className="text-[#9d9d9d] text-sm">
-                {form?.address?.addressmobile}
-              </span>
-            </div>
+        <div>
+          {form.address?.isDefault && (
+            <span className="bg-[#313030] text-[#f2f0eb] px-1.5 rounded-sm">
+              기본
+            </span>
+          )}
+          <div>{form.address?.addressname}</div>
+          <div className="text-sm text-gray-700">
+            {form.address?.address} {form.address?.detailAddress}
           </div>
-        ) : (
+          <div className="text-xs text-gray-500">
+            {form.address?.addressmobile}
+          </div>
+        </div>
+        {isAddressOpen && !useNewAddress && (
+          <ul>
+            {addressList.map((addr) => (
+              <li
+                key={addr.id}
+                className={`border-b-1 border-b-[#cfcdcd] space-y-1 py-3 ${
+                  form.address?.id === addr.id && "font-bold"
+                }`}
+                onClick={() => handleSelectAddress(addr)}
+              >
+                {addr.isDefault && (
+                  <span className="bg-[#313030] text-[#f2f0eb] px-1.5 rounded-sm">
+                    기본
+                  </span>
+                )}
+                <div>{addr.addressname}</div>
+                <div className="text-sm text-gray-700">
+                  {addr.address} {addr.detailAddress}
+                </div>
+                <div className="text-xs text-gray-500">
+                  {addr.addressmobile}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        {useNewAddress && (
           <>
             <div className="space-y-2">
               <input
@@ -230,6 +266,7 @@ export default function CheckoutPage() {
             </div>
           </>
         )}
+
         <div className="flex flex-col mt-4">
           {!useNewAddress && (
             <button
@@ -239,26 +276,6 @@ export default function CheckoutPage() {
             >
               {isAddressOpen ? "목록 접기" : "전체 배송지 보기"}
             </button>
-          )}
-          {isAddressOpen && !useNewAddress && (
-            <ul>
-              {addressList.map((addr) => (
-                <li
-                  key={addr?.id}
-                  className="border-b-1 border-b-[#cfcdcd] space-y-1 px-2 py-3"
-                >
-                  <div>{addr?.addressname}</div>
-                  <div className="flex flex-col">
-                    <span>
-                      {addr?.address} {form?.address?.detailAddress}
-                    </span>
-                    <span className="text-[#9d9d9d] text-sm">
-                      {addr?.addressmobile}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
           )}
         </div>
       </section>
@@ -336,7 +353,14 @@ export default function CheckoutPage() {
         <span className="text-lg font-bold">
           총 결제 금액: {totalPrice.toLocaleString()}원
         </span>
-        <span>
+
+        <span className="flex justify-between w-full mt-2">
+          <button
+            onClick={() => router.back()}
+            className="bg-[#f8f7f5] shadow-sm text-[#524f4c] px-2 py-1 rounded-xs"
+          >
+            ← 뒤로가기
+          </button>
           <CheckoutButton
             form={form}
             cartItems={productsToBuy.map((item) => ({
