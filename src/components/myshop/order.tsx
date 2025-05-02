@@ -92,9 +92,12 @@ export default function Order() {
             <p className="py-30 text-lg">최근 주문 내역이 없습니다.</p>
           ) : (
             <ul className="space-y-4 w-full mt-5">
-              {orders.map((order) => (
-                <OrderCard key={order.id} order={order} />
-              ))}
+              {orders.map(
+                (order) =>
+                  order.status === "paid" && (
+                    <OrderCard key={order.id} order={order} />
+                  )
+              )}
             </ul>
           )}
           <div className="order_history_page py-10">

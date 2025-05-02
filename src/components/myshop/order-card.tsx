@@ -25,7 +25,7 @@ export default function OrderCard({ order }) {
         <p className="text-sm text-gray-500">
           주문일자: {new Date(order.createdAt).toLocaleDateString()}
         </p>
-        <p className="text-sm text-gray-500">주문상태: {order.status}</p>
+        <p className="text-sm text-gray-500">주문상태: {order.status === 'paid' && '결제완료'}</p>
       </div>
 
       <div className="ml-auto m">
