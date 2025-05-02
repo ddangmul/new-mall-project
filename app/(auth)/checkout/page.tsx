@@ -30,14 +30,13 @@ export default function CheckoutPage() {
   });
   const [useNewAddress, setUseNewAddress] = useState(false);
   const [isAddressOpen, setIsAddressOpen] = useState(false);
+  const [buyNowItem, setBuyNowItem] = useState(null);
   const router = useRouter();
 
   const INPUT_STYLE = "w-full border p-2 rounded-xs";
 
   useEffect(() => {
-    if (session) {
-      fetchAddresses();
-    }
+    if (session) fetchAddresses();
   }, [session]);
 
   useEffect(() => {
@@ -59,9 +58,29 @@ export default function CheckoutPage() {
         paymentMethod: "card",
       });
     }
+    console.log(form);
   }, [session, addressList]);
 
   const idsParam = searchParams.get("ids");
+  const buyNowProduct = searchParams.get("buyNow");
+  const buyNowQty = parseInt(searchParams.get("qty") || "1", 10);
+
+  useEffect(() => {
+    const fetchBuyNowItem = async () => {
+      if (buyNowProduct) {
+        try {
+          const res = await fetch(`/api/items/${buyNowProduct}`);
+          if (!res.ok) throw new Error("상품 정보를 불러오지 못했습니다.");
+          const data = await res.json();
+          setBuyNowItem({ ...data, quantity: buyNowQty });
+        } catch (error) {
+          toast.error("상품 정보를 가져오는 데 실패했습니다.");
+        }
+      }
+    };
+    fetchBuyNowItem();
+  }, [buyNowProduct]);
+
   const productsToBuy =
     idsParam === "all"
       ? cartItems
@@ -69,6 +88,8 @@ export default function CheckoutPage() {
       ? cartItems.filter((item) =>
           idsParam.split(",").includes(String(item.id))
         )
+      : buyNowProduct && buyNowItem
+      ? [buyNowItem]
       : [];
 
   const deliveryFee = 2500;
@@ -110,7 +131,7 @@ export default function CheckoutPage() {
     }
   };
 
-  if (!session || !form || !form.address) return <LoadingIndicator />;
+  if (!form || !form.address) return <LoadingIndicator />;
 
   return (
     <div className="max-w-2xl mx-auto p-6 mt-20 space-y-6">
@@ -283,7 +304,7 @@ export default function CheckoutPage() {
       {/* 2. 상품 정보 */}
       <section>
         <h2 className="text-lg font-semibold mb-2">상품 정보</h2>
-        <ul className="rounded">
+        <ul>
           {productsToBuy.map((item) => (
             <li
               key={item.id}

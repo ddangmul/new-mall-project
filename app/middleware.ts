@@ -6,14 +6,15 @@ export async function middleware(req) {
 
   // 보호된 경로 설정
   const protectedRoutes = [
-    "/api/user/update", // 사용자 정보 수정
-    "/myshop", // 마이페이지
-    "/payment", // 결제 페이지
-    "/checkout", // 체크아웃 페이지
-    "/api/checkout", // 체크아웃 API
-    "/api/payment", // 결제 API
-    "/api/order", // 주문 API
-    "/api/address", // 주소 API
+    "/api/user/update",
+    "/myshop",
+    "/payment",
+    "/checkout",
+    "/checkout/",
+    "/api/checkout",
+    "/api/payment",
+    "/api/order",
+    "/api/address",
   ];
 
   // 로그인 안 한 경우 로그인 페이지로 리디렉트
@@ -37,6 +38,7 @@ export const config = {
     "/api/order/*", // 주문 관련 API
     "/myshop", // 마이페이지
     "/payment", // 결제 페이지
-    "/checkout", // 체크아웃 페이지
+    "/checkout",
+    "/checkout/*", // 체크아웃 페이지
   ],
 };

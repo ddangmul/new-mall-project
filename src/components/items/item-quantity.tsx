@@ -64,7 +64,7 @@ const ItemQuantity = ({ item }: { item: Item }) => {
           Cart
         </button>
         <Link
-          href="/checkout"
+          href={`/checkout?buyNow=${item.id}&qty=${quantity}`}
           className="bg-[#524f4c] shadow-lg text-[#f8f7f5] basis-1/2 py-2 rounded-xs text-center"
         >
           Buy
