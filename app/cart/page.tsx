@@ -22,6 +22,16 @@ export default function Cart() {
     );
   };
 
+  let totalOrderPrice = totalPrice;
+
+  const selectedTotalPrice = cartItems
+    .filter((item) => checkedItems.includes(String(item.id)))
+    .reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  if (checkedItems.length > 0) {
+    totalOrderPrice = selectedTotalPrice;
+  }
+
   // 선택 구매
   const handleBuySelected = () => {
     const selectedItems = cartItems.filter((item) =>
@@ -109,7 +119,7 @@ export default function Cart() {
         <div className="border-b-1 border-[#afaeac] py-2 font-serif">Total</div>
         <div className="py-10 flex justify-center gap-10 text-center text-sm xl:text-xl">
           <div className="flex flex-col">
-            <span>{formatterPrice(totalPrice)}</span>
+            <span>{formatterPrice(totalOrderPrice)}</span>
             <span className="text-[#787675]">상품금액</span>
           </div>
           +
@@ -119,7 +129,7 @@ export default function Cart() {
           </div>
           =
           <div className="flex flex-col">
-            <span>{formatterPrice(totalPrice + 2500)}</span>
+            <span>{formatterPrice(totalOrderPrice + 2500)}</span>
             <span className="text-[#787675]">총 주문금액</span>
           </div>
         </div>
