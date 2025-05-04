@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma"; // DB 클라이언트 경로에 맞게 수정하세요
+import { prisma } from "@/lib/prisma"; 
 
 export async function GET(
   req: Request,

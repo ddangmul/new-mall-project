@@ -4,6 +4,7 @@ import "../globals.css";
 import MainImage from "@/components/main-img/main-image";
 import ItemsCategory from "@/components/nav-bar/items_category_nav";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const filterPathnames = ["l/", "t/", "w/", "e/", "d/"];
 

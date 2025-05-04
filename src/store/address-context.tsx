@@ -1,4 +1,3 @@
-// context/AddressContext.tsx
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -25,19 +24,21 @@ export const AddressProvider = ({
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const fetchAddresses = async () => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/address");
-      const data = await res.json();
-      if (data.success) {
-        setAddresses(data.addresses);
-        // router.push("myshop?address=&mode=member&mode2=address");
-      } else {
-        throw new Error(data.message || "배송지 조회 실패");
+      if (status === "authenticated") {
+        const res = await fetch("/api/address");
+        const data = await res.json();
+        if (data.success) {
+          setAddresses(data.addresses);
+          // router.push("myshop?address=&mode=member&mode2=address");
+        } else {
+          throw new Error(data.message || "배송지 조회 실패");
+        }
       }
     } catch (err: any) {
       setError(err.message);

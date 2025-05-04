@@ -1,4 +1,3 @@
-// src/components/__tests__/CartItem.test.tsx
 import { render, screen, fireEvent } from "@testing-library/react";
 import CartItem from "./cart-item";
 import { useCart } from "@/store/cart-context";
@@ -18,12 +17,14 @@ beforeEach(() => {
 });
 
 const mockItem: ItemWithQuantity = {
-  id: "123",
+  id: 123,
   title: "테스트 상품",
   image: "/test.jpg",
   price: 2000,
   quantity: 2,
   category: "category",
+  description: "test",
+  sales: 1,
 };
 
 describe("<CartItem />", () => {

@@ -18,10 +18,11 @@ export async function middleware(req) {
   ];
 
   // 로그인 안 한 경우 로그인 페이지로 리디렉트
-  if (
-    !token &&
-    protectedRoutes.some((path) => req.nextUrl.pathname.startsWith(path))
-  ) {
+  const isProtected = protectedRoutes.some((path) =>
+    new RegExp(`^${path}(/|$)`).test(req.nextUrl.pathname)
+  );
+
+  if (!token && isProtected) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 

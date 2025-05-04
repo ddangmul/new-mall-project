@@ -10,7 +10,6 @@ export const validateMobileNumber = (
 };
 
 export const validateNewAddress = (newAddress) => {
-  console.log(newAddress);
   const {
     addressname,
     postcode,

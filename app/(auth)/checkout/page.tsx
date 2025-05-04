@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const { cartItems } = useCart();
   const searchParams = useSearchParams();
   const { addresses, fetchAddresses } = useAddress();
@@ -36,8 +36,12 @@ export default function CheckoutPage() {
   const INPUT_STYLE = "w-full border p-2 rounded-xs";
 
   useEffect(() => {
-    if (session) fetchAddresses();
-  }, [session]);
+    if (status === "authenticated") {
+      fetchAddresses();
+    } else if (status === "unauthenticated") {
+      router.replace("/login");
+    }
+  }, [status]);
 
   useEffect(() => {
     if (addresses.length > 0) {
@@ -58,7 +62,6 @@ export default function CheckoutPage() {
         paymentMethod: "card",
       });
     }
-    console.log(form);
   }, [session, addressList]);
 
   const idsParam = searchParams.get("ids");
@@ -153,7 +156,7 @@ export default function CheckoutPage() {
         </div>
         <div>
           {form.address?.isDefault && (
-            <span className="bg-[#313030] text-[#f2f0eb] px-1.5 rounded-sm">
+            <span className="bg-[#313030] text-[#f2f0eb] px-2 py-1 rounded-xs">
               기본
             </span>
           )}
