@@ -6,10 +6,10 @@ export type Item = {
   id?: number;
   title: string;
   image: string;
-  category: string;
+  category?: string;
   description: string;
   price: number;
-  sales: number;
+  sales?: number;
   createdAt?: Date;
 };
 
