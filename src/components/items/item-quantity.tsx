@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Item } from "../../../types/types";
 import { formatterPrice } from "@/utils/formatter";
 import { useCart } from "@/store/cart-context";
-import CheckoutButton from "../payment/checkout-btn";
 import Link from "next/link";
 
 const ItemQuantity = ({ item }: { item: Item }) => {
@@ -15,7 +14,6 @@ const ItemQuantity = ({ item }: { item: Item }) => {
   const decreaseQuantity = () => {
     if (quantity > 1) setQuantity((prev) => prev - 1);
   };
-
   return (
     <>
       <div className="item-quantity-area py-6 px-4 bg-[#eae7e4]">
