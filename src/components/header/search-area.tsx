@@ -7,12 +7,12 @@ import Image from "next/image";
 
 const SearchArea: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  // const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   useEffect(() => {
     setIsClient(true);
   }, []);
+  // const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
   if (!isClient) return null;
 
@@ -43,6 +43,7 @@ const SearchArea: React.FC = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="border-b-1 border-b-amber-50 text-white max-w-30 mx-2 bg-transparent focus:bg-transparent outline-none"
         onKeyDown={(e) => e.key === "Enter" && handleSearch()} // Enter 키로 검색 가능
+        autoComplete="off"
       ></input>
       <Image
         src={searchIcon}
