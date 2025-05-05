@@ -3,7 +3,10 @@ import { motion } from "framer-motion";
 
 export default function LoadingIndicator() {
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div
+      className="flex items-center justify-center min-h-screen"
+      data-testid="loading-indicator"
+    >
       <motion.div
         className="w-24 h-24 bg-[#313030] rounded-full"
         animate={{
@@ -16,6 +19,7 @@ export default function LoadingIndicator() {
           repeatType: "loop", // 루프 반복
         }}
       />
+      <div>Loading...</div>
     </div>
   );
 }
