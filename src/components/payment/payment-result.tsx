@@ -35,7 +35,7 @@ const PaymentResult = ({
             주문내역 확인
           </Link>
           <button
-            onClick={() => router.push("/")}
+            onClick={() => router.back()}
             className="bg-[#d6d2c8] px-6 py-2 rounded-lg hover:bg-[#c4c0b6]"
           >
             쇼핑 계속하기

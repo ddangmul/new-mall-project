@@ -4,13 +4,14 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useCart } from "@/store/cart-context";
 import LoadingIndicator from "@/components/loading-indicator";
-import { useSearchParams, notFound } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import CheckoutButton from "@/components/payment/checkout-btn";
 import { useAddress } from "@/store/address-context";
 import Image from "next/image";
 import { formatterPrice } from "@/utils/formatter";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import NewAddressForm from "@/components/checkout/newaddress";
+import AddressSelection from "@/components/checkout/address-selection";
 
 export default function CheckoutPage() {
   const { data: session, status } = useSession();
@@ -50,15 +51,15 @@ export default function CheckoutPage() {
   }, [addresses]);
 
   useEffect(() => {
-    if (session && addressList.length > 0) {
+    if (session) {
       const defaultAddress =
         addressList.find((addr) => addr.isDefault) || addressList[0];
       setForm({
         name: session.user?.username || "",
-        address: defaultAddress,
+        address: defaultAddress || "",
         phone: session.user?.mobile || "",
-        coupon: "",
-        mileage: 0,
+        coupon: [],
+        mileage: 1000,
         paymentMethod: "card",
       });
     }
@@ -123,6 +124,14 @@ export default function CheckoutPage() {
     setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
   };
 
+  const handleNewAddressMobileChange = (e) => {
+    const { name, value } = e.target;
+    setNewAddress((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleAddressToggle = () => {
     setUseNewAddress(!useNewAddress);
     if (!useNewAddress) {
@@ -134,7 +143,7 @@ export default function CheckoutPage() {
     }
   };
 
-  if (!form || !form.address) return <LoadingIndicator />;
+  if (status === "loading") return <LoadingIndicator />;
 
   return (
     <div className="max-w-2xl mx-auto p-6 mt-20 space-y-6">
@@ -142,164 +151,32 @@ export default function CheckoutPage() {
 
       {/* 1. 배송지 정보 */}
       <section>
-        <h2 className="text-lg font-semibold mb-2">배송지 정보</h2>
-        <div className="mb-2">
-          <label className="flex justify-end space-x-2">
-            <button
-              className="underline underline-offset-5 rounded-xs"
-              type="button"
-              onClick={handleAddressToggle}
-            >
-              {useNewAddress ? "기본 배송지 사용" : "신규 배송지 입력"}
-            </button>
-          </label>
+        <div className="mb-4 flex w-full justify-between">
+          <h2 className="text-lg font-semibold basis-1/2">배송지 정보</h2>
+          <button
+            className="underline underline-offset-5 w-full text-right"
+            type="button"
+            onClick={handleAddressToggle}
+          >
+            {useNewAddress || !form ? "기본 배송지 사용" : "신규 배송지 입력"}
+          </button>
         </div>
         <div>
-          {form.address?.isDefault && (
-            <span className="bg-[#313030] text-[#f2f0eb] px-2 py-1 rounded-xs">
-              기본
-            </span>
-          )}
-          <div>{form.address?.addressname}</div>
-          <div className="text-sm text-gray-700">
-            {form.address?.address} {form.address?.detailAddress}
-          </div>
-          <div className="text-xs text-gray-500">
-            {form.address?.addressmobile}
-          </div>
-        </div>
-        {isAddressOpen && !useNewAddress && (
-          <ul>
-            {addressList.map((addr) => (
-              <li
-                key={addr.id}
-                className={`border-b-1 border-b-[#cfcdcd] space-y-1 py-3 ${
-                  form.address?.id === addr.id && "font-bold"
-                }`}
-                onClick={() => handleSelectAddress(addr)}
-              >
-                {addr.isDefault && (
-                  <span className="bg-[#313030] text-[#f2f0eb] px-1.5 rounded-sm">
-                    기본
-                  </span>
-                )}
-                <div>{addr.addressname}</div>
-                <div className="text-sm text-gray-700">
-                  {addr.address} {addr.detailAddress}
-                </div>
-                <div className="text-xs text-gray-500">
-                  {addr.addressmobile}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-        {useNewAddress && (
-          <>
-            <div className="space-y-2">
-              <input
-                name="addressname"
-                type="text"
-                placeholder="이름"
-                required
-                value={newAddress.addressname}
-                onChange={handleNewAddressChange}
-                autoComplete="off"
-                className={INPUT_STYLE}
-              />
-              <div className="space-y-3">
-                <span className="flex justify-between items-center gap-4 h-13">
-                  <input
-                    name="postcode"
-                    type="text"
-                    placeholder="우편번호"
-                    required
-                    value={newAddress.postcode}
-                    onChange={handleNewAddressChange}
-                    autoComplete="off"
-                    className={INPUT_STYLE}
-                  />
-                  <button className="w-[6rem]">우편번호</button>
-                </span>
-                <input
-                  name="address"
-                  type="text"
-                  placeholder="기본주소"
-                  required
-                  value={newAddress.address}
-                  onChange={handleNewAddressChange}
-                  autoComplete="off"
-                  className={INPUT_STYLE}
-                />
-
-                <input
-                  name="detailAddress"
-                  type="text"
-                  placeholder="나머지주소 (선택)"
-                  value={newAddress.detailAddress}
-                  onChange={handleNewAddressChange}
-                  autoComplete="off"
-                  className={INPUT_STYLE}
-                />
-              </div>
-              <div className="mobile flex justify-between gap-2 items-center">
-                <select
-                  name="addressMobile1"
-                  id="addressMobile1"
-                  className="basis-1/3"
-                  required
-                  value={newAddress.addressMobile1}
-                  onChange={(e) =>
-                    setNewAddress({
-                      ...newAddress,
-                      addressMobile1: e.target.value,
-                    })
-                  }
-                >
-                  <option value="">(선택)</option>
-                  <option value="010">010</option>
-                  <option value="011">011</option>
-                  <option value="016">016</option>
-                  <option value="017">017</option>
-                  <option value="018">018</option>
-                  <option value="019">019</option>
-                </select>
-                -
-                <input
-                  type="text"
-                  id="addressMobile2"
-                  name="addressMobile2"
-                  className={`basis-1/3 ${INPUT_STYLE}`}
-                  required
-                  value={newAddress.addressMobile2}
-                  onChange={handleNewAddressChange}
-                  autoComplete="off"
-                />
-                -
-                <input
-                  type="text"
-                  id="addressMobile3"
-                  name="addressMobile3"
-                  className={`basis-1/3 ${INPUT_STYLE}`}
-                  required
-                  value={newAddress.addressMobile3}
-                  onChange={handleNewAddressChange}
-                  autoComplete="off"
-                />
-              </div>
-            </div>
-          </>
-        )}
-
-        <div className="flex flex-col mt-4">
-          {!useNewAddress && (
-            <button
-              className="underline underline-offset-5 rounded-xs"
-              type="button"
-              onClick={() => setIsAddressOpen((prev) => !prev)}
-            >
-              {isAddressOpen ? "목록 접기" : "전체 배송지 보기"}
-            </button>
+          {useNewAddress || !form ? (
+            <NewAddressForm
+              newAddress={newAddress}
+              handleNewAddressChange={handleNewAddressChange}
+              handleNewAddressMobileChange={handleNewAddressMobileChange}
+            />
+          ) : (
+            <AddressSelection
+              form={form}
+              addresses={addressList}
+              selectedAddress={form.address}
+              onSelectAddress={handleSelectAddress}
+              isAddressOpen={isAddressOpen}
+              setIsAddressOpen={setIsAddressOpen}
+            />
           )}
         </div>
       </section>
@@ -339,10 +216,11 @@ export default function CheckoutPage() {
           type="text"
           name="coupon"
           placeholder="쿠폰 코드 입력"
-          value={form.coupon}
+          value={form?.coupon ?? ""}
           onChange={handleInputChange}
           className="w-full border p-2 rounded-xs"
         />
+        <p className="text-sm grayscale-25"></p>
       </section>
 
       {/* 4. 마일리지 */}
@@ -352,10 +230,11 @@ export default function CheckoutPage() {
           type="number"
           name="mileage"
           min={0}
-          value={form.mileage}
+          value={form?.mileage ?? ""}
           onChange={handleInputChange}
           className="w-full border p-2 rounded"
         />
+        <p className="text-sm grayscale-25">보유 마일리지: {form?.mileage}</p>
       </section>
 
       {/* 5. 결제 방법 */}
@@ -363,7 +242,7 @@ export default function CheckoutPage() {
         <h2 className="text-lg font-semibold mb-2">결제 방법</h2>
         <select
           name="paymentMethod"
-          value={form.paymentMethod}
+          value={form?.paymentMethod}
           onChange={handleInputChange}
           className="w-full border p-2 rounded"
         >
