@@ -37,7 +37,7 @@ export default function CheckoutButton({
       }
 
       // 신규 배송지 저장
-      const { addressname, postcode, address, detailAddress, addressmobile } =
+      const { addressname, postcode, address, addressmobile } =
         newAddress;
 
       if (!addressname || !postcode || !address || !addressmobile) {
