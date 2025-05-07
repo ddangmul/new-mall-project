@@ -42,7 +42,7 @@ export default function Login() {
       setError("이메일 또는 비밀번호가 잘못되었습니다.");
     } else {
       sessionStorage.setItem("isLoggedIn", "true");
-      router.push("/myshop"); // 로그인 성공 후 이동할 페이지
+      router.push("/myshop");
       setLoading(false);
     }
   };
