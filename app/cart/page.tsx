@@ -137,7 +137,7 @@ export default function Cart() {
 
       <div className="w-full mt-10 checkout_btn flex justify-end space-x-5">
         <button onClick={handleBuySelected} className={BTN_CSS}>
-          선택한 상품 구매
+          선택 상품 구매
         </button>
         <button onClick={handleBuyAll} className={BTN_CSS}>
           전체 상품 구매

@@ -19,7 +19,6 @@ export default function LoadingIndicator() {
           repeatType: "loop", // 루프 반복
         }}
       />
-      <div>Loading...</div>
     </div>
   );
 }
