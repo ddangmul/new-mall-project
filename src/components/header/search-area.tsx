@@ -37,6 +37,7 @@ const SearchArea: React.FC = () => {
     <span className="flex items-center ml-2 xl:ml-4 relative">
       <p>Search</p>
       <input
+        id="searchTerm"
         name="searchTerm"
         type="text"
         value={searchTerm}

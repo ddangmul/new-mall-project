@@ -18,6 +18,7 @@ const customJestConfig = {
     "^@/assets/(.*)$": "<rootDir>/src/assets/$1",
     "^@/types/(.*)$": "<rootDir>/types/$1",
     "^@/app/(.*)$": "<rootDir>/app/$1",
+    "^next/image$": "<rootDir>/__mocks__/next/image.tsx",
   },
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",

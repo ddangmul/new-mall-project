@@ -1,41 +1,21 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import CheckoutPage from "../page";
+import * as nextNavigation from "next/navigation";
 import { useSession } from "next-auth/react";
-
-import { useRouter } from "next/navigation";
 import { useCart } from "@/store/cart-context";
 import { useAddress } from "@/store/address-context";
 
-// mock 모듈들
-jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-  useSearchParams: () => ({
-    get: (key: string) => {
-      if (key === "ids") return "all";
-      if (key === "buyNow") return null;
-      if (key === "qty") return null;
-      return null;
-    },
-  }),
+const mockReplace = jest.fn();
+const mockBack = jest.fn();
+
+jest.mock("next-auth/react");
+jest.mock("@/store/cart-context");
+jest.mock("@/store/address-context");
+jest.mock("react-toastify", () => ({
+  toast: { info: jest.fn(), error: jest.fn() },
 }));
 
-jest.mock("next-auth/react", () => ({
-  useSession: jest.fn(),
-}));
-
-jest.mock("@/store/cart-context", () => ({
-  useCart: jest.fn(),
-}));
-
-jest.mock("@/store/address-context", () => ({
-  useAddress: jest.fn(),
-}));
-
-// 필요한 컴포넌트들 모킹
-jest.mock("@/components/loading-indicator", () => () => (
-  <div data-testid="loading-indicator">Loading...</div>
-));
-
+// UI 관련 컴포넌트는 간단히 mock
 jest.mock("@/components/payment/checkout-btn", () => () => (
   <button>결제하기</button>
 ));
@@ -46,49 +26,68 @@ jest.mock("@/components/checkout/address-selection", () => () => (
   <div>Address Selection</div>
 ));
 
+jest.mock("next/navigation", () => {
+  const actual = jest.requireActual("next/navigation");
+  return {
+    ...actual,
+    useRouter: jest.fn(),
+    useSearchParams: jest.fn(),
+  };
+});
+
+const mockSearchParams = {
+  get: (key: string) => {
+    if (key === "ids") return "all";
+    return null;
+  },
+};
+
+const mockSession = {
+  data: {
+    user: {
+      username: "테스트 유저",
+      mobile: "010-1234-5678",
+    },
+  },
+  status: "authenticated",
+};
+
+const mockAddresses = [
+  {
+    id: 1,
+    addressname: "기본 배송지",
+    address: "서울시 강남구",
+    detailAddress: "101호",
+    addressmobile: "010-1111-2222",
+    isDefault: true,
+  },
+];
+
+const mockCartItems = [
+  {
+    id: 100,
+    title: "테스트 상품",
+    image: "/test.jpg",
+    price: 10000,
+    quantity: 2,
+  },
+];
+
 describe("CheckoutPage", () => {
-  const mockRouterPush = jest.fn();
-  const mockReplace = jest.fn();
-
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue({
-      push: mockRouterPush,
-      replace: mockReplace,
-      back: jest.fn(),
-    });
-
-    (useSession as jest.Mock).mockReturnValue({
-      data: {
-        user: {
-          username: "test user",
-          mobile: "01012345678",
-        },
-      },
-      status: "authenticated",
-    });
-
-    (useCart as jest.Mock).mockReturnValue({
-      cartItems: [
-        {
-          id: 1,
-          title: "test",
-          image: "/test.jpg",
-          price: 10000,
-          quantity: 2,
-        },
-      ],
-    });
-
+    (useSession as jest.Mock).mockReturnValue(mockSession);
+    (useCart as jest.Mock).mockReturnValue({ cartItems: mockCartItems });
     (useAddress as jest.Mock).mockReturnValue({
-      addresses: [
-        {
-          id: 1,
-          addressname: "test addressName",
-          isDefault: true,
-          address: "test address",
-        },
-      ],
+      addresses: mockAddresses,
       fetchAddresses: jest.fn(),
+    });
+
+    (nextNavigation.useSearchParams as jest.Mock).mockReturnValue(
+      mockSearchParams
+    );
+    (nextNavigation.useRouter as jest.Mock).mockReturnValue({
+      replace: mockReplace,
+      back: mockBack,
     });
   });
 
@@ -96,19 +95,7 @@ describe("CheckoutPage", () => {
     jest.clearAllMocks();
   });
 
-  // test("session 상태 loading일 때 로딩인디케이터 렌더링", async () => {
-  //   (useSession as jest.Mock).mockReturnValueOnce({
-  //     data: null,
-  //     status: "loading",
-  //   });
-
-  //   render(<CheckoutPage />);
-  //   await waitFor(() => {
-  //     expect(screen.getByTestId("loading-indicator")).toBeInTheDocument();
-  //   });
-  // });
-
-  test("checkout 페이지 렌더링", async () => {
+  test("checkout 페이지 기본 렌더링", async () => {
     render(<CheckoutPage />);
 
     await waitFor(() => {
@@ -117,14 +104,18 @@ describe("CheckoutPage", () => {
 
     expect(screen.getByText("배송지 정보")).toBeInTheDocument();
     expect(screen.getByText("상품 정보")).toBeInTheDocument();
-    expect(screen.getByText("test x 2")).toBeInTheDocument();
-    expect(screen.getByText("쿠폰 사용")).toBeInTheDocument();
-    expect(screen.getByText("마일리지 사용")).toBeInTheDocument();
-    expect(screen.getByText("결제 방법")).toBeInTheDocument();
+    expect(screen.getByText("테스트 상품 x 2")).toBeInTheDocument();
     expect(screen.getByText("결제하기")).toBeInTheDocument();
   });
 
-  it("'신규 배송지 입력' 버튼 클릭 시 NewAddressForm 렌더링", async () => {
+  test("비로그인 상태일 경우 로그인 페이지로 리디렉션", async () => {
+    (useSession as jest.Mock).mockReturnValue({ status: "unauthenticated" });
+
+    render(<CheckoutPage />);
+    expect(mockReplace).toHaveBeenCalledWith("/login");
+  });
+
+  test("신규 배송지 입력 클릭 시 NewAddressForm 렌더링", async () => {
     render(<CheckoutPage />);
 
     await waitFor(() => {

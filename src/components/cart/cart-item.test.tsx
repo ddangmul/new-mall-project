@@ -14,10 +14,10 @@ beforeEach(() => {
   });
 });
 
-// <Image> 모킹
-jest.mock("next/image", () => (props: any) => {
-  return <img {...props} />;
-});
+// // <Image> 모킹
+// jest.mock("next/image", () => (props: any) => {
+//   return <img {...props} />;
+// });
 
 // 테스트용 item
 const mockItem = {
