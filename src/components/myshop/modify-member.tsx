@@ -98,7 +98,7 @@ export default function ModifyMember() {
 
       setSuccessModal(true);
     } catch (err: any) {
-      setError(err.message);
+      if (err instanceof Error) setError(err.message);
     } finally {
       setLoading(false);
     }

@@ -38,7 +38,7 @@ export default function Signup() {
     }));
 
     if (error) {
-      setError(null);
+      setError("");
       setLoading(false);
     }
   };
@@ -50,12 +50,13 @@ export default function Signup() {
 
     if (formData.password !== formData.passwordCk) {
       setError("비밀번호가 일치하지 않습니다.");
+      setLoading(false);
       return;
     }
 
     const { mobile1, mobile2, mobile3 } = formData;
 
-    if (!validateMobileNumber(mobile1, mobile2, mobile3)) {
+    if (!validateMobileNumber(mobile1, mobile2, mobile3)?.result) {
       setError("전화번호는 010-1234-5678 형식이어야 합니다.");
       setLoading(false);
       return;
@@ -73,14 +74,17 @@ export default function Signup() {
         body: JSON.stringify(formattedData),
       });
 
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message || "회원가입 실패");
-
-      // alert("회원가입 성공!");
+      if (!res.ok) {
+        const errorMessage = await res.text();
+        throw new Error(errorMessage || "회원가입 실패");
+      }
       router.push("/login"); // 로그인 페이지로 이동
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message); // 에러 메시지 설정
+      } else {
+        setError("알 수 없는 오류가 발생했습니다.");
+      }
     } finally {
       setLoading(false);
     }
@@ -98,6 +102,7 @@ export default function Signup() {
             method="post"
             onSubmit={handleSignup}
             className="space-y-4 w-full"
+            role="form"
           >
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <div>
@@ -196,6 +201,7 @@ export default function Signup() {
                 value={formData.mobile2}
                 onChange={handleChange}
                 autoComplete="off"
+                data-testid="mobile2"
               />
               -
               <input
@@ -207,6 +213,7 @@ export default function Signup() {
                 value={formData.mobile3}
                 onChange={handleChange}
                 autoComplete="off"
+                data-testid="mobile3"
               />
             </div>
             <div className="flex justify-between gap-4">
@@ -255,7 +262,6 @@ export default function Signup() {
             <button
               type="submit"
               className="signup_btn text-2xl w-full py-3 my-6 bg-[#313030] text-[#f2f0eb]"
-              disabled={loading}
             >
               {loading ? "가입 중..." : "회원가입"}
             </button>

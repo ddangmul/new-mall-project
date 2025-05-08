@@ -40,8 +40,8 @@ export const AddressProvider = ({
           throw new Error(data.message || "배송지 조회 실패");
         }
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -63,8 +63,8 @@ export const AddressProvider = ({
       if (!res.ok) throw new Error(data.message || "배송지 추가 실패");
 
       await fetchAddresses();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -91,9 +91,11 @@ export const AddressProvider = ({
       if (!res.ok) {
         throw new Error(result.message || "주소 삭제 실패");
       }
-    } catch (error: any) {
-      console.error("주소 삭제 중 오류:", error);
-      setError(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("주소 삭제 중 오류:", error);
+        setError(error.message);
+      }
     }
   };
 

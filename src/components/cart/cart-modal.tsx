@@ -1,11 +1,21 @@
+"use client";
+
 import { createPortal } from "react-dom";
 import { useCart } from "@/store/cart-context";
+import { useEffect, useState } from "react"; // useEffect, useState 추가
 import "./cart-modal.css";
 
 export default function CartModal() {
   const { isModalOpen, closeModal, confirmOpenCart } = useCart();
+  const [isClient, setIsClient] = useState(false);
 
-  if (!isModalOpen) return null;
+  useEffect(() => {
+    // 클라이언트에서만 실행되도록 설정
+    setIsClient(true);
+  }, []);
+
+  // isClient가 true일 때만 createPortal을 실행하도록
+  if (!isModalOpen || !isClient) return null;
 
   return createPortal(
     <div className="overlay">
@@ -23,6 +33,6 @@ export default function CartModal() {
         </div>
       </div>
     </div>,
-    document.getElementById("modal") as HTMLElement
+    isClient ? (document.getElementById("modal") as HTMLElement) : null
   );
 }

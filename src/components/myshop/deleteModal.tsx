@@ -53,8 +53,8 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
       if (!res.ok) throw new Error(data.message || "회원탈퇴 실패");
 
       await signOut({ callbackUrl: "/" });
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) setError(err.message);
     } finally {
       setLoading(false);
     }

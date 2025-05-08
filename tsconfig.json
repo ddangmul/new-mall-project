@@ -20,7 +20,13 @@
         "name": "next"
       }
     ],
-    "types": ["next-auth", "jest", "node", "@testing-library/jest-dom"],
+    "types": [
+      "next-auth",
+      "jest",
+      "jest-fetch-mock",
+      "node",
+      "@testing-library/jest-dom"
+    ],
     "paths": {
       "@/*": ["./src/*"]
     },

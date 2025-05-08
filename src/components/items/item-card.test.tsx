@@ -1,6 +1,5 @@
 import { screen, render } from "@testing-library/react";
 import { Item } from "../../../types/types";
-import Image from "next/image";
 import ItemCard from "./item-card";
 import { formatterPrice } from "@/utils/formatter";
 

@@ -6,7 +6,11 @@ export const validateMobileNumber = (
   const mobileRegex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
   const mobileNumber = `${mobile1}-${mobile2}-${mobile3}`;
 
-  return { result: mobileRegex.test(mobileNumber), mobileNumber };
+  if (mobileRegex.test(mobileNumber) === false) {
+    return { result: false };
+  } else if (mobileRegex.test(mobileNumber) === true) {
+    return { result: true, mobileNumber };
+  }
 };
 
 export const validateNewAddress = (newAddress) => {
