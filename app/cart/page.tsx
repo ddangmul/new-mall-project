@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useCart } from "@/store/cart-context";
 import CartItem from "@/components/cart/cart-item";
 import { formatterPrice } from "@/utils/formatter";
@@ -16,24 +16,26 @@ export default function Cart() {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
   // 체크 상태 변경 핸들러
-  const handleCheck = (id: string, checked: boolean) => {
+  const handleCheck = useCallback((id: string, checked: boolean) => {
     setCheckedItems((prev) =>
       checked ? [...prev, id] : prev.filter((itemId) => itemId !== id)
     );
-  };
+  }, []);
 
   let totalOrderPrice = totalPrice;
 
-  const selectedTotalPrice = cartItems
-    .filter((item) => checkedItems.includes(String(item.id)))
-    .reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const selectedTotalPrice = useMemo(() => {
+    return cartItems
+      .filter((item) => checkedItems.includes(String(item.id)))
+      .reduce((acc, item) => acc + item.price * item.quantity, 0);
+  }, [cartItems, checkedItems]);
 
   if (checkedItems.length > 0) {
     totalOrderPrice = selectedTotalPrice;
   }
 
   // 선택 구매
-  const handleBuySelected = () => {
+  const handleBuySelected = useCallback(() => {
     const selectedItems = cartItems.filter((item) =>
       checkedItems.includes(String(item.id))
     );
@@ -45,10 +47,10 @@ export default function Cart() {
 
     const selectedIds = checkedItems.join(",");
     router.push(`/checkout?ids=${selectedIds}`);
-  };
+  }, [cartItems, checkedItems]);
 
   // 전체 구매
-  const handleBuyAll = () => {
+  const handleBuyAll = useCallback(() => {
     if (cartItems.length === 0) {
       alert("장바구니가 비어있습니다.");
       return;
@@ -56,16 +58,16 @@ export default function Cart() {
 
     const allItemIds = cartItems.map((item) => item.id).join(",");
     router.push(`/checkout?ids=${allItemIds}`);
-  };
+  }, [cartItems]);
 
   // 선택된 아이템만 삭제
-  const handleRemoveSelected = () => {
+  const handleRemoveSelected = useCallback(() => {
     const itemsToDelete = cartItems.filter((item) =>
       checkedItems.includes(String(item.id))
     );
     deleteCartHandler(itemsToDelete);
     setCheckedItems([]);
-  };
+  }, [cartItems, checkedItems]);
 
   return (
     <section className="cart-page py-10 px-20">
