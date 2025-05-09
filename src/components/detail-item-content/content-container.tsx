@@ -10,7 +10,8 @@ export default function ContentContainer({ item }: { item: Item }) {
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode") || "Explanation";
 
-  let RenderedComponent;
+  let RenderedComponent: any;
+  
   switch (mode) {
     case "Explanation":
       RenderedComponent = <Explanation item={item} />;

@@ -1,21 +1,26 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const MainImage: React.FC = () => {
   const router = useRouter();
 
-  const images = [
-    {
-      // title: "Corn Incense",
-      // category: "HomeCare",
-      src: "/homeImage/home-image4.jpg",
-    },
-    { src: "/homeImage/home-image2.jpg" },
-    // { src: "/homeImage/home-image1.jpg" },
-  ];
+  const images = useMemo(
+    () => [
+      {
+        // title: "Corn Incense",
+        // category: "HomeCare",
+        src: "/homeImage/home-image4.jpg",
+      },
+      { src: "/homeImage/home-image2.jpg" },
+      { src: "/homeImage/home-image1.jpg" },
+    ],
+    []
+  );
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -24,7 +29,7 @@ const MainImage: React.FC = () => {
     }, 7000); // 5초마다 이미지 변경
 
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, []);
 
   return (
     <section className="main_image">
@@ -42,24 +47,22 @@ const MainImage: React.FC = () => {
             {images.map(
               (image, index) =>
                 currentIndex === index && (
-                  <motion.img
+                  <motion.div
                     key={image.src}
-                    src={image.src}
-                    alt={`image-${index}`}
-                    style={{
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ opacity: { duration: 1 } }}
-                    // onClick={() =>
-                    //   router.push(`http://localhost:3000/${image.category}/1`)
-                    // }
-                  />
+                    className="absolute inset-0 w-full h-full"
+                  >
+                    <Image
+                      src={image.src}
+                      alt={`image-${index}`}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      priority
+                    />
+                  </motion.div>
                 )
             )}
           </AnimatePresence>

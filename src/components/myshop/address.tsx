@@ -36,8 +36,10 @@ export default function Address() {
       return acc;
     }, {} as { [id: number]: boolean });
 
-    setCheckedMap(initialCheckedMap);
-  }, [session, status]);
+    if (addresses.length > 0) {
+      setCheckedMap(initialCheckedMap);
+    }
+  }, [session, status, addresses]);
 
   const toggleCheck = (id: number) => {
     setCheckedMap((prev) => ({

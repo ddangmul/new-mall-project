@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useAddress } from "@/store/address-context";
 import { validateMobileNumber } from "@/utils/validation";
@@ -36,28 +36,29 @@ export default function RegisterAddress() {
     }
   }, [session]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const { name, value } = e.target;
 
-    // // 체크박스인 경우에는 HTMLInputElement로 단언 후 checked 사용
-    // const isCheckbox = type === "checkbox";
-    // const checked = isCheckbox && (e.target as HTMLInputElement).checked;
+      // // 체크박스인 경우에는 HTMLInputElement로 단언 후 checked 사용
+      // const isCheckbox = type === "checkbox";
+      // const checked = isCheckbox && (e.target as HTMLInputElement).checked;
 
-    // 체크박스일 경우에만 checked값을 따로 추출
-    // const newValue =
-    //   type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
+      // 체크박스일 경우에만 checked값을 따로 추출
+      // const newValue =
+      //   type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
 
-    if (error) {
-      setError(null);
-    }
-  };
+      if (error) {
+        setError("");
+      }
+    },
+    [error]
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

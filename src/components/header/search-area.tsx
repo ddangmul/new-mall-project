@@ -7,14 +7,8 @@ import Image from "next/image";
 
 const SearchArea: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
   // const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-
-  if (!isClient) return null;
 
   // // 300ms 후에 searchTerm 값을 debouncedSearchTerm에 업데이트
   // useEffect(() => {
@@ -36,13 +30,14 @@ const SearchArea: React.FC = () => {
   return (
     <span className="flex items-center ml-2 xl:ml-4 relative">
       <p>Search</p>
+      <label htmlFor="searchTerm"></label>
       <input
         id="searchTerm"
         name="searchTerm"
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="border-b-1 border-b-amber-50 text-white max-w-30 mx-2 bg-transparent focus:bg-transparent outline-none"
+        className="border-b-1 border-b-amber-50 text-white max-w-30 mx-2 bg-transparent outline-none"
         onKeyDown={(e) => e.key === "Enter" && handleSearch()} // Enter 키로 검색 가능
         autoComplete="off"
       ></input>
@@ -52,6 +47,7 @@ const SearchArea: React.FC = () => {
         width={10}
         height={10}
         className="absolute invert right-2"
+        loading="lazy"
       />
     </span>
   );

@@ -37,13 +37,7 @@ export default function CheckoutButton({
       }
 
       // 신규 배송지 저장
-      const { addressname, postcode, address, addressmobile } =
-        newAddress;
-
-      if (!addressname || !postcode || !address || !addressmobile) {
-        toast.error("배송지 정보를 모두 입력해주세요.");
-        return;
-      }
+      const { addressname, postcode, address, addressmobile } = newAddress;
 
       const saveAddressRes = await fetch("/api/address", {
         method: "POST",
@@ -83,7 +77,11 @@ export default function CheckoutButton({
       throw new Error("주문 생성 실패: 필수 정보 없음");
     }
 
-    const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY!;
+    const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY;
+    if (!clientKey) {
+      toast.error("결제 키가 설정되지 않았습니다.");
+      return;
+    }
     const tossPayments = (window as any).TossPayments?.(clientKey);
 
     if (!tossPayments) {
@@ -101,7 +99,10 @@ export default function CheckoutButton({
         failUrl: `${window.location.origin}/api/payment/fail`,
       });
     } catch (error) {
-      toast.error("결제창 에러: " + error);
+      toast.error(
+        "결제창 에러: " +
+          (error instanceof Error ? error.message : String(error))
+      );
     }
   };
 

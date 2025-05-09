@@ -12,8 +12,16 @@ const MyshopContentsNavBar: React.FC = () => {
   const changeMode = (mode: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("mode", mode);
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
+
+  const modes = [
+    { key: "order", label: "주문내역" },
+    { key: "returns", label: "취소/교환/반품" },
+    { key: "point", label: "포인트" },
+    { key: "oneqna", label: "1:1 문의" },
+    { key: "member", label: "회원정보 수정" },
+  ];
 
   return (
     <div className="mt-4">
@@ -21,56 +29,19 @@ const MyshopContentsNavBar: React.FC = () => {
         MyPage
       </Link>
       <nav className="flex flex-row w-full xl:w-50 xl:flex-col justify-arounded items-start gap-4 xl:gap-8 mt-12 text-md xl:text-xl">
-        <button
-          onClick={() => changeMode("order")}
-          className={
-            mode === "order"
-              ? "text-[#686360] underline underline-offset-7 decoration-[#cec7c4]"
-              : ""
-          }
-        >
-          주문내역
-        </button>
-        <button
-          onClick={() => changeMode("returns")}
-          className={
-            mode === "returns"
-              ? "text-[#686360] underline underline-offset-7 decoration-[#cec7c4]"
-              : ""
-          }
-        >
-          취소/교환/반품
-        </button>
-        <button
-          onClick={() => changeMode("point")}
-          className={
-            mode === "point"
-              ? "text-[#686360] underline underline-offset-7 decoration-[#cec7c4]"
-              : ""
-          }
-        >
-          포인트
-        </button>
-        <button
-          onClick={() => changeMode("oneqna")}
-          className={
-            pathname === "oneqna"
-              ? "text-[#686360] underline underline-offset-7 decoration-[#cec7c4]"
-              : ""
-          }
-        >
-          1:1 문의
-        </button>
-        <button
-          onClick={() => changeMode("member")}
-          className={
-            mode === "member"
-              ? "text-[#686360] underline underline-offset-7 decoration-[#cec7c4]"
-              : ""
-          }
-        >
-          회원정보 수정
-        </button>
+        {modes.map(({ key, label }) => (
+          <button
+            key={key}
+            onClick={() => changeMode(key)}
+            className={
+              mode === key
+                ? "text-[#686360] underline underline-offset-7 decoration-[#cec7c4]"
+                : ""
+            }
+          >
+            {label}
+          </button>
+        ))}
       </nav>
     </div>
   );

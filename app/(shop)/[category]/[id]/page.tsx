@@ -70,6 +70,7 @@ export default async function ItemDetailPage({ params }: PageProps) {
                 width={600}
                 height={900}
                 className="w-[400px] xl:w-full max-w-[600px] mx-auto"
+                loading="lazy"
               ></Image>
             </div>
             <div className="item-info-txt my-2 space-y-10">

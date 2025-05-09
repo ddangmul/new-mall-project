@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -19,7 +19,7 @@ export default function ModifyMember() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const user = session?.user; // session에서 user 정보 가져오기
+  const user = useMemo(() => session?.user, [session]); // session에서 user 정보 가져오기
   const isOAuth = user?.provider !== "credentials";
 
   useEffect(() => {
@@ -38,21 +38,22 @@ export default function ModifyMember() {
     new_pw_ck: "",
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const { name, value } = e.target;
 
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
 
-    if (error) {
-      setError(null);
-      setLoading(false);
-    }
-  };
+      if (error) {
+        setError(null);
+        setLoading(false);
+      }
+    },
+    [error]
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

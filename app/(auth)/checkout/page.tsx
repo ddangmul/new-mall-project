@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useCart } from "@/store/cart-context";
 import LoadingIndicator from "@/components/loading-indicator";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -108,29 +108,34 @@ export default function CheckoutPage() {
     isDefault: false,
   };
 
-  const handleSelectAddress = (addr) => {
-    setForm((prev) => ({
+  const handleSelectAddress = (addr: { addressname: any }) => {
+    setForm((prev: any) => ({
       ...prev,
       address: addr,
     }));
-    toast.info(`${addr.addressname} 배송지를 선택했습니다.`);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleNewAddressChange = (e) => {
-    setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
-  };
+  const handleNewAddressChange = useCallback(
+    (e: { target: { name: any; value: any } }) => {
+      setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
+    },
+    [newAddress]
+  );
 
-  const handleNewAddressMobileChange = (e) => {
-    const { name, value } = e.target;
-    setNewAddress((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const handleNewAddressMobileChange = useCallback(
+    (e: { target: { name: any; value: any } }) => {
+      const { name, value } = e.target;
+      setNewAddress((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    },
+    [newAddress]
+  );
 
   const handleAddressToggle = () => {
     setUseNewAddress(!useNewAddress);

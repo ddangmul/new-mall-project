@@ -12,6 +12,18 @@ const ScrollButtons = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsVisible(window.innerWidth > 768 && window.scrollY > 100);
+    };
+    window.addEventListener("scroll", handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleResize);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

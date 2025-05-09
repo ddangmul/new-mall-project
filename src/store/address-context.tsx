@@ -28,7 +28,7 @@ export const AddressProvider = ({
 
   const fetchAddresses = async () => {
     setLoading(true);
-
+    setError(null);
     try {
       if (status === "authenticated") {
         const res = await fetch("/api/address");
@@ -53,7 +53,7 @@ export const AddressProvider = ({
       if (!session.user) {
         return;
       }
-
+      setError(null);
       const res = await fetch("/api/address", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,6 +77,7 @@ export const AddressProvider = ({
       }
 
       if (checkedIds.length === 0) {
+        setError(null);
         throw new Error("삭제할 주소를 선택해주세요.");
       }
 
@@ -87,7 +88,7 @@ export const AddressProvider = ({
       });
 
       const result = await res.json();
-
+      await fetchAddresses();
       if (!res.ok) {
         throw new Error(result.message || "주소 삭제 실패");
       }
@@ -100,8 +101,8 @@ export const AddressProvider = ({
   };
 
   useEffect(() => {
-    fetchAddresses();
-  }, []);
+    if (status === "authenticated") fetchAddresses();
+  }, [status]);
 
   return (
     <AddressContext.Provider

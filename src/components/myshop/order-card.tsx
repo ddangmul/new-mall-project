@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function OrderCard({ order }) {
   const firstItem = order.orderItems[0];
 
-  if (!firstItem) {
+  if (!order || !firstItem) {
     return null;
   }
 
@@ -13,7 +13,7 @@ export default function OrderCard({ order }) {
       <div className="w-30 h-30 relative flex-shrink-0">
         <Image
           src={firstItem.item.image}
-          alt={firstItem.item.title}
+          alt={firstItem.item.title || "상품 이미지"}
           fill
           className="object-cover rounded-md"
         />
@@ -25,13 +25,13 @@ export default function OrderCard({ order }) {
         <p className="text-sm text-gray-500">
           주문일자: {new Date(order.createdAt).toLocaleDateString()}
         </p>
-        <p className="text-sm text-gray-500">주문상태: {order.status === 'paid' && '결제완료'}</p>
+        <p className="text-sm text-gray-500">
+          주문상태: {order.status === "paid" && "결제완료"}
+        </p>
       </div>
 
-      <div className="ml-auto m">
-        <Link href={`/order/${order.id}`} className="text-sm">
-          상세 보기
-        </Link>
+      <div className="ml-auto text-sm">
+        <Link href={`/order/${order.id}`}></Link>
       </div>
     </div>
   );

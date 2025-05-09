@@ -1,8 +1,24 @@
-export default function NewAddressForm({
+import React, { memo } from "react";
+
+interface NewAddressFormProps {
+  newAddress: {
+    addressname: string;
+    postcode: string;
+    address: string;
+    detailAddress: string;
+    addressMobile1: string;
+    addressMobile2: string;
+    addressMobile3: string;
+  };
+  handleNewAddressChange: (e: any) => void;
+  handleNewAddressMobileChange: (e: any) => void;
+}
+
+const NewAddressForm = React.memo(function NewAddressForm({
   newAddress,
   handleNewAddressChange,
   handleNewAddressMobileChange,
-}) {
+}: NewAddressFormProps) {
   return (
     <div className="space-y-2">
       <input
@@ -92,4 +108,6 @@ export default function NewAddressForm({
       </div>
     </div>
   );
-}
+});
+
+export default NewAddressForm;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import OrderCard from "./order-card";
 import Link from "next/link";
 import "./order.css";
@@ -28,6 +28,8 @@ export default function Order() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!loading) return;
+
     const fetchOrders = async () => {
       try {
         const res = await fetch("/api/order");
@@ -45,7 +47,11 @@ export default function Order() {
     };
 
     fetchOrders();
-  }, []);
+  }, [loading]);
+
+  const filteredOrders = useMemo(() => {
+    return orders.filter((order) => order.status === "paid");
+  }, [orders]);
 
   if (loading) {
     return <p className="text-center mt-10">주문 내역을 불러오는 중...</p>;
@@ -92,12 +98,9 @@ export default function Order() {
             <p className="py-30 text-lg">최근 주문 내역이 없습니다.</p>
           ) : (
             <ul className="space-y-4 w-full mt-5">
-              {orders.map(
-                (order) =>
-                  order.status === "paid" && (
-                    <OrderCard key={order.id} order={order} />
-                  )
-              )}
+              {filteredOrders.map((order) => (
+                <OrderCard key={order.id} order={order} />
+              ))}
             </ul>
           )}
           <div className="order_history_page py-10">

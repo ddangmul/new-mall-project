@@ -11,11 +11,6 @@ import SearchArea from "./search-area";
 
 const MainHeader: React.FC = () => {
   const [scrollRatio, setScrollRatio] = useState(0);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {

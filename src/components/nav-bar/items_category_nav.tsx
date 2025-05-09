@@ -17,54 +17,19 @@ const ItemsCategory: React.FC = () => {
     <section className="items_category">
       <nav className="items_category_inner py-12">
         <ul className="flex justify-center gap-4 md:gap-14 md:text-xl font-serif">
-          <li>
-            <Link
-              href="/All"
-              className={activeLink === "All" ? "text-[#7c5e5e]" : ""}
-            >
-              All
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/Best"
-              className={activeLink === "Best" ? "text-[#7c5e5e]" : ""}
-            >
-              Best
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/New"
-              className={activeLink === "New" ? "text-[#7c5e5e]" : ""}
-            >
-              New
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/HomeCare"
-              className={activeLink === "HomeCare" ? "text-[#7c5e5e]" : ""}
-            >
-              Home Care
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/FabricCare"
-              className={activeLink === "FabricCare" ? "text-[#7c5e5e]" : ""}
-            >
-              Fabric Care
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/HandBody"
-              className={activeLink === "HandBody" ? "text-[#7c5e5e]" : ""}
-            >
-              Hand & Body
-            </Link>
-          </li>
+          {["All", "Best", "New", "HomeCare", "FabricCare", "HandBody"].map(
+            (category) => (
+              <li key={category}>
+                <Link
+                  href={`/${category}`}
+                  className={activeLink === category ? "text-[#7c5e5e]" : ""}
+                >
+                  {category.replace(/([A-Z])/g, " $1")}{" "}
+                  {/* camelCase를 space로 변환 */}
+                </Link>
+              </li>
+            )
+          )}
         </ul>
       </nav>
     </section>

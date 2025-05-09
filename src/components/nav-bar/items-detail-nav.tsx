@@ -12,38 +12,27 @@ const DetailContentsNavBar: React.FC = () => {
   const changeMode = (mode: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("mode", mode);
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
+
+  const buttons = [
+    { label: "상세정보", mode: "Explanation" },
+    { label: "Q&A", mode: "QnA" },
+    { label: "Review", mode: "Review" },
+    { label: "반품&교환", mode: "Returns" },
+  ];
 
   return (
     <nav className="text-center flex justify-center text-md gap-6 xl:gap-10 xl:text-xl">
-      <button
-        onClick={() => changeMode("Explanation")}
-        className={mode === "Explanation" ? "text-[#8e8a88]" : ""}
-      >
-        상세정보
-      </button>
-      /
-      <button
-        onClick={() => changeMode("QnA")}
-        className={mode === "QnA" ? "text-[#8e8a88]" : ""}
-      >
-        Q&A
-      </button>
-      /
-      <button
-        onClick={() => changeMode("Review")}
-        className={mode === "Review" ? "text-[#8e8a88]" : ""}
-      >
-        Review
-      </button>
-      /
-      <button
-        onClick={() => changeMode("Returns")}
-        className={mode === "Returns" ? "text-[#8e8a88]" : ""}
-      >
-        반품&교환
-      </button>
+      {buttons.map(({ label, mode: buttonMode }) => (
+        <button
+          key={buttonMode}
+          onClick={() => changeMode(buttonMode)}
+          className={mode === buttonMode ? "text-[#8e8a88]" : ""}
+        >
+          {label}
+        </button>
+      ))}
     </nav>
   );
 };
