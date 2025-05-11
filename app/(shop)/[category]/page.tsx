@@ -8,12 +8,12 @@ import ItemsGrid from "@/components/items/items-grid";
 import { Item } from "../../../types/types";
 import { notFound } from "next/navigation";
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { category: string };
-}) {
-  const { category } = await params;
+type Props = Promise<{
+  category: string;
+}>;
+
+export default async function CategoryPage({ params }: { params: Props }) {
+  const category = (await params).category;
 
   let items: Item[];
 
@@ -30,7 +30,7 @@ export default async function CategoryPage({
   if (!items) {
     notFound();
   }
-  
+
   return (
     <section className="items-container px-4 py-5">
       <ItemsGrid items={items} />

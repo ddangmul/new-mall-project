@@ -43,16 +43,22 @@ export async function POST(req: Request) {
       data: { email: useremail, password: hashedPassword, mobile },
     });
 
-    return Response.json({
+    return NextResponse.json({
       message: "사용자 정보가 업데이트되었습니다.",
     });
   } catch (error) {
     if (error instanceof Error) {
       // 'error'는 이제 'Error' 타입으로 간주
-      return { message: "서버 오류", error: error.message };
+      return NextResponse.json(
+        { message: "서버 오류", error: error.message },
+        { status: 500 }
+      );
     } else {
       // 'error'가 'Error' 타입이 아닐 경우 기본 처리
-      return { message: "서버 오류", error: "알 수 없는 오류" };
+      return NextResponse.json(
+        { message: "서버 오류", error: "알 수 없는 오류" },
+        { status: 500 }
+      );
     }
   }
 }

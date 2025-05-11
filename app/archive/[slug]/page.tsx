@@ -1,12 +1,10 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
-type Props = {
-  params: { slug: string };
-};
+type Props = Promise<{ slug: string }>;
 
-export default async function ArchiveDetailPage({ params }: Props) {
-  const { slug } = await params;
+export default async function ArchiveDetailPage({ params }: { params: Props }) {
+  const slug = (await params).slug;
 
   const archive = await prisma.archive.findUnique({
     where: { slug },

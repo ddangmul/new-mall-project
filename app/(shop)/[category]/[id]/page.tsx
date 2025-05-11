@@ -9,15 +9,18 @@ import DetailContentsNavBar from "@/components/nav-bar/items-detail-nav";
 import ContentContainer from "@/components/detail-item-content/content-container";
 import { Metadata } from "next";
 
-type Props = {
-  params: {
-    category: string;
-    id: string;
-  };
-};
+type PageParams = Promise<{
+  category: string;
+  id: string;
+}>;
 
-export async function generateMetadata({ params }: Props) {
-  const item: Item = await getItemById(params.id);
+export async function generateMetadata({
+  params,
+}: {
+  params: PageParams;
+}): Promise<Metadata> {
+  const id = (await params).id;
+  const item: Item = await getItemById(id);
 
   if (!item) {
     return {
@@ -44,9 +47,14 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function ItemDetailPage({ params }: Props) {
+export default async function ItemDetailPage({
+  params,
+}: {
+  params: PageParams;
+}) {
   try {
-    const item: Item = await getItemById(params.id);
+    const id = (await params).id;
+    const item: Item = await getItemById(id);
 
     if (!item) {
       return notFound();
