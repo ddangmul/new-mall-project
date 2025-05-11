@@ -36,9 +36,6 @@ export default function CheckoutButton({
         return;
       }
 
-      // 신규 배송지 저장
-      const { addressname, postcode, address, addressmobile } = newAddress;
-
       const saveAddressRes = await fetch("/api/address", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

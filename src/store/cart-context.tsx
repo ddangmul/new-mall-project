@@ -19,9 +19,9 @@ interface CartContextType {
 
 export const CartContext = createContext<CartContextType>({
   cartItems: [],
-  addCartHandler: (item) => {},
-  deleteCartHandler: (item) => {},
-  updateItemQuantity: (id, quantity) => {},
+  addCartHandler: (_item) => {},
+  deleteCartHandler: (_item) => {},
+  updateItemQuantity: (_id, _quantity) => {},
   totalPrice: 0,
   isModalOpen: false,
   openModal: () => {},

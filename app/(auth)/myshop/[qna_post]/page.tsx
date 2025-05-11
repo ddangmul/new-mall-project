@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 
 export default function QnAPost() {
-  const [content, setContent] = useState("");
+  const [_content, setContent] = useState("");
   const { data: session } = useSession();
 
   const editor = useEditor({

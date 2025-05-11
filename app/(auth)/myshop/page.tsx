@@ -1,12 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import MyshopContentsNavBar from "@/components/nav-bar/myshop-contents-nav";
 import Order from "@/components/myshop/order";
-import Returns from "@/components/detail-item-content/returns";
 import ReturnsOrder from "@/components/myshop/returns";
 import Point from "@/components/myshop/point";
-import QnA from "@/components/detail-item-content/qna";
 import OneQnA from "@/components/myshop/one-qna";
 import Member from "@/components/myshop/member/member";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";

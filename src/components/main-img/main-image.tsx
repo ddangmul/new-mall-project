@@ -2,12 +2,9 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const MainImage: React.FC = () => {
-  const router = useRouter();
-
   const images = useMemo(
     () => [
       {
@@ -29,7 +26,7 @@ const MainImage: React.FC = () => {
     }, 7000); // 5초마다 이미지 변경
 
     return () => clearInterval(interval);
-  }, []);
+  }, [images.length]);
 
   return (
     <section className="main_image">

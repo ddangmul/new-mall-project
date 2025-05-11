@@ -2,7 +2,7 @@ import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import CheckoutPage from "../(auth)/checkout/page";
 import * as nextNavigation from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useCart } from "@/store/cart-context";
+import { useCart } from "@/src/store/cart-context";
 import { useAddress } from "@/store/address-context";
 
 const mockReplace = jest.fn();

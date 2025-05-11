@@ -106,6 +106,6 @@ export default async function ItemDetailPage({ params }: PageProps) {
       </div>
     );
   } catch (error) {
-    return notFound();
+    if (error) return notFound();
   }
 }

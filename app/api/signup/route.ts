@@ -5,8 +5,7 @@ import { prisma } from "@/lib/prisma";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { email, password, username, birthdate, isLunar, isSolar, mobile } =
-      data;
+    const { email, password, username, birthdate, mobile } = data;
 
     // 필수 입력값 확인
     if (!email || !password || !username) {

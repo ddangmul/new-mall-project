@@ -58,7 +58,7 @@ export default function Cart() {
 
     const allItemIds = cartItems.map((item) => item.id).join(",");
     router.push(`/checkout?ids=${allItemIds}`);
-  }, [cartItems]);
+  }, [cartItems, router]);
 
   // 선택된 아이템만 삭제
   const handleRemoveSelected = useCallback(() => {
@@ -67,7 +67,7 @@ export default function Cart() {
     );
     deleteCartHandler(itemsToDelete);
     setCheckedItems([]);
-  }, [cartItems, checkedItems]);
+  }, [cartItems, checkedItems, deleteCartHandler]);
 
   return (
     <section className="cart-page py-10 px-20">

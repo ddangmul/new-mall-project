@@ -9,7 +9,7 @@ interface AddressContextType {
   addresses: Address[];
   fetchAddresses: () => Promise<void>;
   addAddress: (addressData: AddressInput) => Promise<void>;
-  deleteAddress: (addresses: Number[]) => Promise<void>;
+  deleteAddress: (addresses: number[]) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
@@ -70,7 +70,7 @@ export const AddressProvider = ({
     }
   };
 
-  const deleteAddress = async (checkedIds: Number[]) => {
+  const deleteAddress = async (checkedIds: number[]) => {
     try {
       if (!session.user) {
         return;
@@ -102,7 +102,7 @@ export const AddressProvider = ({
 
   useEffect(() => {
     if (status === "authenticated") fetchAddresses();
-  }, [status]);
+  }, [status, fetchAddresses]);
 
   return (
     <AddressContext.Provider

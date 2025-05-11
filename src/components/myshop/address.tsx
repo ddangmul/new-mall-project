@@ -39,7 +39,7 @@ export default function Address() {
     if (addresses.length > 0) {
       setCheckedMap(initialCheckedMap);
     }
-  }, [session, status, addresses]);
+  }, [session, status, addresses, fetchAddresses]);
 
   const toggleCheck = (id: number) => {
     setCheckedMap((prev) => ({

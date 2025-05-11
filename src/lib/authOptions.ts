@@ -93,7 +93,7 @@ export const authOptions: NextAuthOptions = {
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!,
       clientSecret: process.env.KAKAO_CLIENT_SECRET || "",
-      profile: (profile: KakaoProfile, tokens: TokenSet) => {
+      profile: (profile: KakaoProfile, _tokens: TokenSet) => {
         // TokenSet 사용
         // Kakao 프로필에서 직접 이메일과 닉네임을 가져옴
         const kakaoAccount = profile.kakao_account;

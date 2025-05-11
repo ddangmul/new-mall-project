@@ -2,7 +2,6 @@ import { screen, render, fireEvent } from "@testing-library/react";
 import { formatterPrice } from "@/utils/formatter";
 import { Item } from "../../../types/types";
 import { useCart } from "@/store/cart-context";
-import Link from "next/link";
 import ItemQuantity from "./item-quantity";
 
 jest.mock("@/store/cart-context", () => ({

@@ -40,7 +40,7 @@ export default function CheckoutPage() {
     } else if (status === "unauthenticated") {
       router.replace("/login");
     }
-  }, [status, router]);
+  }, [status, fetchAddresses]);
 
   useEffect(() => {
     if (addresses.length > 0) {
@@ -75,8 +75,9 @@ export default function CheckoutPage() {
           if (!res.ok) throw new Error("상품 정보를 불러오지 못했습니다.");
           const data = await res.json();
           setBuyNowItem({ ...data, quantity: buyNowQty });
-        } catch (error) {
-          toast.error("상품 정보를 가져오는 데 실패했습니다.");
+        } catch (error: unknown) {
+          if (error instanceof Error)
+            toast.error("상품 정보를 가져오는 데 실패했습니다.");
         }
       }
     };
@@ -134,7 +135,7 @@ export default function CheckoutPage() {
         [name]: value,
       }));
     },
-    [newAddress]
+    []
   );
 
   const handleAddressToggle = () => {

@@ -3,29 +3,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import ItemsGrid from "@/components/items/items-grid";
-const SearchResults = ({ searchTerm }) => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    if (searchTerm) {
-      fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`)
-        .then(async (res) => {
-          if (!res.ok) {
-            throw new Error("API 요청 실패");
-          }
-          const data = await res.json();
-          return data;
-        })
-        .then((data) => setProducts(data));
-    }
-  }, [searchTerm]);
-
-  return products.length === 0 ? (
-    <p>검색어와 일치하는 제품이 없습니다.</p>
-  ) : (
-    <ItemsGrid items={products} />
-  );
-};
 
 const SearchPage = () => {
   const searchParams = useSearchParams();

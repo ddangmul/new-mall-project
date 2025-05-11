@@ -55,7 +55,8 @@ export async function DELETE(req: Request): Promise<Response> {
       { message: "회원정보가 성공적으로 삭제되었습니다." },
       { status: 200 }
     );
-  } catch (error) {
-    throw new Error("회원정보 삭제 과정에서 에러가 발생했습니다.");
+  } catch (error: unknown) {
+    if (error instanceof Error)
+      throw new Error("회원정보 삭제 과정에서 에러가 발생했습니다.");
   }
 }

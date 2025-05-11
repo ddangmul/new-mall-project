@@ -4,13 +4,13 @@ import NextAuth, { DefaultSession } from "next-auth";
 declare module "next-auth" {
   interface Address {
     id: string;
-    postcode: String;
-    address: String;
-    detailAddress: String;
-    isDefault: Boolean;
+    postcode: string;
+    address: string;
+    detailAddress: string;
+    isDefault: boolean;
     userId: string;
-    addressname: String;
-    addressmobile: String;
+    addressname: string;
+    addressmobile: string;
     user: User;
   }
 

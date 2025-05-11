@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 const DetailContentsNavBar: React.FC = () => {
