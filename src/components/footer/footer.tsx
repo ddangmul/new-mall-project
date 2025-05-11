@@ -1,4 +1,4 @@
-import { Link } from "lucide-react";
+import Link from "next/link";
 
 const Footer: React.FC = () => {
   return (
@@ -14,39 +14,19 @@ const Footer: React.FC = () => {
             Email. hello@hinoki.life <br></br>Address. 2F, Ground, Water, Korea
           </p>
         </div>
-        <div className="footer_content_2">
+        <div className="footer_content_2 flex flex-col">
           <p className="underline">Brand</p>
-          <ul>
-            <li>
-              <Link href="/privacy">Privacy Policy</Link>
-            </li>
-            <li>
-              <Link href="/useterm">Terms of Use</Link>
-            </li>
-            <li>
-              <Link href="/">Order Tracking</Link>
-            </li>
-            <li>
-              <Link href="/">Instagram</Link>
-            </li>
-          </ul>
+          <Link href="/privacy">Privacy Policy</Link>
+          <Link href="/useterm">Terms of Use</Link>
+          <Link href="/">Blog</Link>
+          <Link href="/">Instagram</Link>
         </div>
-        <div className="footer_content_3">
+        <div className="footer_content_3 flex flex-col">
           <p className="underline">Help</p>
-          <ul>
-            <li>
-              <p>hello@hyangnang.kr</p>
-            </li>
-            <li>
-              <p>000-0000-0000</p>
-            </li>
-            <li>
-              <p>Mon-Fri 10:00-17:00</p>
-            </li>
-            <li>
-              <p>Lunch Time 12:00-13:30</p>
-            </li>
-          </ul>
+          <p>hello@hyangnang.kr</p>
+          <p>000-0000-0000</p>
+          <p>Mon-Fri 10:00-17:00</p>
+          <p>Lunch Time 12:00-13:30</p>
         </div>
       </div>
       <div className="footer_bottom_hinoki col-span-full row-span-2 mt-6 grid grid-cols-2">

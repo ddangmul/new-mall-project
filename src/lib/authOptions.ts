@@ -136,7 +136,7 @@ export const authOptions: NextAuthOptions = {
           );
           const data = await res.json();
 
-          const phone = data.phoneNumbers?.[0]?.value ?? null;
+          const phone = data.phonenumbers?.[0]?.value ?? null;
           const birthday = data.birthdays?.[0]?.date
             ? `${data.birthdays[0].date.year}-${data.birthdays[0].date.month
                 .toString()
