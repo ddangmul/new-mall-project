@@ -29,7 +29,7 @@ export default function Myshop() {
     if (status === "unauthenticated") {
       router.push("/login");
     }
-  }, [status]);
+  }, [status, router]);
 
   useEffect(() => {
     const isFirstVisitWithoutMode =

@@ -1,3 +1,5 @@
+import { Link } from "lucide-react";
+
 export default function TermsPage() {
   return (
     <main className="p-8 max-w-3xl mx-auto">
@@ -40,12 +42,12 @@ export default function TermsPage() {
         <h2 className="text-xl font-semibold mb-2">제5조 (문의)</h2>
         <p>
           궁금하신 점은 이메일로 문의해주세요:{" "}
-          <a
+          <Link
             href="mailto:e.gyeong829@gmail.com"
             className="text-blue-600 underline"
           >
             hyangnang.com
-          </a>
+          </Link>
         </p>
       </section>
     </main>

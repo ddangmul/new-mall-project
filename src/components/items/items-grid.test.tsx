@@ -1,10 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Item } from "../../../types/types";
-import { useCart } from "@/store/cart-context";
 import ItemsGrid from "./items-grid";
 
 // Mock ItemCard 컴포넌트
-jest.mock("./item-card", () => ({ item }: { item: any }) => (
+jest.mock("./item-card", () => ({ item }: { item: Item }) => (
   <div data-testid="item-card">{item.title}</div>
 ));
 

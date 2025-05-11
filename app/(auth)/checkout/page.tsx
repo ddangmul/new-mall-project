@@ -34,15 +34,13 @@ export default function CheckoutPage() {
   const [buyNowItem, setBuyNowItem] = useState(null);
   const router = useRouter();
 
-  const INPUT_STYLE = "w-full border p-2 rounded-xs";
-
   useEffect(() => {
     if (status === "authenticated") {
       fetchAddresses();
     } else if (status === "unauthenticated") {
       router.replace("/login");
     }
-  }, [status]);
+  }, [status, router]);
 
   useEffect(() => {
     if (addresses.length > 0) {
@@ -108,26 +106,28 @@ export default function CheckoutPage() {
     isDefault: false,
   };
 
-  const handleSelectAddress = (addr: { addressname: any }) => {
-    setForm((prev: any) => ({
+  const handleSelectAddress = (addr: { addressname: string }) => {
+    setForm((prev) => ({
       ...prev,
       address: addr,
     }));
   };
 
-  const handleInputChange = (e: { target: { name: any; value: any } }) => {
+  const handleInputChange = (e: {
+    target: { name: string; value: string };
+  }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleNewAddressChange = useCallback(
-    (e: { target: { name: any; value: any } }) => {
+    (e: { target: { name: string; value: string } }) => {
       setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
     },
     [newAddress]
   );
 
   const handleNewAddressMobileChange = useCallback(
-    (e: { target: { name: any; value: any } }) => {
+    (e: { target: { name: string; value: string } }) => {
       const { name, value } = e.target;
       setNewAddress((prev) => ({
         ...prev,

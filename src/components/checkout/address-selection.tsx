@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { Address } from "@prisma/client";
-import React, { memo } from "react";
+import React from "react";
 
 interface AddressSelectionProps {
   form: {

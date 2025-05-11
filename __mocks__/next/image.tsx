@@ -1,4 +1,4 @@
-const NextImage = (props: any) => {
+const NextImage = (props) => {
   const { fill, ...rest } = props;
   return <img {...rest} />;
 };

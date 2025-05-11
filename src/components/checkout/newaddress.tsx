@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 
 interface NewAddressFormProps {
   newAddress: {
@@ -10,8 +10,8 @@ interface NewAddressFormProps {
     addressMobile2: string;
     addressMobile3: string;
   };
-  handleNewAddressChange: (e: any) => void;
-  handleNewAddressMobileChange: (e: any) => void;
+  handleNewAddressChange: (e) => void;
+  handleNewAddressMobileChange: (e) => void;
 }
 
 const NewAddressForm = React.memo(function NewAddressForm({

@@ -5,13 +5,14 @@ import Explanation from "@/components/detail-item-content/explanation";
 import QnA from "@/components/detail-item-content/qna";
 import Review from "@/components/detail-item-content/review";
 import Returns from "@/components/detail-item-content/returns";
+import { ReactElement } from "react";
 
 export default function ContentContainer({ item }: { item: Item }) {
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode") || "Explanation";
 
-  let RenderedComponent: any;
-  
+  let RenderedComponent: ReactElement;
+
   switch (mode) {
     case "Explanation":
       RenderedComponent = <Explanation item={item} />;

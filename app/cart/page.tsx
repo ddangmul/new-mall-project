@@ -47,7 +47,7 @@ export default function Cart() {
 
     const selectedIds = checkedItems.join(",");
     router.push(`/checkout?ids=${selectedIds}`);
-  }, [cartItems, checkedItems]);
+  }, [cartItems, checkedItems, router]);
 
   // 전체 구매
   const handleBuyAll = useCallback(() => {

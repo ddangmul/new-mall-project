@@ -1,3 +1,5 @@
+import { Link } from "lucide-react";
+
 export default function About() {
   return (
     <main className="p-10 mx-20 max-w-5xl">
@@ -36,12 +38,12 @@ export default function About() {
         <h2 className="text-xl font-semibold mb-2">📫 연락처</h2>
         <p>
           e-mail:{" "}
-          <a
+          <Link
             href="mailto:e.gyeong@gmail.com"
             className="text-blue-600 underline"
           >
             e.gyeong829@gmail.com
-          </a>
+          </Link>
         </p>
       </section>
     </main>

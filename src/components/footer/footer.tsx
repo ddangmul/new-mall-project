@@ -1,3 +1,5 @@
+import { Link } from "lucide-react";
+
 const Footer: React.FC = () => {
   return (
     <footer
@@ -16,16 +18,16 @@ const Footer: React.FC = () => {
           <p className="underline">Brand</p>
           <ul>
             <li>
-              <a href="/privacy">Privacy Policy</a>
+              <Link href="/privacy">Privacy Policy</Link>
             </li>
             <li>
-              <a href="/useterm">Terms of Use</a>
+              <Link href="/useterm">Terms of Use</Link>
             </li>
             <li>
-              <a href="">Order Tracking</a>
+              <Link href="">Order Tracking</Link>
             </li>
             <li>
-              <a href="">Instagram</a>
+              <Link href="">Instagram</Link>
             </li>
           </ul>
         </div>
