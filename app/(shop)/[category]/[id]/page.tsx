@@ -9,18 +9,15 @@ import DetailContentsNavBar from "@/components/nav-bar/items-detail-nav";
 import ContentContainer from "@/components/detail-item-content/content-container";
 import { Metadata } from "next";
 
-interface PageProps {
+type Props = {
   params: {
     category: string;
     id: string;
   };
-}
+};
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const { id } = await params;
-  const item: Item = await getItemById(id);
+export async function generateMetadata({ params }: Props) {
+  const item: Item = await getItemById(params.id);
 
   if (!item) {
     return {
@@ -47,11 +44,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function ItemDetailPage({ params }: PageProps) {
+export default async function ItemDetailPage({ params }: Props) {
   try {
-    // nextjs 14부터 params도 비동기적으로 제공
-    const { id } = await params;
-    const item: Item = await getItemById(id);
+    const item: Item = await getItemById(params.id);
 
     if (!item) {
       return notFound();

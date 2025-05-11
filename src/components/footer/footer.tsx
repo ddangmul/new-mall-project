@@ -24,10 +24,10 @@ const Footer: React.FC = () => {
               <Link href="/useterm">Terms of Use</Link>
             </li>
             <li>
-              <Link href="">Order Tracking</Link>
+              <Link href="/">Order Tracking</Link>
             </li>
             <li>
-              <Link href="">Instagram</Link>
+              <Link href="/">Instagram</Link>
             </li>
           </ul>
         </div>
