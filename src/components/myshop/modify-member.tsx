@@ -84,6 +84,12 @@ export default function ModifyMember() {
       mobile: mobileNumber,
     };
 
+    if (isOAuth) {
+      delete formattedData.old_pw;
+      delete formattedData.new_pw;
+      delete formattedData.new_pw_ck;
+    }
+
     try {
       const res = await fetch("/api/user/update", {
         method: "POST",

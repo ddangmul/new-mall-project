@@ -26,21 +26,34 @@ export async function POST(req: Request) {
     }
 
     // 기존 비밀번호 확인
-    const isMatch = await bcrypt.compare(old_pw, user.password);
-    if (!isMatch) {
-      return NextResponse.json(
-        { message: "기존 비밀번호가 일치하지 않습니다." },
-        { status: 400 }
-      );
-    }
+    if (user.provider === "credentials") {
+      if (!user.password) {
+        return NextResponse.json(
+          { message: "비밀번호 정보가 없습니다." },
+          { status: 400 }
+        );
+      }
 
-    // 새 비밀번호 암호화
-    const hashedPassword = await bcrypt.hash(new_pw, 10);
+      const isMatch = await bcrypt.compare(old_pw, user.password);
+      if (!isMatch) {
+        return NextResponse.json(
+          { message: "기존 비밀번호가 일치하지 않습니다." },
+          { status: 400 }
+        );
+      }
+    }
+    const updateData: any = { mobile };
+
+    if (new_pw && user.provider === "credentials") {
+      // 새 비밀번호 암호화
+      const hashedPassword = await bcrypt.hash(new_pw, 10);
+      updateData.password = hashedPassword;
+    }
 
     // 비밀번호 업데이트
     await prisma.user.update({
       where: { id: user.id },
-      data: { email: useremail, password: hashedPassword, mobile },
+      data: updateData,
     });
 
     return NextResponse.json({
