@@ -11,6 +11,9 @@ import SearchArea from "./search-area";
 
 const MainHeader: React.FC = () => {
   const [scrollRatio, setScrollRatio] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
+  const user = session?.user;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,7 +29,6 @@ const MainHeader: React.FC = () => {
   }, []);
 
   const backgroundColor = useMemo(() => {
-    // #f2f0eb = rgb(242, 240, 235)
     const r = 18 + (242 - 18) * scrollRatio;
     const g = 17 + (240 - 17) * scrollRatio;
     const b = 17 + (235 - 17) * scrollRatio;
@@ -38,56 +40,23 @@ const MainHeader: React.FC = () => {
     return `rgb(${val}, ${val}, ${val})`;
   }, [scrollRatio]);
 
-  const { data: session, status } = useSession();
-  const user = session?.user;
-
-  let content;
-  // session이 로딩 중일 때
-  if (status === "loading") {
-    content = (
-      <span>
-        <Link href="/login">Login</Link>
-      </span>
-    );
-  } else if (!user) {
-    content = (
-      <span>
-        <Link href="/login">Login</Link>
-      </span>
-    );
-  } else {
-    content = (
-      <span>
-        <Link href="/myshop">MyPage</Link>
-      </span>
-    );
-  }
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   return (
     <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
       <motion.div
         className="header-inner py-5 px-4"
-        animate={{
-          backgroundColor,
-          color: textColor,
-        }}
+        animate={{ backgroundColor, color: textColor }}
         transition={{ duration: 0.3 }}
       >
         <div className="flex justify-between items-center font-serif">
-          <div className="basis-1/3 flex gap-4 text-sm md:text-lg xl:text-lg xl:gap-8">
-            <span className="hidden md:block">
-              <Link href="/">Home</Link>
-            </span>
-            <span>
-              <Link href="/about" className="md: block">
-                About
-              </Link>
-            </span>
-            <span className="hidden md:block">
-              <Link href="/archive">Archive</Link>
-            </span>
+          <div className="hidden md:flex basis-1/3 gap-4 text-sm md:text-lg xl:text-lg xl:gap-8">
+            <Link href="/">Home</Link>
+            <Link href="/about">About</Link>
+            <Link href="/archive">Archive</Link>
           </div>
-          <Link href="/">
+
+          <Link href="/" className="flex justify-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={scrollRatio > 0.5 ? "light" : "dark"}
@@ -102,26 +71,77 @@ const MainHeader: React.FC = () => {
                   alt="hyangnang-logo"
                   fill
                   sizes="200px"
-                  style={{ objectFit: "contain" }} // 이미지 비율 유지
+                  style={{ objectFit: "contain" }}
                   priority
                 />
               </motion.div>
             </AnimatePresence>
           </Link>
-          <div className="basis-1/3 flex justify-end text-sm md:text-lg gap-4 xl:gap-8">
-            {content}
-            <span>
-              <Link href="/cart" className="hidden md:block">
-                Cart
-              </Link>
-            </span>
-            <span className="hidden md:block">
-              <SearchArea />
-            </span>
+
+          <div className="hidden md:flex basis-1/3 justify-end text-sm md:text-lg gap-4 xl:gap-8">
+            <Link href={user ? "/myshop" : "/login"}>
+              {user ? "MyPage" : "Login"}
+            </Link>
+            <Link href="/cart">Cart</Link>
+            <SearchArea />
+          </div>
+
+          <div className="md:hidden">
+            <button onClick={toggleMenu} aria-label="Toggle menu">
+              <div className="space-y-1">
+                <div className="w-6 h-0.5 bg-current"></div>
+                <div className="w-6 h-0.5 bg-current"></div>
+                <div className="w-6 h-0.5 bg-current"></div>
+              </div>
+            </button>
           </div>
         </div>
+
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.nav
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden absolute top-full left-0 w-full bg-[#f2f0eb] text-[#524f4c] shadow-md z-50"
+            >
+              <ul className="flex flex-col items-center gap-4 py-4 font-serif text-base">
+                <li>
+                  <Link href="/" onClick={() => setMenuOpen(false)}>
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" onClick={() => setMenuOpen(false)}>
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/archive" onClick={() => setMenuOpen(false)}>
+                    Archive
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/cart" onClick={() => setMenuOpen(false)}>
+                    Cart
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={user ? "/myshop" : "/login"}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {user ? "MyPage" : "Login"}
+                  </Link>
+                </li>
+              </ul>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </motion.div>
     </header>
   );
 };
+
 export default MainHeader;

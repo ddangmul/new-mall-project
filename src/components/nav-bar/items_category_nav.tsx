@@ -16,7 +16,7 @@ const ItemsCategory: React.FC = () => {
   return (
     <section className="items_category">
       <nav className="items_category_inner py-12">
-        <ul className="flex justify-center gap-4 md:gap-14 md:text-xl font-serif">
+        <ul className="flex justify-center text-sm gap-3 md:gap-14 md:text-xl font-serif">
           {["All", "Best", "New", "HomeCare", "FabricCare", "HandBody"].map(
             (category) => (
               <li key={category}>

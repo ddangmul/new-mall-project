@@ -63,23 +63,27 @@ export default async function ItemDetailPage({
     const formattedPrice = formatterPrice(item.price);
 
     return (
-      <div className="item-detail-wrap mx-10 xl:mx-20 py-18 overflow-hidden">
+      <div className="item-detail-wrap mx-4 md:mx-8 lg:mx-16 py-8 md:mt-6 lg:mt-10 overflow-hidden">
         <div className="item-datail-inner">
-          <section className="item-heading-info grid grid-cols-1 space-y-10 xl:grid-cols-2 xl:gap-4">
+          <section className="item-heading-info grid grid-cols-1 space-y-10 md:grid-cols-2 md:gap-8">
             <div className="item-img-slider">
               <Image
                 src={item.image}
                 alt={item.title}
                 width={600}
                 height={900}
-                className="w-[400px] xl:w-full max-w-[600px] mx-auto"
+                className="w-[500px] md:w-[600px] lg:w-[680px] aspect-[4/5]"
                 loading="lazy"
               ></Image>
             </div>
-            <div className="item-info-txt my-2 space-y-10">
-              <div className="item-heading-txt space-y-5 font-serif">
-                <h1 className="text-2xl xl:text-3xl">{item.title}</h1>
-                <h2 className="text-xl xl:text-2xl">{formattedPrice}</h2>
+            <div className="item-info-txt mt-2 space-y-6 md:space-y-4 lg:space-y-6">
+              <div className="item-heading-txt md:space-y-2 space-y-4 font-serif">
+                <h1 className="text-xl md:text-2xl lg:text-3xl">
+                  {item.title}
+                </h1>
+                <h2 className="text-lg md:text-xl lg:text-3xl">
+                  {formattedPrice}
+                </h2>
               </div>
               <ItemTabs />
               <ItemQuantity item={item} />

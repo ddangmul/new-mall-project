@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { validateMobileNumber } from "@/utils/validation";
 
 import "./signup.css";
+import PageTitle from "@/components/page-title";
 
 export default function Signup() {
   const router = useRouter();
@@ -91,183 +92,188 @@ export default function Signup() {
   };
 
   return (
-    <section className="login w-full min-h-screen mt-10 relative">
-      <div className="absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5">
-        <div className="signup-heading py-8 border-b-1 border-b-[#9e9e9e] mb-8">
-          <p className="text-4xl font-serif">Sign Up</p>
-        </div>
-
-        <div className="signup-form-wrap">
-          <form
-            method="post"
-            onSubmit={handleSignup}
-            className="space-y-4 w-full"
-            role="form"
-          >
-            {error && <p className="text-red-500 mb-4">{error}</p>}
-            <div>
-              <label
-                htmlFor="email"
-                className="hidden text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                required
-                placeholder="Email"
-                className="text-xl bg-[#ffffff]"
-                value={formData.email}
-                onChange={handleChange}
-                autoComplete="off"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="username"
-                className="hidden text-sm font-medium text-gray-700"
-              >
-                Username
-              </label>
-              <input
-                id="username"
-                type="text"
-                name="username"
-                placeholder="이름"
-                required
-                value={formData.username}
-                onChange={handleChange}
-                autoComplete="off"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="hidden text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                name="password"
-                required
-                placeholder="Password"
-                className="text-xl"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <input
-                id="passwordCk"
-                type="password"
-                name="passwordCk"
-                required
-                placeholder="Password Check"
-                className="text-xl"
-                value={formData.passwordCk}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mobile flex justify-between gap-2 items-center">
-              <select
-                name="mobile1"
-                id="mobile1"
-                className="basis-1/3"
-                required
-                value={formData.mobile1}
-                onChange={(e) =>
-                  setFormData({ ...formData, mobile1: e.target.value })
-                }
-              >
-                <option value="">선택</option>
-                <option value="010">010</option>
-                <option value="011">011</option>
-                <option value="016">016</option>
-                <option value="017">017</option>
-                <option value="018">018</option>
-                <option value="019">019</option>
-              </select>
-              -
-              <input
-                type="text"
-                id="mobile2"
-                name="mobile2"
-                className="basis-1/3"
-                required
-                value={formData.mobile2}
-                onChange={handleChange}
-                autoComplete="off"
-                data-testid="mobile2"
-              />
-              -
-              <input
-                type="text"
-                id="mobile3"
-                name="mobile3"
-                className="basis-1/3"
-                required
-                value={formData.mobile3}
-                onChange={handleChange}
-                autoComplete="off"
-                data-testid="mobile3"
-              />
-            </div>
-            <div className="flex justify-between gap-4">
-              <span className="basis-3/5 flex items-center gap-3">
-                <label
-                  htmlFor="birthdate"
-                  className="text-gray-700 min-w-20 text-md"
-                >
-                  생년월일
-                </label>
-                <input
-                  id="birthdate"
-                  type="date"
-                  name="birthdate"
-                  value={formData.birthdate}
-                  onChange={handleChange}
-                />
-              </span>
-              <div className="isSoL flex">
-                <span className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    name="isSolar"
-                    id="solar"
-                    checked={formData.isSolar}
-                    onChange={handleChange}
-                  />
-                  <label className="w-20" htmlFor="solar">
-                    양력
-                  </label>
-                </span>
-                <span className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    name="isLunar"
-                    id="lunar"
-                    checked={formData.isLunar}
-                    onChange={handleChange}
-                  />
-                  <label className="w-20" htmlFor="lunar">
-                    음력
-                  </label>
-                </span>
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="signup_btn text-2xl w-full py-3 my-6 bg-[#313030] text-[#f2f0eb]"
+    <div className="absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5">
+      <PageTitle children="SignUp" />
+      <div className="signup-form-wrap">
+        <form
+          method="post"
+          onSubmit={handleSignup}
+          className="space-y-4 w-full"
+          role="form"
+        >
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          <div>
+            <label
+              htmlFor="email"
+              className="hidden text-sm font-medium text-gray-700"
             >
-              {loading ? "가입 중..." : "회원가입"}
-            </button>
-          </form>
-        </div>
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              required
+              placeholder="Email"
+              className="text-sm md:text-lg lg:text-xl"
+              value={formData.email}
+              onChange={handleChange}
+              autoComplete="off"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="username"
+              className="hidden text-sm font-medium text-gray-700"
+            >
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              name="username"
+              placeholder="이름"
+              required
+              value={formData.username}
+              onChange={handleChange}
+              autoComplete="off"
+              className="text-sm md:text-lg lg:text-xl"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="hidden text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              required
+              placeholder="Password"
+              className="text-sm md:text-lg lg:text-xl"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <input
+              id="passwordCk"
+              type="password"
+              name="passwordCk"
+              required
+              placeholder="Password Check"
+              className="text-sm md:text-lg lg:text-xl"
+              value={formData.passwordCk}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mobile flex justify-between gap-2 items-center">
+            <select
+              name="mobile1"
+              id="mobile1"
+              className="basis-1/3 text-sm md:text-lg lg:text-xl "
+              required
+              value={formData.mobile1}
+              onChange={(e) =>
+                setFormData({ ...formData, mobile1: e.target.value })
+              }
+            >
+              <option value="">선택</option>
+              <option value="010">010</option>
+              <option value="011">011</option>
+              <option value="016">016</option>
+              <option value="017">017</option>
+              <option value="018">018</option>
+              <option value="019">019</option>
+            </select>
+            -
+            <input
+              type="text"
+              id="mobile2"
+              name="mobile2"
+              className="basis-1/3 text-sm md:text-lg lg:text-xl"
+              required
+              value={formData.mobile2}
+              onChange={handleChange}
+              autoComplete="off"
+              data-testid="mobile2"
+            />
+            -
+            <input
+              type="text"
+              id="mobile3"
+              name="mobile3"
+              className="basis-1/3 text-sm md:text-lg lg:text-xl"
+              required
+              value={formData.mobile3}
+              onChange={handleChange}
+              autoComplete="off"
+              data-testid="mobile3"
+            />
+          </div>
+          <div className="flex justify-between gap-4">
+            <span className="basis-3/5 flex items-center gap-3">
+              <label
+                htmlFor="birthdate"
+                className="text-gray-700 text-sm md:text-md lg:text-lg whitespace-nowrap px-1"
+              >
+                생년월일
+              </label>
+              <input
+                id="birthdate"
+                type="date"
+                name="birthdate"
+                value={formData.birthdate}
+                onChange={handleChange}
+                className="text-sm md:text-lg lg:text-xl"
+              />
+            </span>
+            <div className="w-full flex justify-between">
+              <span className="flex items-center lg:gap-2 basis-1/2">
+                <input
+                  type="checkbox"
+                  name="isSolar"
+                  id="solar"
+                  checked={formData.isSolar}
+                  onChange={handleChange}
+                  className="w-3 h-3 md:w-4 md:h-4"
+                />
+                <label
+                  className="text-xs md:text-md lg:text-lg whitespace-nowrap"
+                  htmlFor="solar"
+                >
+                  양력
+                </label>
+              </span>
+              <span className="flex items-center lg:gap-2 basis-1/2">
+                <input
+                  type="checkbox"
+                  name="isLunar"
+                  id="lunar"
+                  checked={formData.isLunar}
+                  onChange={handleChange}
+                  className="w-3 h-3 md:w-4 md:h-4"
+                />
+                <label
+                  className="text-xs md:text-md lg:text-lg whitespace-nowrap"
+                  htmlFor="lunar"
+                >
+                  음력
+                </label>
+              </span>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="text-md md:text-lg lg:text-xl w-full py-2 lg:py-3 my-2  bg-[#3e3d3d] text-[#f2f0eb] mt-2 md:mt-4 lg:mt-6"
+          >
+            {loading ? "가입 중..." : "회원가입"}
+          </button>
+        </form>
       </div>
-    </section>
+    </div>
   );
 }

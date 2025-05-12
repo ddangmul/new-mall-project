@@ -8,8 +8,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function Cart() {
-  const BTN_CSS = "bg-[#494643] text-[#f3f3f2] py-2 rounded-sm px-3";
   const router = useRouter();
+  const TOP_BTN_CSS = "bg-[#ffffff] text-[#494643] p-2 rounded-sm shadow-2xs";
+  const BOTTOM_BTN_CSS = "bg-[#494643] text-[#f3f3f2] py-2 rounded-sm px-3";
 
   const { cartItems, deleteCartHandler, totalPrice } = useCart();
 
@@ -70,14 +71,14 @@ export default function Cart() {
   }, [cartItems, checkedItems, deleteCartHandler]);
 
   return (
-    <section className="cart-page py-10 px-20">
-      <div className="cart-heading flex gap-3 items-center">
-        <span className="text-3xl font-serif">Cart</span>
-        <span className="text-xl bg-[#494643] text-[#f2f0eb] px-2.5 rounded-full">
+    <section className="cart-page py-6 px-4 md:py-8 md:px-8 lg:py-10 lg:px-20">
+      <div className="cart-heading flex gap-1 md:gap-2 lg:gap-3 items-center">
+        <span className="text-xl md:text-2xl lg:text-3xl font-serif">Cart</span>
+        <span className="text-sm md:text-lg lg:text-xl bg-[#494643] text-[#f2f0eb] px-1.5 md:px-2 lg:px-2.5 rounded-full">
           {cartItems.length}
         </span>
       </div>
-      <div className="cart_action_btn flex gap-4 mt-10 justify-end text-xs xl:text-md">
+      <div className="cart_action_btn flex gap-4 mt-4 md:mt-6 lg:mt-10 justify-end text-xs md:text-md lg:text-lg">
         <button
           onClick={() =>
             setCheckedItems(
@@ -86,26 +87,22 @@ export default function Cart() {
                 : cartItems.map((item) => String(item.id))
             )
           }
-          className="bg-[#494643] text-[#d6d2c8] p-2 rounded-sm shadow-2xs"
+          className={TOP_BTN_CSS}
         >
           전체 선택
         </button>
-        <button
-          onClick={handleRemoveSelected}
-          className="bg-[#494643] text-[#d6d2c8] p-2 rounded-sm shadow-2xs"
-        >
+        <button onClick={handleRemoveSelected} className={TOP_BTN_CSS}>
           선택 삭제
         </button>
         <button
           onClick={() => cartItems.forEach((item) => deleteCartHandler(item))}
-          className="bg-[#494643] text-[#d6d2c8] p-2 rounded-sm shadow-2xs
-            "
+          className={TOP_BTN_CSS}
         >
           비우기
         </button>
       </div>
-      <div className="cart-items-wrapper mt-6">
-        <ul className="cart_items px-2 border-t-1 border-t-[#a0a09f]">
+      <div className="cart-items-wrapper mt-4 lg:mt-6">
+        <ul className="cart_items px-1 lg:px-2 border-t-1 border-t-[#a0a09f]">
           {cartItems.map((item, index) => (
             <li key={`${item.id} ${index}`}>
               <CartItem
@@ -117,31 +114,31 @@ export default function Cart() {
           ))}
         </ul>
       </div>
-      <div className="total-cart-items border-t-1 border-b-1 border-[#2e2d2c] mt-20 text-lg xl:text-xl">
+      <div className="total-cart-items border-t-1 border-b-1 border-[#2e2d2c] px-1 lg:px-2  mt-10 md:mt-14 lg:mt-20 text-md md:text-lg lg:text-xl">
         <div className="border-b-1 border-[#afaeac] py-2 font-serif">Total</div>
-        <div className="py-10 flex justify-center gap-10 text-center text-sm xl:text-xl">
+        <div className="py-6 lg:py-10 px-2 flex justify-center gap-10 text-center text-sm md:text-md lg:text-lg">
           <div className="flex flex-col">
             <span>{formatterPrice(totalOrderPrice)}</span>
-            <span className="text-[#787675]">상품금액</span>
+            <span className="text-[#787675] text-xs">상품금액</span>
           </div>
           +
           <div className="flex flex-col">
             <span>{formatterPrice(2500)}</span>
-            <span className="text-[#787675]">배송비</span>
+            <span className="text-[#787675] text-xs">배송비</span>
           </div>
           =
           <div className="flex flex-col">
             <span>{formatterPrice(totalOrderPrice + 2500)}</span>
-            <span className="text-[#787675]">총 주문금액</span>
+            <span className="text-[#787675] text-xs">총 주문금액</span>
           </div>
         </div>
       </div>
 
-      <div className="w-full mt-10 checkout_btn flex justify-end space-x-5">
-        <button onClick={handleBuySelected} className={BTN_CSS}>
+      <div className="w-full mt-6 lg:mt-10 flex justify-between md:justify-end md:space-x-5 text-sm md:text-md lg:text-lg">
+        <button onClick={handleBuySelected} className={BOTTOM_BTN_CSS}>
           선택 상품 구매
         </button>
-        <button onClick={handleBuyAll} className={BTN_CSS}>
+        <button onClick={handleBuyAll} className={BOTTOM_BTN_CSS}>
           전체 상품 구매
         </button>
       </div>

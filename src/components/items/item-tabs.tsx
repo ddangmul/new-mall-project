@@ -7,7 +7,7 @@ export default function ItemTabs() {
   const [activeTab, setActiveTab] = useState(1);
 
   return (
-    <div className="prod_heading_info_inner text-md xl:text-xl">
+    <div className="prod_heading_info_inner md:text-lg lg:text-xl">
       <ul className="flex gap-5 mb-3">
         {["제품 설명", "전성분", "사용 방법"].map((tab, index) => (
           <li key={index}>

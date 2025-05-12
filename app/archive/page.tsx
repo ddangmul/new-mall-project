@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import LoadingIndicator from "@/components/loading-indicator";
+import PageTitle from "@/components/page-title";
 
 export default function Archive() {
   const [archives, setArchives] = useState([]);
@@ -28,8 +29,8 @@ export default function Archive() {
   if (loading) return <LoadingIndicator />;
 
   return (
-    <main className="mt-20">
-      <h1 className="text-4xl font-serif p-4 mb-8">Archive</h1>
+    <main className="mt-14 lg:mt-20">
+      <PageTitle children="Archive" className="px-2 md:px-4" />
       <ul className="w-full flex flex-col items-center space-y-8">
         {archives.map((archive, index) => (
           <motion.li
@@ -44,7 +45,7 @@ export default function Archive() {
             }}
           >
             <Link href={`/archive/${archive.slug}`}>
-              <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px]">
+              <div className="relative w-full h-[200px] md:h-[300px] lg:h-[500px]">
                 <Image
                   src={archive.image}
                   alt={archive.slug}
@@ -53,13 +54,17 @@ export default function Archive() {
                   priority
                 />
               </div>
-              <div className="flex justify-between px-6 py-8">
-                <span className="text-xl font-serif text-[#868686]">
+              <div className="flex justify-between px-4 lg:px-6 py-6 lg:py-8">
+                <span className="text-sm md:text-lg lg:text-xl font-serif text-[#868686]">
                   {archive.category}
                 </span>
                 <div className="flex flex-col text-right">
-                  <span className="text-2xl font-serif">{archive.title}</span>
-                  <span className="text-[#868686]">{archive.description}</span>
+                  <span className="text-md md:text-lg lg:text-2xl font-serif">
+                    {archive.title}
+                  </span>
+                  <span className="text-[#868686] text-xs md:text-md lg:text-lg">
+                    {archive.description}
+                  </span>
                 </div>
               </div>
             </Link>

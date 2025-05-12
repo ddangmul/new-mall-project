@@ -2,7 +2,7 @@ import { Link } from "lucide-react";
 
 export default function About() {
   return (
-    <main className="p-10 mx-20 max-w-5xl">
+    <main className="p-10 mt-4 lg:mt-10 mx-2 md:mx-6 lg:mx-20 max-w-5xl">
       <h1 className="text-3xl font-bold mb-6">About This Project</h1>
 
       <section className="mb-6">

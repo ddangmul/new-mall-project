@@ -13,12 +13,16 @@ export default async function ArchiveDetailPage({ params }: { params: Props }) {
   if (!archive) notFound();
 
   return (
-    <main className="p-10 px-10 mt-10">
-      <h1 className="text-3xl font-bold mb-6">{archive.title}</h1>
+    <main className="mt-16 lg:mt-20 px-4 lg:px-10">
+      <h1 className="font-serif text-xl md:text-2xl lg:text-3xl font-seri pt-8 lg:pt-10 mb-2 lg:mb-6">
+        {archive.title}
+      </h1>
       <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-10">{archive.description}</h2>
-        <p className="h-[100rem] bg-amber-50 p-10">
-          해당 아카이브에 관한 상세 내용 이미지 요소.
+        <h2 className="text-sm md:text-md lg:text-lg font-semibold mb-10">
+          {archive.description}
+        </h2>
+        <p className="h-[100rem] bg-amber-50 text-center pt-10 text-sm">
+          해당 아카이브에 관한 상세 내용 이미지
         </p>
       </section>
     </main>

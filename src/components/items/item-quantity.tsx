@@ -22,14 +22,14 @@ const ItemQuantity = ({ item }: { item: Item }) => {
 
   return (
     <>
-      <div className="item-quantity-area py-6 px-4 bg-[#eae7e4]">
+      <div className="item-quantity-area md:py-4 py-6 px-4 lg:px-6 bg-[#eae7e4]">
         <div
-          className="item-quantity-heading text-lg xl:text-xl space-y-6 pb-6 mb-8 border-b-1 
+          className="item-quantity-heading text-md md:text-lg lg:text-xl space-y-6 pb-6 mb-8 border-b-1 
         border-b-[#c3bebc] "
         >
           <p>수량</p>
         </div>
-        <div className="flex justify-between text-lg xl:text-xl">
+        <div className="flex justify-between text-lg lg:text-xl">
           <div className="quantity-select flex justify-between items-center min-w-24 bg-[#f6f6f6]">
             <button
               aria-label="Decrease quantity"
@@ -51,14 +51,14 @@ const ItemQuantity = ({ item }: { item: Item }) => {
       </div>
       <div
         id="totalPrice"
-        className="text-xl xl:text-2xl font-serif border-t-1 border-t-[#a0a09f] "
+        className="text-lg md:text-xl lg:text-2xl font-serif border-t-1 border-t-[#a0a09f] "
       >
         <div className="mt-6 flex justify-between">
           <span>Total</span>
           <span>{totalPrice}</span>
         </div>
       </div>
-      <div className="prod_action_btn text-lg xl:text-xl mt-8 flex justify-between gap-4 font-serif">
+      <div className="prod_action_btn text-lg md:text-xl lg:text-2xl mt-8 flex justify-between gap-4 font-serif">
         <button
           onClick={() => {
             addCartHandler(item, quantity);

@@ -29,12 +29,12 @@ const SearchPage = () => {
   }, [products]);
 
   return (
-    <section className="searchPage py-10 px-20">
-      <div className="cart-heading flex gap-3 items-center">
-        <span className="text-3xl py-10">
+    <section className="searchPage mt-10 py-6 md:py-8 lg:py-10 px-4 md:px-8 lg:px-20">
+      <div className="cart-heading flex gap-2 lg:gap-3 items-center">
+        <span className="text-xl md:text-2xl lg:text-3xl py-4 md:py-8 lg:py-10">
           <span className="font-serif">'{searchTerm}'</span> 관련 검색 결과
         </span>
-        <span className="text-xl bg-[#494643] text-[#f2f0eb] px-2.5 rounded-full">
+        <span className="text-sm md:text-lg lg:text-xl bg-[#494643] text-[#f2f0eb] px-2.5 rounded-full">
           {products.length}
         </span>
       </div>
