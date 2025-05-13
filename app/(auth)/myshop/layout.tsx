@@ -15,24 +15,24 @@ export default function MyshopLayout({
   const mode = searchParams.get("mode") || "order";
   const isMobile = typeof window !== "undefined" && window.innerWidth <= 640;
 
-  useEffect(() => {
-    if (isMobile) return;
+  // useEffect(() => {
+  //   if (isMobile) return;
 
-    window.scrollTo({ top: 50, behavior: "auto" });
+  //   window.scrollTo({ top: 50, behavior: "auto" });
 
-    // 항목 클릭 시 바로 내려가도록
-    const immediateScroll = () => {
-      if (navRef.current) {
-        const navTop =
-          navRef.current.getBoundingClientRect().top + window.scrollY;
+  //   // 항목 클릭 시 바로 내려가도록
+  //   const immediateScroll = () => {
+  //     if (navRef.current) {
+  //       const navTop =
+  //         navRef.current.getBoundingClientRect().top + window.scrollY;
 
-        // 바로 해당 위치로 즉시 스크롤
-        window.scrollTo({ top: navTop - 20, behavior: "auto" });
-      }
-    };
+  //       // 바로 해당 위치로 즉시 스크롤
+  //       window.scrollTo({ top: navTop - 20, behavior: "auto" });
+  //     }
+  //   };
 
-    immediateScroll();
-  }, [mode, isMobile]);
+  //   immediateScroll();
+  // }, [mode, isMobile]);
 
   return (
     <section className="w-full overflow-visibl">

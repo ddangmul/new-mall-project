@@ -30,38 +30,38 @@ export default function Myshop() {
     }
   }, [status, router]);
 
-  useEffect(() => {
-    if (isMobile) return;
+  // useEffect(() => {
+  //   if (isMobile) return;
 
-    const isFirstVisitWithoutMode =
-      pathname === "/myshop" && !searchParams.get("mode");
+  //   const isFirstVisitWithoutMode =
+  //     pathname === "/myshop" && !searchParams.get("mode");
 
-    let topPosition = 0;
+  //   let topPosition = 0;
 
-    if (!isFirstVisitWithoutMode) {
-      const width = window.innerWidth;
-      if (width < 640) {
-        // sm 이하
-        topPosition = 300;
-      } else if (width < 768) {
-        // md 이하
-        topPosition = 310;
-      } else if (width < 1024) {
-        // lg 이하
-        topPosition = 350;
-      } else {
-        // xl 이상
-        topPosition = 400;
-      }
-    }
+  //   if (!isFirstVisitWithoutMode) {
+  //     const width = window.innerWidth;
+  //     if (width < 640) {
+  //       // sm 이하
+  //       topPosition = 300;
+  //     } else if (width < 768) {
+  //       // md 이하
+  //       topPosition = 310;
+  //     } else if (width < 1024) {
+  //       // lg 이하
+  //       topPosition = 350;
+  //     } else {
+  //       // xl 이상
+  //       topPosition = 400;
+  //     }
+  //   }
 
-    setTimeout(() => {
-      window.scrollTo({
-        top: topPosition,
-        behavior: "smooth",
-      });
-    }, 1000); // 100ms 딜레이
-  }, [mode]);
+  //   setTimeout(() => {
+  //     window.scrollTo({
+  //       top: topPosition,
+  //       behavior: "smooth",
+  //     });
+  //   }, 1000); // 100ms 딜레이
+  // }, [mode]);
 
   if (status === "loading" || status === "unauthenticated") {
     return <LoadingIndicator />;
