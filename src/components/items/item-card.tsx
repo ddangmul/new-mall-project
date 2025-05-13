@@ -17,7 +17,6 @@ const ItemCard: React.FC<{ item: Item }> = ({ item }) => {
           width={500}
           height={700}
           style={{ width: "100%", height: "auto" }}
-          sizes="(max-width: 768px) 100vw, 33vw"
           loading="lazy"
         />
       </span>

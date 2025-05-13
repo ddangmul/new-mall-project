@@ -25,7 +25,9 @@ export default function ShopLayout({
 
   return (
     <>
-      <MainImage />
+      <div className="md:block">
+        <MainImage />
+      </div>
       <ItemsCategory />
       {children}
     </>

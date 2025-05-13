@@ -29,7 +29,7 @@ const SearchArea: React.FC = () => {
 
   return (
     <span className="flex items-center ml-2 xl:ml-4 relative">
-      <p>Search</p>
+      <p className="font-serif">Search</p>
       <label htmlFor="searchTerm"></label>
       <input
         id="searchTerm"
@@ -37,7 +37,7 @@ const SearchArea: React.FC = () => {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="border-b-1 border-b-amber-50 text-white max-w-30 mx-2 bg-transparent outline-none"
+        className="text-xs md:text-sm lg:text-md border-b-1 border-b-amber-50 text-white max-w-30 mx-2 bg-transparent outline-none font-sans"
         onKeyDown={(e) => e.key === "Enter" && handleSearch()} // Enter 키로 검색 가능
         autoComplete="off"
       ></input>

@@ -31,7 +31,7 @@ const MainImage: React.FC = () => {
   return (
     <section className="main_image">
       <div className="main_image_wrap relativ">
-        <div className="image-container relative w-full  h-[400px] md:h-[600px] lg:h-[700px]  overflow-hidden">
+        <div className="image-container relative w-full aspect-[16/9] overflow-hidden">
           <AnimatePresence>
             {images.map(
               (image, index) =>

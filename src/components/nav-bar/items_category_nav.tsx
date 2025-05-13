@@ -22,7 +22,7 @@ const ItemsCategory: React.FC = () => {
               <li key={category}>
                 <Link
                   href={`/${category}`}
-                  className={activeLink === category ? "text-[#7c5e5e]" : ""}
+                  className={activeLink === category ? "text-[#915d41]" : ""}
                 >
                   {category.replace(/([A-Z])/g, " $1")}{" "}
                   {/* camelCase를 space로 변환 */}

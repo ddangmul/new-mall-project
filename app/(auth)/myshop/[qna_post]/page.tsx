@@ -40,26 +40,26 @@ export default function QnAPost() {
   }
 
   return (
-    <article className="qna-post w-full pt-10 px-4">
-      <div className="heading py-6 px-4 bg-[#ffffff] border-b-1 border-b-[#afafaf]">
-        <h1 className="text-xl font-serif text-center">1:1 Q&A</h1>
+    <article className="qna-post w-full pt-6 md:pt-10 md:px-4">
+      <div className="heading py-4 md:py-6 bg-[#ffffff]">
+        <h1 className="text-lg md:text-xl text-center">1:1 문의</h1>
       </div>
-      <div className="relative text-lg mt-12">
-        <div className="qna-title py-6 mb-4 border-b-1 border-b-[#5a5a5a]">
-          <div className="p-2 text-[#7e7d7b]">
+      <div className="relative text-sm md:text-md lg:text-lg mt-4 md:mt-10">
+        <div className="qna-title pt-4 md:py-6 mb-2 space-y-2 md:space-y-4">
+          <div className="px-2 text-[#7e7d7b]">
             작성자 : {session.user.username}
           </div>
           <input
             type="text"
             placeholder="제목을 입력하세요"
-            className="p-2"
+            className="p-2 border-b-1 border-b-[#808080] w-full"
             autoComplete="off"
           />
         </div>
-        <div className="flex justify-start gap-2 mb-3 border p-2 bg-[#565451] text-white">
+        <div className="flex justify-evenly gap-1 md:gap-2 lg:gap-4 border bg-[#565451] text-white">
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`p-2 px-4 ${
+            className={`${
               editor.isActive("bold") ? "font-extrabold text-[#1d1d1d]" : ""
             }`}
           >
@@ -67,7 +67,7 @@ export default function QnAPost() {
           </button>
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={`p-2 px-4 ${
+            className={`${
               editor.isActive("italic") ? "font-extrabold text-[#1d1d1d]" : ""
             }`}
           >
@@ -75,7 +75,7 @@ export default function QnAPost() {
           </button>
           <button
             onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={`p-2 px-4 ${
+            className={`${
               editor.isActive("underline")
                 ? "font-extrabold text-[#1d1d1d]"
                 : ""
@@ -85,7 +85,7 @@ export default function QnAPost() {
           </button>
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={`p-2 px-4 ${
+            className={`${
               editor.isActive("strike") ? "font-extrabold text-[#1d1d1d]" : ""
             }`}
           >
@@ -95,7 +95,7 @@ export default function QnAPost() {
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 1 }).run()
             }
-            className={`p-2 px-4 ${
+            className={`${
               editor.isActive("heading", { level: 1 })
                 ? "font-extrabold text-[#1d1d1d]"
                 : ""
@@ -107,7 +107,7 @@ export default function QnAPost() {
             onClick={() =>
               editor.chain().focus().toggleHeading({ level: 2 }).run()
             }
-            className={`p-2 px-4 ${
+            className={`p${
               editor.isActive("heading", { level: 2 })
                 ? "font-extrabold text-[#1d1d1d]"
                 : ""
@@ -117,7 +117,7 @@ export default function QnAPost() {
           </button>
           <button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={`p-2 px-4 ${
+            className={`${
               editor.isActive("bulletList")
                 ? "font-extrabold text-[#1d1d1d]"
                 : ""
@@ -127,7 +127,7 @@ export default function QnAPost() {
           </button>
           <button
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={`p-2 px-4 ${
+            className={`${
               editor.isActive("orderedList")
                 ? "font-extrabold text-[#1d1d1d]"
                 : ""
@@ -143,7 +143,7 @@ export default function QnAPost() {
           </button>
           <button
             onClick={() => editor.chain().focus().redo().run()}
-            className="p-2 px-4 rounded"
+            className="rounded"
           >
             ↪ Redo
           </button>
@@ -152,8 +152,8 @@ export default function QnAPost() {
           <EditorContent editor={editor} />
         </div>
         <button
-          className="bg-[#363635] text-[#d6cebf] px-4 py-2 rounded-sm
-         mt-6 absolute right-30"
+          className="bg-[#363635] text-[#d6cebf] text-sm md:text-lg px-2 py-1 md:px-4 md:py-2 rounded-xs
+         mt-6 absolute right-0"
         >
           문의글 작성
         </button>

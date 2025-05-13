@@ -26,7 +26,6 @@ export default function Address() {
     }
 
     if (addresses.length === 0) {
-      setCheckedMap({});
       return;
     }
 
@@ -39,7 +38,7 @@ export default function Address() {
     if (addresses.length > 0) {
       setCheckedMap(initialCheckedMap);
     }
-  }, [session, status, addresses, fetchAddresses]);
+  }, [session, status]);
 
   const toggleCheck = (id: number) => {
     setCheckedMap((prev) => ({
@@ -59,7 +58,6 @@ export default function Address() {
     }
 
     await deleteAddress(checkedIds); // 삭제 처리 후 다시 주소 목록을 갱신
-    await fetchAddresses(); // 최신 주소 목록을 다시 가져옴
   };
 
   const changeMode = (mode: string | null) => {

@@ -18,13 +18,13 @@ export default function Member() {
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  const selectedCSS = "px-8 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8]";
-  const unSelectedCss = "px-8 py-2 rounded-sm bg-[#e5e3e2] text-[#2d2c2a]";
+  const selectedCSS = "px-5 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8]";
+  const unSelectedCss = "px-5 py-2 bg-[#e5e3e2] text-[#2d2c2a]";
 
   return (
     <>
-      <div className="basis-2/3 pt-5">
-        <div className="tap_btn flex gap-5 w-full text-lg pb-5 border-b-1 border-b-[#a9a9a9] mb-5">
+      <div className="basis-2/3 my-6 md:mt-20">
+        <div className="tap_btn flex justify-arounded gap-4 text-sm md:text-md lg:text-lg pb-5 border-b-1 border-b-[#a9a9a9]">
           <button
             onClick={() => changeMode("member")}
             className={mode === "member" ? selectedCSS : unSelectedCss}

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import PageTitle from "../page-title";
 
 const MyshopContentsNavBar: React.FC = () => {
   const searchParams = useSearchParams();
@@ -24,18 +25,19 @@ const MyshopContentsNavBar: React.FC = () => {
   ];
 
   return (
-    <div className="mt-4">
-      <Link href="/myshop" className="text-3xl font-serif">
-        MyPage
-      </Link>
-      <nav className="flex flex-row w-full xl:w-50 xl:flex-col justify-arounded items-start gap-4 xl:gap-8 mt-12 text-md xl:text-xl">
+    <div>
+      <PageTitle
+        children="MyPage"
+        className="border-b-1 border-b-[#9e9e9e] md:border-none"
+      />
+      <nav className="flex flex-row justify-between px-2 w-full md:w-20% md:flex-col md:items-start gap-2 md:gap-4 lg:gap-8 mt-4 md:mt-0 text-xs md:text-lg lg:text-xl">
         {modes.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => changeMode(key)}
             className={
               mode === key
-                ? "text-[#686360] underline underline-offset-7 decoration-[#cec7c4]"
+                ? "text-[#686360] underline underline-offset-4 decoration-[#cec7c4]"
                 : ""
             }
           >

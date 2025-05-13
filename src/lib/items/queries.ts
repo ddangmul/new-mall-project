@@ -66,13 +66,11 @@ export async function getItemsBySearchTerm(searchTerm: string) {
   try {
     if (!searchTerm) return []; // 검색어 없으면 빈 배열 반환
 
-    // 소문자로 변환하여 검색
     const items = await prisma.item.findMany({
       where: {
         title: {
-          // title을 소문자로 변환하여 비교
-          // raw query로 대소문자 구분 없이 검색
-          contains: searchTerm.toLowerCase(),
+          contains: searchTerm,
+          mode: "insensitive", // 대소문자 구분 없이 비교
         },
       },
     });

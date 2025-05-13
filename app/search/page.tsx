@@ -8,6 +8,7 @@ const SearchPage = () => {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("q") || "";
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoadig] = useSearchParams();
 
   useEffect(() => {
     if (searchTerm) {
@@ -19,17 +20,19 @@ const SearchPage = () => {
           const data = await res.json();
           return data;
         })
-        .then((data) => setProducts(data));
+        .then((data) => setProducts(data))
+        .catch((error) => {
+          console.error(error);
+        });
     }
   }, [searchTerm]);
 
-  // products가 변경되었을 때만 ItemsGrid 렌더링
-  const memoizedItems = useMemo(() => {
+  const memorizedItems = useMemo(() => {
     return <ItemsGrid items={products} />;
   }, [products]);
 
   return (
-    <section className="searchPage mt-10 py-6 md:py-8 lg:py-10 px-4 md:px-8 lg:px-20">
+    <section className="searchPage py-4 md:py-6 lg:py-8 px-4 md:px-8 lg:px-14">
       <div className="cart-heading flex gap-2 lg:gap-3 items-center">
         <span className="text-xl md:text-2xl lg:text-3xl py-4 md:py-8 lg:py-10">
           <span className="font-serif">'{searchTerm}'</span> 관련 검색 결과
@@ -41,7 +44,7 @@ const SearchPage = () => {
       {products.length === 0 ? (
         <p>검색어와 일치하는 제품이 없습니다.</p>
       ) : (
-        memoizedItems
+        memorizedItems
       )}
     </section>
   );

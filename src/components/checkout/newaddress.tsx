@@ -20,7 +20,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
   handleNewAddressMobileChange,
 }: NewAddressFormProps) {
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 text-sm md:text-md lg:text-lg">
       <input
         name="addressname"
         type="text"
@@ -29,43 +29,41 @@ const NewAddressForm = React.memo(function NewAddressForm({
         value={newAddress.addressname}
         onChange={handleNewAddressChange}
         autoComplete="off"
-        className="w-full border p-2 rounded-xs"
+        className="w-full bg-[#fff] p-2 rounded-xs "
       />
-      <div className="space-y-3">
-        <span className="flex justify-between items-center gap-4 h-13">
-          <input
-            name="postcode"
-            type="text"
-            placeholder="우편번호"
-            required
-            value={newAddress.postcode}
-            onChange={handleNewAddressChange}
-            autoComplete="off"
-            className="w-full border p-2 rounded-xs"
-          />
-          <button className="w-[6rem]">우편번호</button>
-        </span>
+      <span className="flex justify-between items-center gap-2">
         <input
-          name="address"
+          name="postcode"
           type="text"
-          placeholder="기본주소"
+          placeholder="우편번호"
           required
-          value={newAddress.address}
+          value={newAddress.postcode}
           onChange={handleNewAddressChange}
           autoComplete="off"
-          className="w-full border p-2 rounded-xs"
+          className="w-full bg-[#fff] p-2 rounded-xs"
         />
+        <button className="w-[6rem]">우편번호</button>
+      </span>
+      <input
+        name="address"
+        type="text"
+        placeholder="기본주소"
+        required
+        value={newAddress.address}
+        onChange={handleNewAddressChange}
+        autoComplete="off"
+        className="w-full bg-[#fff] p-2 rounded-xs"
+      />
 
-        <input
-          name="detailAddress"
-          type="text"
-          placeholder="나머지주소 (선택)"
-          value={newAddress.detailAddress}
-          onChange={handleNewAddressChange}
-          autoComplete="off"
-          className="w-full border p-2 rounded-xs"
-        />
-      </div>
+      <input
+        name="detailAddress"
+        type="text"
+        placeholder="나머지주소 (선택)"
+        value={newAddress.detailAddress}
+        onChange={handleNewAddressChange}
+        autoComplete="off"
+        className="w-full bg-[#fff] p-2 rounded-xs"
+      />
       <div className="mobile flex justify-between gap-2 items-center">
         <select
           name="addressMobile1"
@@ -88,7 +86,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
           type="text"
           id="addressMobile2"
           name="addressMobile2"
-          className="basis-1/3 w-full border p-2 rounded-xs"
+          className="basis-1/3 w-full bg-[#fff] p-2 rounded-xs"
           required
           value={newAddress.addressMobile2}
           onChange={handleNewAddressMobileChange}
@@ -99,7 +97,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
           type="text"
           id="addressMobile3"
           name="addressMobile3"
-          className="basis-1/3 w-full border p-2 rounded-xs"
+          className="basis-1/3 w-full bg-[#fff] p-2 rounded-xs"
           required
           value={newAddress.addressMobile3}
           onChange={handleNewAddressMobileChange}

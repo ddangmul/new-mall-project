@@ -102,7 +102,7 @@ export const AddressProvider = ({
 
   useEffect(() => {
     if (status === "authenticated") fetchAddresses();
-  }, [status, fetchAddresses]);
+  }, [status]);
 
   return (
     <AddressContext.Provider

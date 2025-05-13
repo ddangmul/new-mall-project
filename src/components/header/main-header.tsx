@@ -45,12 +45,12 @@ const MainHeader: React.FC = () => {
   return (
     <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
       <motion.div
-        className="header-inner py-5 px-4"
+        className="header-inner py-3 md:py-5 px-4"
         animate={{ backgroundColor, color: textColor }}
         transition={{ duration: 0.3 }}
       >
-        <div className="flex justify-between items-center font-serif">
-          <div className="hidden md:flex basis-1/3 gap-4 text-sm md:text-lg xl:text-lg xl:gap-8">
+        <div className="flex justify-between items-center">
+          <div className="hidden md:flex basis-1/3 gap-4 font-serif text-sm md:text-lg xl:text-lg xl:gap-8">
             <Link href="/">Home</Link>
             <Link href="/about">About</Link>
             <Link href="/archive">Archive</Link>
@@ -79,10 +79,12 @@ const MainHeader: React.FC = () => {
           </Link>
 
           <div className="hidden md:flex basis-1/3 justify-end text-sm md:text-lg gap-4 xl:gap-8">
-            <Link href={user ? "/myshop" : "/login"}>
+            <Link href={user ? "/myshop" : "/login"} className="font-serif">
               {user ? "MyPage" : "Login"}
             </Link>
-            <Link href="/cart">Cart</Link>
+            <Link href="/cart" className="font-serif">
+              Cart
+            </Link>
             <SearchArea />
           </div>
 
@@ -106,7 +108,7 @@ const MainHeader: React.FC = () => {
               transition={{ duration: 0.2 }}
               className="md:hidden absolute top-full left-0 w-full bg-[#f2f0eb] text-[#524f4c] shadow-md z-50"
             >
-              <ul className="flex flex-col items-center gap-4 py-4 font-serif text-base">
+              <ul className="flex flex-col items-center gap-2 py-4 px-30 font-serif text-sm">
                 <li>
                   <Link href="/" onClick={() => setMenuOpen(false)}>
                     Home
@@ -134,6 +136,27 @@ const MainHeader: React.FC = () => {
                   >
                     {user ? "MyPage" : "Login"}
                   </Link>
+                </li>
+                <li className="text-center mt-2 pt-2 border-t border-[#ceccc8] w-full">
+                  <ul className="space-y-2">
+                    {[
+                      "All",
+                      "Best",
+                      "New",
+                      "HomeCare",
+                      "FabricCare",
+                      "HandBody",
+                    ].map((category) => (
+                      <li key={category}>
+                        <Link
+                          href={`/${category}`}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {category.replace(/([A-Z])/g, " $1")}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               </ul>
             </motion.nav>

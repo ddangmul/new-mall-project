@@ -113,7 +113,10 @@ export default function ModifyMember() {
 
   return (
     <section className="modify-member pb-12 mt-10">
-      <form className="space-y-3" onSubmit={handleSubmit}>
+      <form
+        className="space-y-3 w-full text-sm md:text-lg lg:text-xl"
+        onSubmit={handleSubmit}
+      >
         <div>
           <input
             type="text"
@@ -206,7 +209,9 @@ export default function ModifyMember() {
         </div>
         {!isOAuth && (
           <div className="mt-8 space-y-3">
-            <h2 className="text-xl mb-6">비밀번호 변경</h2>
+            <h2 className="text-lg md:text-xl lg:text-2xl mb-6">
+              비밀번호 변경
+            </h2>
             <input
               type="password"
               id="oldPw"
@@ -222,7 +227,7 @@ export default function ModifyMember() {
                 placeholder="변경할 비밀번호"
                 onChange={handleChange}
               />
-              <p className="text-sm mt-2">
+              <p className="text-xs md:text-sm mt-2">
                 영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
               </p>
             </div>
@@ -234,7 +239,7 @@ export default function ModifyMember() {
                 placeholder="변경할 비밀번호 확인"
                 onChange={handleChange}
               />
-              <p className="text-sm mt-2">
+              <p className="text-xs md:text-sm mt-2">
                 영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
               </p>
             </div>
@@ -243,12 +248,12 @@ export default function ModifyMember() {
         )}
         <button
           type="submit"
-          className="mt-12 bg-[#2d2c2a] text-[#d6d2c8] rounded-sm text-xl w-full py-3"
+          className="mt-6 md:mt-10 bg-[#2d2c2a] text-[#d6d2c8] rounded-xs text-sm md:text-md lg:text-lg w-full py-2"
         >
           {loading ? "수정 중..." : "회원정보 수정"}
         </button>
       </form>
-      <div className="mt-6 bg-[#d6d2c8] rounded-sm text-xl w-full py-3 text-center">
+      <div className="mt-4 md:mt-6 bg-[#d6d2c8] rounded-xs text-sm md:text-md lg:text-lg w-full py-2 text-center">
         <button onClick={() => setDeleteModal(true)}>회원 탈퇴하기</button>
       </div>
       {successModal && (
