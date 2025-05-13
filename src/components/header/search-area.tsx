@@ -29,7 +29,7 @@ const SearchArea: React.FC = () => {
 
   return (
     <span className="flex items-center ml-2 xl:ml-4 relative">
-      <p className="font-serif">Search</p>
+      <p className="font-serif text-xs md:text-lg">Search</p>
       <label htmlFor="searchTerm"></label>
       <input
         id="searchTerm"
@@ -37,7 +37,7 @@ const SearchArea: React.FC = () => {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="text-xs md:text-sm lg:text-md border-b-1 border-b-amber-50 text-white max-w-30 mx-2 bg-transparent outline-none font-sans"
+        className="text-xs md:text-sm lg:text-md border-b-1 md:border-b-amber-50 md:text-white max-w-20 mx-2 bg-transparent outline-none font-sans"
         onKeyDown={(e) => e.key === "Enter" && handleSearch()} // Enter 키로 검색 가능
         autoComplete="off"
       ></input>
@@ -46,7 +46,7 @@ const SearchArea: React.FC = () => {
         alt="search-icon"
         width={10}
         height={10}
-        className="absolute invert right-2"
+        className="absolute right-2 filter md:invert"
         loading="lazy"
       />
     </span>

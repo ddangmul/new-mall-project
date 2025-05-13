@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import SearchArea from "@/components/header/search-area";
 
 const ItemsCategory: React.FC = () => {
   const pathname = usePathname(); // Next.js 13부터 userouter가 아닌 usePathname 사용
@@ -15,8 +16,11 @@ const ItemsCategory: React.FC = () => {
 
   return (
     <section className="items_category">
-      <nav className="items_category_inner py-12">
-        <ul className="flex justify-center text-sm gap-3 md:gap-14 md:text-xl font-serif">
+      <div className="pt-6 flex justify-center items-center md:hidden">
+        <SearchArea />
+      </div>
+      <nav className="items_category_inner py-2 mb-2 md:py-12 md:my-2">
+        <ul className="flex justify-center text-xs gap-3 md:gap-14 md:text-lg lg:text-xl font-serif">
           {["All", "Best", "New", "HomeCare", "FabricCare", "HandBody"].map(
             (category) => (
               <li key={category}>

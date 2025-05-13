@@ -4,6 +4,7 @@ import ItemsCategory from "@/components/nav-bar/items_category_nav";
 import "react-toastify/dist/ReactToastify.css";
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
+import SearchArea from "@/components/header/search-area";
 
 export const metadata: Metadata = {
   title: {

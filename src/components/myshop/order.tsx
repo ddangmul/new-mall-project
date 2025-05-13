@@ -74,19 +74,12 @@ export default function Order() {
               <option value="shopped_complete">배송완료</option>
             </select>
           </div>
-          <div className="period text-xs md:text-md flex justify-between gap-1 md:gap-2 max-w-fit">
-            <Link href="" className={BTN_CSS}>
-              오늘
-            </Link>
-            <Link href="" className={BTN_CSS}>
-              1개월
-            </Link>
-            <Link href="" className={BTN_CSS}>
-              3개월
-            </Link>
-            <Link href="" className={BTN_CSS}>
-              6개월
-            </Link>
+          <div className="period text-xs md:text-sm flex flex-wrap w-full md:w-auto justify-start gap-2">
+            {["1개월", "3개월", "6개월"].map((text) => (
+              <Link key={text} href="" className={BTN_CSS}>
+                {text}
+              </Link>
+            ))}
           </div>
         </div>
 

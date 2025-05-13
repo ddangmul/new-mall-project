@@ -45,12 +45,12 @@ const MainHeader: React.FC = () => {
   return (
     <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
       <motion.div
-        className="header-inner py-3 md:py-5 px-4"
+        className="header-inner py-4 md:py-5 px-4"
         animate={{ backgroundColor, color: textColor }}
         transition={{ duration: 0.3 }}
       >
         <div className="flex justify-between items-center">
-          <div className="hidden md:flex basis-1/3 gap-4 font-serif text-sm md:text-lg xl:text-lg xl:gap-8">
+          <div className="hidden md:flex basis-1/3 gap-4 font-serif text-md md:text-lg lg:gap-6">
             <Link href="/">Home</Link>
             <Link href="/about">About</Link>
             <Link href="/archive">Archive</Link>

@@ -5,22 +5,20 @@ const ScrollButtons = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > 100); // 스크롤 조금 내렸을 때 보이게
+    const handleVisibility = () => {
+      const shouldShow = window.scrollY > 100 && window.innerWidth >= 320; // 모바일 포함
+      setIsVisible(shouldShow);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsVisible(window.innerWidth > 768 && window.scrollY > 100);
-    };
-    window.addEventListener("scroll", handleResize);
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleVisibility);
+    window.addEventListener("resize", handleVisibility);
+
+    // 초기 렌더 시 한 번 실행
+    handleVisibility();
+
     return () => {
-      window.removeEventListener("scroll", handleResize);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleVisibility);
+      window.removeEventListener("resize", handleVisibility);
     };
   }, []);
 
@@ -41,14 +39,14 @@ const ScrollButtons = () => {
             className="bg-[#e1d8d6] p-2 rounded-full shadow hover:bg-[#c0b0ac] transition"
             aria-label="최상단으로 이동"
           >
-            <ChevronUp />
+            <ChevronUp size={20} />
           </button>
           <button
             onClick={scrollToBottom}
             className="bg-[#e1d8d6] p-2 rounded-full shadow hover:bg-[#c0b0ac] transition"
             aria-label="최하단으로 이동"
           >
-            <ChevronDown />
+            <ChevronDown size={20} />
           </button>
         </>
       )}
