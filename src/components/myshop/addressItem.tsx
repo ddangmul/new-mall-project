@@ -16,7 +16,7 @@ export default function AddressItem({
       <div className="address-checkbox flex justify-start gap-2 text-md text-center">
         <input type="checkbox" checked={checked} onChange={onToggle} />
         {address.isDefault && (
-          <span className="bg-[#313030] text-[#f2f0eb] px-1.5 rounded-sm">
+          <span className="bg-foreground text-background px-1.5 rounded-sm">
             기본
           </span>
         )}
@@ -27,7 +27,7 @@ export default function AddressItem({
           <p>
             {address.address} {address.detailAddress}
           </p>
-          <p className="text-[#9d9d9d] text-sm">{address.addressmobile}</p>
+          <p className="text-graytext text-sm">{address.addressmobile}</p>
         </div>
       </div>
     </li>

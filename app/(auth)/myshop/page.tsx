@@ -15,13 +15,13 @@ import LoadingIndicator from "@/components/loading-indicator";
 
 export default function Myshop() {
   const TOP_BTN_CSS =
-    "bg-[#615e58] text-[#d6d2c8] px-2 md:px-3 lg:px-4 py-1 text-center rounded-[5px] text-xs md:text-md lg:text-lg";
+    "bg-[#615e58] text-background px-2 md:px-3 lg:px-4 py-1 text-center rounded-[5px] text-xs md:text-md lg:text-lg";
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const router = useRouter();
   const mode = searchParams.get("mode") || "order";
-  const pathname = usePathname();
-  const isMobile = typeof window !== "undefined" && window.innerWidth <= 640;
+  // const pathname = usePathname();
+  // const isMobile = typeof window !== "undefined" && window.innerWidth <= 640;
   const user = session?.user;
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export default function Myshop() {
   return (
     <div className="w-full myshop_content md:basis-4/5 mt-4 md:mt-30 lg:mt-34">
       <div className="myshop-top-area flex gap-2 md:gap-4 relative">
-        <div className="basis-3/5 p-3 md:p-4 lg:p-6 bg-[#2d2c2a] text-[#d6d2c8] rounded-[6px]">
+        <div className="basis-3/5 p-3 md:p-4 lg:p-6 bg-foreground text-background rounded-[6px]">
           <p className="text-xs md:text-md lg:text-lg font-serif mb-2">
             Welcome
           </p>

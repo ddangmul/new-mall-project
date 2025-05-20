@@ -30,7 +30,7 @@ const PaymentResult = ({
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/myshop?mode=order"
-            className="bg-[#313030] text-[#f2f0eb] px-6 py-2 rounded-lg hover:bg-[#363532] transition"
+            className="bg-foreground text-background px-6 py-2 rounded-lg hover:bg-[#363532] transition"
           >
             주문내역 확인
           </Link>

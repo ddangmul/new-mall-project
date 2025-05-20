@@ -106,7 +106,7 @@ export default function CheckoutButton({
   return (
     <button
       onClick={handlePayment}
-      className="bg-[#524f4c] shadow-lg text-[#f8f7f5] py-1 rounded-xs px-2"
+      className="bg-foreground shadow-lg text-background py-1 rounded-xs px-2"
     >
       결제하기
     </button>

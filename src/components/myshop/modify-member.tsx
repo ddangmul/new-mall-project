@@ -248,7 +248,7 @@ export default function ModifyMember() {
         )}
         <button
           type="submit"
-          className="mt-6 md:mt-10 bg-[#2d2c2a] text-[#d6d2c8] rounded-xs text-sm md:text-md lg:text-lg w-full py-2"
+          className="mt-6 md:mt-10 bg-foreground text-background rounded-xs text-sm md:text-md lg:text-lg w-full py-2"
         >
           {loading ? "수정 중..." : "회원정보 수정"}
         </button>

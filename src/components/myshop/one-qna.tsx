@@ -22,7 +22,7 @@ export default function OneQnA() {
       </div>
       <Link
         href="/myshop/qna_post"
-        className="bg-[#363635] text-[#d6cebf] grow-1 p-2 rounded-xs
+        className="bg-foreground text-background grow-1 p-2 rounded-xs
         shadow-xs shadow-[#d6cebf] mt-4 md:mt-6 absolute right-0 text-xs md:text-sm lg:text-md"
       >
         1:1 문의 작성

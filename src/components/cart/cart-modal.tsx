@@ -10,7 +10,7 @@ export default function CartModal() {
   if (!isModalOpen || typeof window === "undefined") return null;
 
   return createPortal(
-    <div className="overlay">
+    <div className="overlay text-xs md:text-md">
       <div className="cart-modal">
         <h2>선택상품이 장바구니에 추가되었습니다.</h2>
         <p>장바구니로 이동하시겠습니까?</p>

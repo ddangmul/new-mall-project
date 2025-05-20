@@ -8,25 +8,24 @@
   z-index: 999;
 }
 
-/* 모달 스타일 */
 .cart-modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  padding: 20px;
+  padding: 16px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  max-width: 400px;
-  width: 90%; /* 반응형 디자인 */
+  max-width: 300px;
+  width: 80%;
 }
 
 .modal-btn {
   text-align: center;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .cart-modal button {
   margin-top: 2rem;

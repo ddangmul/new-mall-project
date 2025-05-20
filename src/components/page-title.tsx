@@ -19,7 +19,7 @@ export default function PageTitle({
 
   return (
     <h1
-      className={`font-serif text-xl md:text-2xl lg:text-3xl font-seri py-6 md:py-8 mb-6 lg:mb-8 ${className}`}
+      className={`font-serif text-xl md:text-2xl lg:text-3xl mb-14 ${className}`}
       onClick={handleClick}
     >
       {children}

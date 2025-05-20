@@ -8,14 +8,14 @@ export default function QnA() {
         <nav className="flex gap-4 w-50 text-center mt-10">
           <Link
             href="/"
-            className="bg-[#252422] text-[#d6d2c8] px-4 py-2 rounded-sm shadow-2xs
+            className="bg-foreground text-background px-4 py-2 rounded-sm shadow-2xs
             shadow-[#232121]"
           >
             상품문의
           </Link>
           <Link
             href="/myshop/qna_post"
-            className="bg-[#e9e6e0] text-[#252422] px-4 p-2 rounded-sm shadow-xs shadow-[#d6cebf]"
+            className="bg-[#e9e6e0] px-4 p-2 rounded-sm shadow-xs shadow-[#d6cebf]"
           >
             1:1 문의
           </Link>

@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 export default function QnAPost() {
   const [_content, setContent] = useState("");
   const { data: session } = useSession();
+  const ACTIVE_CSS = "font-extrabold text-background";
 
   const editor = useEditor({
     extensions: [
@@ -41,12 +42,12 @@ export default function QnAPost() {
 
   return (
     <article className="qna-post w-full pt-6 md:pt-10 md:px-4">
-      <div className="heading py-4 md:py-6 bg-[#ffffff]">
+      <div className="heading py-4 bg-[#ffffff]">
         <h1 className="text-lg md:text-xl text-center">1:1 문의</h1>
       </div>
       <div className="relative text-sm md:text-md lg:text-lg mt-4 md:mt-10">
         <div className="qna-title pt-4 md:py-6 mb-2 space-y-2 md:space-y-4">
-          <div className="px-2 text-[#7e7d7b]">
+          <div className="px-2 text-graytext">
             작성자 : {session.user.username}
           </div>
           <input
@@ -56,38 +57,28 @@ export default function QnAPost() {
             autoComplete="off"
           />
         </div>
-        <div className="flex justify-evenly gap-1 md:gap-2 lg:gap-4 border bg-[#565451] text-white">
+        <div className="flex justify-evenly gap-1 md:gap-2 lg:gap-4 border bg-foreground text-background">
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`${
-              editor.isActive("bold") ? "font-extrabold text-[#1d1d1d]" : ""
-            }`}
+            className={`${editor.isActive("bold") ? ACTIVE_CSS : ""}`}
           >
             B
           </button>
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={`${
-              editor.isActive("italic") ? "font-extrabold text-[#1d1d1d]" : ""
-            }`}
+            className={`${editor.isActive("italic") ? ACTIVE_CSS : ""}`}
           >
             I
           </button>
           <button
             onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={`${
-              editor.isActive("underline")
-                ? "font-extrabold text-[#1d1d1d]"
-                : ""
-            }`}
+            className={`${editor.isActive("underline") ? ACTIVE_CSS : ""}`}
           >
             U
           </button>
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={`${
-              editor.isActive("strike") ? "font-extrabold text-[#1d1d1d]" : ""
-            }`}
+            className={`${editor.isActive("strike") ? ACTIVE_CSS : ""}`}
           >
             S
           </button>
@@ -96,9 +87,7 @@ export default function QnAPost() {
               editor.chain().focus().toggleHeading({ level: 1 }).run()
             }
             className={`${
-              editor.isActive("heading", { level: 1 })
-                ? "font-extrabold text-[#1d1d1d]"
-                : ""
+              editor.isActive("heading", { level: 1 }) ? ACTIVE_CSS : ""
             }`}
           >
             H1
@@ -108,9 +97,7 @@ export default function QnAPost() {
               editor.chain().focus().toggleHeading({ level: 2 }).run()
             }
             className={`p${
-              editor.isActive("heading", { level: 2 })
-                ? "font-extrabold text-[#1d1d1d]"
-                : ""
+              editor.isActive("heading", { level: 2 }) ? ACTIVE_CSS : ""
             }`}
           >
             H2
@@ -119,7 +106,7 @@ export default function QnAPost() {
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={`${
               editor.isActive("bulletList")
-                ? "font-extrabold text-[#1d1d1d]"
+                ? ACTIVE_CSS
                 : ""
             }`}
           >
@@ -127,11 +114,7 @@ export default function QnAPost() {
           </button>
           <button
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={`${
-              editor.isActive("orderedList")
-                ? "font-extrabold text-[#1d1d1d]"
-                : ""
-            }`}
+            className={`${editor.isActive("orderedList") ? ACTIVE_CSS : ""}`}
           >
             1.
           </button>
@@ -148,11 +131,11 @@ export default function QnAPost() {
             ↪ Redo
           </button>
         </div>
-        <div className="h-160 bg-[#f7f7f7] p-4">
+        <div className="h-160 bg-[#ffffff] p-4">
           <EditorContent editor={editor} />
         </div>
         <button
-          className="bg-[#363635] text-[#d6cebf] text-sm md:text-lg px-2 py-1 md:px-4 md:py-2 rounded-xs
+          className="bg-foreground text-background text-sm px-2 py-1 md:px-4 md:py-2 rounded-xs
          mt-6 absolute right-0"
         >
           문의글 작성

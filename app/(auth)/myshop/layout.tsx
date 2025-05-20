@@ -13,7 +13,7 @@ export default function MyshopLayout({
   const pathname = usePathname();
 
   const mode = searchParams.get("mode") || "order";
-  const isMobile = typeof window !== "undefined" && window.innerWidth <= 640;
+  // const isMobile = typeof window !== "undefined" && window.innerWidth <= 640;
 
   // useEffect(() => {
   //   if (isMobile) return;

@@ -92,12 +92,12 @@ export default function Address() {
           <div className="adress_action_btn w-full flex justify-between mt-6">
             <button
               onClick={handleDelete}
-              className="px-8 py-2 rounded-sm bg-[#e6e2de] text-[#2d2c2a]"
+              className="px-8 py-2 rounded-sm bg-[#e6e2de]"
             >
               선택 배송지 삭제
             </button>
             <button
-              className="px-8 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8]"
+              className="px-8 py-2 rounded-sm bg-foreground text-background"
               onClick={() => {
                 changeMode("new");
               }}

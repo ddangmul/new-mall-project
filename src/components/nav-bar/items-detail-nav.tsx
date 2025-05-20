@@ -27,7 +27,7 @@ const DetailContentsNavBar: React.FC = () => {
         <button
           key={buttonMode}
           onClick={() => changeMode(buttonMode)}
-          className={mode === buttonMode ? "text-[#8e8a88]" : ""}
+          className={mode === buttonMode ? "text-graytext" : ""}
         >
           {label}
         </button>

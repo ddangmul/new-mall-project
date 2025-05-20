@@ -32,7 +32,7 @@ const AddressSelection: React.FC<AddressSelectionProps> = React.memo(
     return (
       <div>
         {selectedAddress?.isDefault && (
-          <span className="bg-[#313030] text-[#f2f0eb] px-2 py-1 rounded-xs">
+          <span className="bg-foreground text-background px-2 py-1 rounded-xs">
             기본
           </span>
         )}
@@ -53,7 +53,7 @@ const AddressSelection: React.FC<AddressSelectionProps> = React.memo(
                 onClick={() => handleSelectAddress(addr)}
               >
                 {addr.isDefault && (
-                  <span className="bg-[#313030] text-[#f2f0eb] px-1.5 rounded-sm">
+                  <span className="bg-foreground text-background px-1.5 rounded-sm">
                     기본
                   </span>
                 )}

@@ -272,7 +272,7 @@ export default function CheckoutPage() {
         <span className="flex justify-between w-full mt-2 text-sm md:text-md lg:text-lg">
           <button
             onClick={() => router.back()}
-            className="bg-[#f8f7f5] shadow-sm text-[#524f4c] px-2 py-1 rounded-xs"
+            className="bg-background shadow-sm text-foreground px-2 py-1 rounded-xs"
           >
             ← 뒤로가기
           </button>

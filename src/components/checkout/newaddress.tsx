@@ -19,6 +19,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
   handleNewAddressChange,
   handleNewAddressMobileChange,
 }: NewAddressFormProps) {
+  const INPUT_CSS = "w-full bg-[#fff] p-2 rounded-xs";
   return (
     <div className="space-y-2 text-sm md:text-md lg:text-lg">
       <input
@@ -29,7 +30,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
         value={newAddress.addressname}
         onChange={handleNewAddressChange}
         autoComplete="off"
-        className="w-full bg-[#fff] p-2 rounded-xs "
+        className={INPUT_CSS}
       />
       <span className="flex justify-between items-center gap-2">
         <input
@@ -40,7 +41,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
           value={newAddress.postcode}
           onChange={handleNewAddressChange}
           autoComplete="off"
-          className="w-full bg-[#fff] p-2 rounded-xs"
+          className={INPUT_CSS}
         />
         <button className="w-[6rem]">우편번호</button>
       </span>
@@ -52,7 +53,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
         value={newAddress.address}
         onChange={handleNewAddressChange}
         autoComplete="off"
-        className="w-full bg-[#fff] p-2 rounded-xs"
+        className={INPUT_CSS}
       />
 
       <input
@@ -62,7 +63,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
         value={newAddress.detailAddress}
         onChange={handleNewAddressChange}
         autoComplete="off"
-        className="w-full bg-[#fff] p-2 rounded-xs"
+        className={INPUT_CSS}
       />
       <div className="mobile flex justify-between gap-2 items-center">
         <select
@@ -86,7 +87,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
           type="text"
           id="addressMobile2"
           name="addressMobile2"
-          className="basis-1/3 w-full bg-[#fff] p-2 rounded-xs"
+          className={`basis-1/3 ${INPUT_CSS}`}
           required
           value={newAddress.addressMobile2}
           onChange={handleNewAddressMobileChange}
@@ -97,7 +98,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
           type="text"
           id="addressMobile3"
           name="addressMobile3"
-          className="basis-1/3 w-full bg-[#fff] p-2 rounded-xs"
+          className={`basis-1/3 ${INPUT_CSS}`}
           required
           value={newAddress.addressMobile3}
           onChange={handleNewAddressMobileChange}

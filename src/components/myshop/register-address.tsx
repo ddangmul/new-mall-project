@@ -195,13 +195,13 @@ export default function RegisterAddress() {
               onClick={() => {
                 router.push("/myshop?mode=member&mode2=address");
               }}
-              className="address_action px-6 py-2 rounded-sm bg-[#e6e2de] text-[#2d2c2a]"
+              className="address_action px-6 py-2 rounded-sm bg-[#e6e2de]"
             >
               취소
             </button>
             <button
               type="submit"
-              className="px-6 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8]"
+              className="px-6 py-2 rounded-sm bg-foreground text-background"
             >
               등록
             </button>

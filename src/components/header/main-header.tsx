@@ -45,38 +45,35 @@ const MainHeader: React.FC = () => {
   return (
     <header id="mainHeader" className="fixed top-0 left-0 w-full z-50">
       <motion.div
-        className="header-inner py-4 md:py-5 px-4"
+        className="header-inner px-4 py-5"
         animate={{ backgroundColor, color: textColor }}
         transition={{ duration: 0.3 }}
       >
-        <div className="flex justify-between items-center">
-          <div className="hidden md:flex basis-1/3 gap-4 font-serif text-md md:text-lg lg:gap-6">
-            <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
+        <div className="flex justify-between items-center font-serif">
+          <div className="hidden md:flex basis-1/3 gap-4 text-md md:text-lg lg:gap-6">
+            <Link href="/" className="flex justify-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={scrollRatio > 0.5 ? "light" : "dark"}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative w-24 h-6"
+                >
+                  <Image
+                    src={scrollRatio > 0.5 ? logo_dark : logo_light}
+                    alt="hyangnang-logo"
+                    fill
+                    sizes="200px"
+                    style={{ objectFit: "contain" }}
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </Link>
             <Link href="/archive">Archive</Link>
           </div>
-
-          <Link href="/" className="flex justify-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={scrollRatio > 0.5 ? "light" : "dark"}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="relative w-24 h-6"
-              >
-                <Image
-                  src={scrollRatio > 0.5 ? logo_dark : logo_light}
-                  alt="hyangnang-logo"
-                  fill
-                  sizes="200px"
-                  style={{ objectFit: "contain" }}
-                  priority
-                />
-              </motion.div>
-            </AnimatePresence>
-          </Link>
 
           <div className="hidden md:flex basis-1/3 justify-end text-sm md:text-lg gap-4 xl:gap-8">
             <Link href={user ? "/myshop" : "/login"} className="font-serif">
@@ -106,17 +103,12 @@ const MainHeader: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden absolute top-full left-0 w-full bg-[#f2f0eb] text-[#524f4c] shadow-md z-50"
+              className="md:hidden absolute top-full left-0 w-full bg-[#f2f0eb] text-foreground shadow-md z-50"
             >
               <ul className="flex flex-col items-center gap-2 py-4 px-30 font-serif text-sm">
                 <li>
                   <Link href="/" onClick={() => setMenuOpen(false)}>
                     Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" onClick={() => setMenuOpen(false)}>
-                    About
                   </Link>
                 </li>
                 <li>

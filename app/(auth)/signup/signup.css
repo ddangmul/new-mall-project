@@ -1,7 +1,13 @@
 form input {
   width: 100%;
-  padding: 1rem;
+  padding: 1em;
   background-color: #fff;
+}
+
+@media (max-width: 640px) {
+  form input {
+    padding: 0.7em;
+  }
 }
 
 input[type="checkbox"] {

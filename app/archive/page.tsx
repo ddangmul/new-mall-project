@@ -29,7 +29,7 @@ export default function Archive() {
   if (loading) return <LoadingIndicator />;
 
   return (
-    <main className="mt-14 lg:mt-20">
+    <main className="pt-10 md:pt-12 lg:pt-14">
       <PageTitle children="Archive" className="px-2 md:px-4" />
       <ul className="w-full flex flex-col items-center space-y-8">
         {archives.map((archive, index) => (
@@ -55,14 +55,14 @@ export default function Archive() {
                 />
               </div>
               <div className="flex justify-between px-4 lg:px-6 py-6 lg:py-8">
-                <span className="text-sm md:text-lg lg:text-xl font-serif text-[#868686]">
+                <span className="text-sm md:text-lg lg:text-xl font-serif text-graytext">
                   {archive.category}
                 </span>
                 <div className="flex flex-col text-right">
                   <span className="text-md md:text-lg lg:text-2xl font-serif">
                     {archive.title}
                   </span>
-                  <span className="text-[#868686] text-xs md:text-md lg:text-lg">
+                  <span className="text-graytext text-xs md:text-md lg:text-lg">
                     {archive.description}
                   </span>
                 </div>

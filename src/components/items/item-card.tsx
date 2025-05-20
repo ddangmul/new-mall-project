@@ -9,7 +9,7 @@ const ItemCard: React.FC<{ item: Item }> = ({ item }) => {
   const formattedPrice = formatterPrice(price);
 
   return (
-    <div className="product-item-card font-serif text-lg text-[#2a2828] mb-8 flex flex-col gap-y-1.5">
+    <div className="product-item-card font-serif text-lg mb-8 flex flex-col gap-y-1.5">
       <span className="mb-2">
         <Image
           src={image}

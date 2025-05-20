@@ -6,11 +6,13 @@ import CartItem from "@/components/cart/cart-item";
 import { formatterPrice } from "@/utils/formatter";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import PageTitle from "@/components/page-title";
 
 export default function Cart() {
   const router = useRouter();
-  const TOP_BTN_CSS = "bg-[#ffffff] text-[#494643] p-2 rounded-sm shadow-2xs";
-  const BOTTOM_BTN_CSS = "bg-[#494643] text-[#f3f3f2] py-2 rounded-sm px-3";
+  const TOP_BTN_CSS = "bg-[#ffffff] px-2 py-1 rounded-sm shadow-2xs";
+  const BOTTOM_BTN_CSS = "bg-foreground text-background py-2 rounded-sm px-3";
+  const GRAY_TEXT_CSS = "text-graytext text-xs";
 
   const { cartItems, deleteCartHandler, totalPrice } = useCart();
 
@@ -71,10 +73,10 @@ export default function Cart() {
   }, [cartItems, checkedItems, deleteCartHandler]);
 
   return (
-    <section className="cart-page py-6 px-4 md:py-8 md:px-8 lg:py-10 lg:px-20">
+    <section className="cart-page pt-10 px-4 md:pt-12 md:px-8 lg:pt-14 lg:px-20">
       <div className="cart-heading flex gap-1 md:gap-2 lg:gap-3 items-center">
-        <span className="text-xl md:text-2xl lg:text-3xl font-serif">Cart</span>
-        <span className="text-sm md:text-lg lg:text-xl bg-[#494643] text-[#f2f0eb] px-1.5 md:px-2 lg:px-2.5 rounded-full">
+        <PageTitle children="Cart" />
+        <span className="text-sm bg-foreground text-background px-1.5 md:px-2 rounded-full">
           {cartItems.length}
         </span>
       </div>
@@ -119,22 +121,22 @@ export default function Cart() {
         <div className="py-6 lg:py-10 px-2 flex justify-center gap-10 text-center text-sm md:text-md lg:text-lg">
           <div className="flex flex-col">
             <span>{formatterPrice(totalOrderPrice)}</span>
-            <span className="text-[#787675] text-xs">상품금액</span>
+            <span className={GRAY_TEXT_CSS}>상품금액</span>
           </div>
           +
           <div className="flex flex-col">
             <span>{formatterPrice(2500)}</span>
-            <span className="text-[#787675] text-xs">배송비</span>
+            <span className={GRAY_TEXT_CSS}>배송비</span>
           </div>
           =
           <div className="flex flex-col">
             <span>{formatterPrice(totalOrderPrice + 2500)}</span>
-            <span className="text-[#787675] text-xs">총 주문금액</span>
+            <span className={GRAY_TEXT_CSS}>총 주문금액</span>
           </div>
         </div>
       </div>
 
-      <div className="w-full mt-6 lg:mt-10 flex justify-between md:justify-end md:space-x-5 text-sm md:text-md lg:text-lg">
+      <div className="w-full mt-6 lg:mt-10 flex justify-between md:justify-end md:space-x-5 text-xs md:text-sm lg:text-md">
         <button onClick={handleBuySelected} className={BOTTOM_BTN_CSS}>
           선택 상품 구매
         </button>

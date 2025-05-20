@@ -65,13 +65,13 @@ const ItemQuantity = ({ item }: { item: Item }) => {
             openModal();
           }}
           type="button"
-          className="bg-[#f8f7f5] text-[#524f4c] basis-1/2 py-2 rounded-xs shadow-lg"
+          className="bg-[#f8f7f5] basis-1/2 py-2 rounded-xs shadow-lg"
         >
           Cart
         </button>
         <Link
           href={`/checkout?buyNow=${item.id}&qty=${quantity}`}
-          className="bg-[#524f4c] shadow-lg text-[#f8f7f5] basis-1/2 py-2 rounded-xs text-center"
+          className="bg-foreground shadow-lg text-background basis-1/2 py-2 rounded-xs text-center"
         >
           Buy
         </Link>

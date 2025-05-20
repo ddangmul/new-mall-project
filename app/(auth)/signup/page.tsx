@@ -6,6 +6,8 @@ import { validateMobileNumber } from "@/utils/validation";
 import "./signup.css";
 import PageTitle from "@/components/page-title";
 
+const TEXT_CSS = "text-xs md:text-md lg:text-lg";
+
 export default function Signup() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -92,7 +94,9 @@ export default function Signup() {
   };
 
   return (
-    <div className="absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5">
+    <div
+      className={`absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5 ${TEXT_CSS}`}
+    >
       <PageTitle children="SignUp" />
       <div className="signup-form-wrap">
         <form
@@ -115,7 +119,6 @@ export default function Signup() {
               name="email"
               required
               placeholder="Email"
-              className="text-sm md:text-lg lg:text-xl"
               value={formData.email}
               onChange={handleChange}
               autoComplete="off"
@@ -137,7 +140,6 @@ export default function Signup() {
               value={formData.username}
               onChange={handleChange}
               autoComplete="off"
-              className="text-sm md:text-lg lg:text-xl"
             />
           </div>
           <div>
@@ -153,7 +155,6 @@ export default function Signup() {
               name="password"
               required
               placeholder="Password"
-              className="text-sm md:text-lg lg:text-xl"
               value={formData.password}
               onChange={handleChange}
             />
@@ -165,7 +166,6 @@ export default function Signup() {
               name="passwordCk"
               required
               placeholder="Password Check"
-              className="text-sm md:text-lg lg:text-xl"
               value={formData.passwordCk}
               onChange={handleChange}
             />
@@ -174,7 +174,7 @@ export default function Signup() {
             <select
               name="mobile1"
               id="mobile1"
-              className="basis-1/3 text-sm md:text-lg lg:text-xl "
+              className="basis-1/3"
               required
               value={formData.mobile1}
               onChange={(e) =>
@@ -194,7 +194,7 @@ export default function Signup() {
               type="text"
               id="mobile2"
               name="mobile2"
-              className="basis-1/3 text-sm md:text-lg lg:text-xl"
+              className="basis-1/3"
               required
               value={formData.mobile2}
               onChange={handleChange}
@@ -206,7 +206,7 @@ export default function Signup() {
               type="text"
               id="mobile3"
               name="mobile3"
-              className="basis-1/3 text-sm md:text-lg lg:text-xl"
+              className="basis-1/3"
               required
               value={formData.mobile3}
               onChange={handleChange}
@@ -216,10 +216,7 @@ export default function Signup() {
           </div>
           <div className="flex justify-between gap-4">
             <span className="basis-3/5 flex items-center gap-3">
-              <label
-                htmlFor="birthdate"
-                className="text-gray-700 text-sm md:text-md lg:text-lg whitespace-nowrap px-1"
-              >
+              <label htmlFor="birthdate" className="whitespace-nowrap px-1">
                 생년월일
               </label>
               <input
@@ -228,7 +225,6 @@ export default function Signup() {
                 name="birthdate"
                 value={formData.birthdate}
                 onChange={handleChange}
-                className="text-sm md:text-lg lg:text-xl"
               />
             </span>
             <div className="w-full flex justify-between">
@@ -268,7 +264,7 @@ export default function Signup() {
           </div>
           <button
             type="submit"
-            className="text-md md:text-lg lg:text-xl w-full py-2 lg:py-3 my-2  bg-[#3e3d3d] text-[#f2f0eb] mt-2 md:mt-4 lg:mt-6"
+            className={`${TEXT_CSS} w-full py-2 md:py-3 bg-foreground text-background mt-4 md:mt-8`}
           >
             {loading ? "가입 중..." : "회원가입"}
           </button>

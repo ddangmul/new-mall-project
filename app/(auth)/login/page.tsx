@@ -10,7 +10,7 @@ import "./login.css";
 
 export default function Login() {
   const BTN_CSS =
-    "flex items-center justify-center gap-2 login_btn text-md md:text-lg lg:text-xl w-full py-2 lg:py-3 my-2  bg-[#313030] text-[#f2f0eb]";
+    "flex items-center justify-center gap-2 login_btn text-md md:text-lg lg:text-xl w-full py-2 lg:py-3 my-2  bg-foreground text-background";
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
@@ -51,7 +51,7 @@ export default function Login() {
   };
 
   return (
-    <div className="absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5">
+    <div className="absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5 pt-10 md:pt-12 lg:pt-14">
       <PageTitle children="LogIn" />
       <div className="login-form-wrap">
         <form onSubmit={handleLogin} className="space-y-4 w-full">
@@ -135,15 +135,13 @@ export default function Login() {
           </svg>
           {loading ? "loading..." : "카카오계정 로그인하기"}
         </button>
-        <div className="mt-20 py-4 border-t-1 border-t-[#9e9e9e]">
-          <p className=" text-xl md:text-2xl lg:text-3xl font-serif lg:my-2">
-            Sign Up
-          </p>
+        <div className="mt-20 py-4 border-t-1 border-t-[#aaaaaa]">
+          <PageTitle children="SignUp" className="my-4" />
           <span className="signup-link">
             <Link
               href="/signup"
               type="submit"
-              className="signup_btn text-md md:text-lg lg:text-xl py-3 lg:py-4 my-4 bg-[#313030] text-[#f2f0eb] block w-full text-center"
+              className="signup_btn text-md md:text-lg lg:text-xl py-3 lg:py-4 my-4 bg-foreground text-background block w-full text-center"
             >
               회원가입
             </Link>

@@ -89,7 +89,7 @@ export default async function ItemDetailPage({
               <ItemQuantity item={item} />
             </div>
           </section>
-          <section className="item-main-info text-[#505050]">
+          <section className="item-main-info">
             <div className="detail-contents-nav mt-24 py-20 border-b-1 border-[#a0a09f]">
               <DetailContentsNavBar />
             </div>

@@ -17,7 +17,7 @@ interface CartItemProps {
 const CartItem: React.FC<CartItemProps> = React.memo(
   ({ item, onCheck, isChecked }) => {
     const QUANTITY_BTN =
-      "basis-1/3 bg-[#aca8a4] rounded-sm drop-shadow-sm md:text-md";
+      "basis-1/3 bg-[#aca8a4] rounded-sm drop-shadow-sm md:text-md mx-2";
     const { title, image, price, category, quantity, id } = item;
 
     const handleChange = useCallback(

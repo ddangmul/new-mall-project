@@ -22,10 +22,7 @@ export default function ClientLayout({
           <MainHeader />
           <CartProvider>
             <div id="modal"></div>
-            <div
-              id="wrap"
-              className="w-full min-h-screen mt-12 md:mt-14 lg:mt-16"
-            >
+            <div id="wrap" className="w-full min-h-screen mt-12 lg:mt-14 text-foreground">
               {children}
               <ToastContainer
                 position="bottom-center"
