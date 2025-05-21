@@ -25,11 +25,8 @@ const MyshopContentsNavBar: React.FC = () => {
   ];
 
   return (
-    <div>
-      <PageTitle
-        children="MyPage"
-        className="border-b-1 border-b-[#9e9e9e] md:border-none"
-      />
+    <div className="pt-12 md:pt-12 lg:pt-14">
+      <PageTitle children="MyPage" />
       <nav className="flex flex-row justify-between px-2 w-full md:w-20% md:flex-col md:items-start gap-2 md:gap-4 lg:gap-8 mt-4 md:mt-0 text-xs md:text-lg lg:text-xl">
         {modes.map(({ key, label }) => (
           <button

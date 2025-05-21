@@ -17,6 +17,7 @@ export async function POST(req: Request) {
     } = await req.json();
 
     const userId = session?.user?.id;
+    
     if (!userId) {
       return new Response(JSON.stringify({ message: "userId가 필요합니다." }), {
         status: 400,

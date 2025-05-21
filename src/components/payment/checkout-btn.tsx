@@ -39,6 +39,7 @@ export default function CheckoutButton({
       const saveAddressRes = await fetch("/api/address", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           ...newAddress,
           isDefault: false,

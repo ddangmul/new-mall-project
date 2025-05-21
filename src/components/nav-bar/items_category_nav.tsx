@@ -15,7 +15,7 @@ const ItemsCategory: React.FC = () => {
   }, [pathname]);
 
   return (
-    <section className="items_category">
+    <section className="items_category flex flex-col gap-4 mb-2">
       <div className="pt-10 flex justify-end px-9 items-center md:hidden">
         <SearchArea />
       </div>
