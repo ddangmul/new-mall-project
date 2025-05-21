@@ -69,11 +69,11 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
         >
           <X size={30} />
         </button>
-        <h2 className="text-xl font-bold mb-4">회원정보 탈퇴</h2>
+        <h2 className="text-md md:text-lg font-bold mb-4">회원정보 탈퇴</h2>
         <form className="mt-8 space-y-3" onSubmit={handleSubmit}>
           {!isOAuth && (
             <>
-              <p className="mb-6 text-gray-600">
+              <p className="text-xs md:text-md mb-6 text-gray-600">
                 본인확인을 위해 비밀번호를 입력해주세요.
               </p>
               <input
@@ -87,12 +87,14 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
           )}
           <button
             type="submit"
-            className="bg-foreground text-[#ffffff] px-4 py-2 rounded hover:bg-gray-800 transition"
+            className="bg-foreground text-[#ffffff] px-4 py-2 rounded hover:bg-gray-800 transition text-xs md:text-md"
           >
             {loading ? "탈퇴 진행 중..." : "회원 탈퇴하기"}
           </button>
         </form>
-        {error && <p className="pt-4 text-red-600">{error}</p>}
+        {error && (
+          <p className="pt-4 text-red-600 text-xs md:text-md">{error}</p>
+        )}
       </div>
     </div>
   );

@@ -22,8 +22,8 @@ export async function POST(req: Request) {
       userId: session.user.id,
       orderItems: {
         create: items.map(({ itemId, quantity }) => ({
-          item: { connect: { id: itemId } },
-          quantity,
+          itemId: Number(itemId),
+          quantity: Number(quantity),
         })),
       },
     },
@@ -44,4 +44,7 @@ export async function POST(req: Request) {
     ),
     name,
   });
+}
+function uuidv4() {
+  throw new Error("Function not implemented.");
 }

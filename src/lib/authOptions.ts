@@ -236,29 +236,29 @@ export const authOptions: NextAuthOptions = {
     },
 
     async jwt({ token, user, account }) {
-      // if (user?.email) {
-      //   const dbUser = await prisma.user.findUnique({
-      //     where: { email: user.email },
-      //   });
-
-      //   if (dbUser) {
-      //     token.id = dbUser.id;
-      //     token.email = dbUser.email;
-      //     token.username = dbUser.username;
-      //     token.birthdate = dbUser.birthdate;
-      //     token.mobile = dbUser.mobile;
-      //     token.provider = dbUser.provider;
-      //   }
-      // }
-
-      if (user && user.id) {
-        token.id = user.id;
-        token.email = user.email;
-        token.username = user.username;
-        token.birthdate = user.birthdate;
-        token.mobile = user.mobile;
-        token.provider = user.provider;
+      if (user?.email) {
+        const dbUser = await prisma.user.findUnique({
+          where: { email: user.email },
+        });
+        console.log("jwt dbUser", dbUser);
+        if (dbUser) {
+          token.id = dbUser.id;
+          token.email = dbUser.email;
+          token.username = dbUser.username;
+          token.birthdate = dbUser.birthdate;
+          token.mobile = dbUser.mobile;
+          token.provider = dbUser.provider;
+        }
       }
+
+      // if (user && user.id) {
+      //   token.id = user.id;
+      //   token.email = user.email;
+      //   token.username = user.username;
+      //   token.birthdate = user.birthdate;
+      //   token.mobile = user.mobile;
+      //   token.provider = user.provider;
+      // }
 
       if (account?.provider === "google" && account?.access_token) {
         token.accessToken = account.access_token;

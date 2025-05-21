@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/authOptions";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
+  console.log("session.user.id", session?.user?.id);
 
   try {
     const {
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
     } = await req.json();
 
     const userId = session?.user?.id;
-    
+
     if (!userId) {
       return new Response(JSON.stringify({ message: "userId가 필요합니다." }), {
         status: 400,
