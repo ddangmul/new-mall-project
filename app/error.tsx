@@ -8,10 +8,6 @@ type ErrorProps = {
 };
 
 export default function GlobalError({ error, reset }: ErrorProps) {
-  useEffect(() => {
-    console.error("An error occurred:", error);
-  }, [error]);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center">
       <h2 className="text-lg md:text-xl lg:text-2xl font-bold">
