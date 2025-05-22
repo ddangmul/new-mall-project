@@ -6,12 +6,19 @@ import { AuthOptions } from "next-auth";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions as AuthOptions);
+
   if (!session) {
     return new Response("Unauthorized", { status: 401 });
   }
 
   const { name, address, phone, paymentMethod, items } = await req.json();
-
+  const itemIds = items.map((item) => item.itemId);
+  const existingItems = await prisma.item.findMany({
+    where: { id: { in: itemIds } },
+  });
+  if (existingItems.length !== itemIds.length) {
+    throw new Error("주문에 포함된 아이템 중 존재하지 않는 항목이 있습니다.");
+  }
   const order = await prisma.order.create({
     data: {
       name,

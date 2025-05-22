@@ -72,6 +72,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (existingItem) {
         return prev.map((i) => (i.id === item.id ? { ...i, quantity } : i));
       }
+
       return [...prev, { ...item, quantity: quantity || 1 }];
     });
   };

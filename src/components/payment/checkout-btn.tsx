@@ -29,6 +29,8 @@ export default function CheckoutButton({
   useNewAddress,
   newAddress,
 }: CheckoutButtonProps) {
+  console.log(form, cartItems);
+
   const handlePayment = async () => {
     if (useNewAddress) {
       if (!validateNewAddress(newAddress)) {
@@ -53,6 +55,7 @@ export default function CheckoutButton({
         return;
       }
     }
+    console.log(cartItems);
 
     // 주문 생성
     const response = await fetch("/api/checkout", {

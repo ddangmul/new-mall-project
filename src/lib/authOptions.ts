@@ -179,15 +179,14 @@ export const authOptions: NextAuthOptions = {
 
       if (account?.provider === "kakao") {
         try {
-          // const kakaoAccount = profile?.kakao_account;
+          const kakaoProfile = profile as any;
+          const kakaoAccount = kakaoProfile?.kakao_account;
           // const kakaoProfile = kakaoAccount?.profile;
 
-          const email = profile?.email || "이메일 없음"; // 이메일이 없을 경우 기본값 설정
-          const username = profile?.name || "카카오사용자"; // 닉네임이 없을 경우 기본값 설정
-
-          if (!email) {
-            throw new Error("카카오 이메일 정보를 가져올 수 없습니다.");
-          }
+          const email =
+            kakaoAccount.email || `kakao_${kakaoProfile.id}@kakao.com`; // 이메일이 없을 경우 기본값 설정
+          const username =
+            kakaoAccount.profile?.nickname || `kakao_${kakaoProfile.id}`; // 닉네임이 없을 경우 기본값 설정
 
           let existingUser = await prisma.user.findUnique({
             where: { email },
@@ -235,7 +234,7 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, profile }) {
       if (user?.email) {
         const dbUser = await prisma.user.findUnique({
           where: { email: user.email },
@@ -251,14 +250,15 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
-      // if (user && user.id) {
-      //   token.id = user.id;
-      //   token.email = user.email;
-      //   token.username = user.username;
-      //   token.birthdate = user.birthdate;
-      //   token.mobile = user.mobile;
-      //   token.provider = user.provider;
-      // }
+      if (!token.id && token.email) {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: token.email },
+        });
+
+        if (existingUser) {
+          token.id = existingUser.id;
+        }
+      }
 
       if (account?.provider === "google" && account?.access_token) {
         token.accessToken = account.access_token;
@@ -268,8 +268,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id as string; // 타입 강제변환
+      if (token?.id && session.user) {
+        session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.username = token.username as string;
         session.user.birthdate = token.birthdate as string;
