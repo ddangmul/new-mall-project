@@ -8,12 +8,19 @@ import { ToastContainer } from "react-toastify";
 import MainHeader from "@/components/header/main-header";
 import ScrollButtons from "@/components/scroll-btn";
 import Footer from "@/components/footer/footer";
+import { useEffect } from "react";
 
 export default function ClientLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://js.tosspayments.com/v1";
+    script.async = true;
+    document.head.appendChild(script);
+  }, []);
   return (
     <>
       <SessionProvider>
@@ -22,7 +29,10 @@ export default function ClientLayout({
           <MainHeader />
           <CartProvider>
             <div id="modal"></div>
-            <div id="wrap" className="w-full min-h-screen mt-12 lg:mt-14 text-foreground">
+            <div
+              id="wrap"
+              className="w-full min-h-screen mt-12 lg:mt-14 text-foreground"
+            >
               {children}
               <ToastContainer
                 position="bottom-center"
