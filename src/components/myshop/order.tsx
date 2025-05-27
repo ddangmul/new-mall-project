@@ -109,13 +109,6 @@ export default function Order() {
               ))}
             </ul>
           )}
-          {/* <div className="order_history_page py-10">
-            <ol>
-              <li>
-                <Link href="">1</Link>
-              </li>
-            </ol>
-          </div> */}
         </div>
       </form>
     </article>

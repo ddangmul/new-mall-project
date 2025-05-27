@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState, useCallback } from "react";
 import { useCart } from "@/store/cart-context";
 import LoadingIndicator from "@/components/loading-indicator";
@@ -35,6 +35,13 @@ export default function CheckoutPage() {
   const router = useRouter();
 
   useEffect(() => {
+    if (status === "loading") return;
+
+    if (status === "unauthenticated") {
+      signIn(undefined, { callbackUrl: "/cart" });
+      return;
+    }
+
     if (status === "authenticated") fetchAddresses();
   }, [status]);
 

@@ -10,13 +10,22 @@ import Heading from "@tiptap/extension-heading";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function QnAPost() {
   const [_content, setContent] = useState("");
-  const { data: session } = useSession();
+  const { status, data: session } = useSession();
   const ACTIVE_CSS = "font-extrabold text-background";
+
+  useEffect(() => {
+    if (status === "loading") return;
+
+    if (status === "unauthenticated" || !session) {
+      signIn(undefined, { callbackUrl: "/myshop/qna_post" });
+      return;
+    }
+  }, [status]);
 
   const editor = useEditor({
     extensions: [
@@ -48,7 +57,7 @@ export default function QnAPost() {
       <div className="relative text-sm md:text-md lg:text-lg mt-4 md:mt-10">
         <div className="qna-title pt-4 md:py-6 mb-2 space-y-2 md:space-y-4">
           <div className="px-2 text-graytext">
-            작성자 : {session.user.username}
+            작성자 : {session?.user?.username}
           </div>
           <input
             type="text"
@@ -104,11 +113,7 @@ export default function QnAPost() {
           </button>
           <button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={`${
-              editor.isActive("bulletList")
-                ? ACTIVE_CSS
-                : ""
-            }`}
+            className={`${editor.isActive("bulletList") ? ACTIVE_CSS : ""}`}
           >
             •
           </button>

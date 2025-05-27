@@ -9,10 +9,8 @@ import Member from "@/components/myshop/member/member";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-
 import { signOut } from "next-auth/react";
 import LoadingIndicator from "@/components/loading-indicator";
-
 export default function Myshop() {
   const TOP_BTN_CSS =
     "bg-[#615e58] text-background px-2 md:px-3 lg:px-4 py-1 text-center rounded-[5px] text-xs md:text-md lg:text-lg";
@@ -20,8 +18,6 @@ export default function Myshop() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const mode = searchParams.get("mode") || "order";
-  // const pathname = usePathname();
-  // const isMobile = typeof window !== "undefined" && window.innerWidth <= 640;
   const user = session?.user;
 
   useEffect(() => {

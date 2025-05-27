@@ -181,7 +181,6 @@ export const authOptions: NextAuthOptions = {
         try {
           const kakaoProfile = profile as any;
           const kakaoAccount = kakaoProfile?.kakao_account;
-          // const kakaoProfile = kakaoAccount?.profile;
 
           const email =
             kakaoAccount.email || `kakao_${kakaoProfile.id}@kakao.com`; // 이메일이 없을 경우 기본값 설정
@@ -284,7 +283,11 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
 
-    async redirect({ baseUrl }) {
+    async redirect({ url, baseUrl }) {
+      // 상대경로라면 baseUrl 붙여서 리턴
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // 동일한 도메인이라면 그대로 사용
+      else if (url.startsWith(baseUrl)) return url;
       return baseUrl;
     },
   },

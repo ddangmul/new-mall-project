@@ -5,7 +5,7 @@ export default function ReturnsOrder() {
   const BTN_CSS = "text-xs text-center whitespace-nowrap";
 
   return (
-    <article className="myshop-order max-w-screen-md mx-auto overflow-hidden">
+    <article className="myshop-order max-w-full">
       <h1 className="text-lg md:text-xl lg:text-2xl py-6 md:pb-10">
         취소 / 교환 / 반품
       </h1>
@@ -46,13 +46,6 @@ export default function ReturnsOrder() {
           <p className="py-30 text-sm md:text-md lg:text-lg">
             최근 취소/교환/반품 내역이 없습니다.
           </p>
-          {/* <div className="order_history_page py-10">
-            <ol>
-              <li>
-                <Link href="">1</Link>
-              </li>
-            </ol>
-          </div> */}
         </div>
       </form>
     </article>
