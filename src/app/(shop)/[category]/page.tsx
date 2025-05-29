@@ -5,7 +5,7 @@ import {
   getNewItems,
 } from "@/lib/items/queries";
 import ItemsGrid from "@/components/items/items-grid";
-import { Item } from "../../../types/types";
+import { Item } from '@/assets/types/types'
 import { notFound } from "next/navigation";
 
 type Props = Promise<{
