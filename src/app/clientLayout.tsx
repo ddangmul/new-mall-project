@@ -1,7 +1,6 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
-import SessionHandler from "@/components/session-handler";
 import { AddressProvider } from "@/store/address-context";
 import { CartProvider } from "@/store/cart-context";
 import { ToastContainer } from "react-toastify";
@@ -17,7 +16,6 @@ export default function ClientLayout({
   return (
     <>
       <SessionProvider>
-        <SessionHandler />
         <AddressProvider>
           <MainHeader />
           <CartProvider>
