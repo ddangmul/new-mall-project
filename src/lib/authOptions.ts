@@ -288,7 +288,7 @@ export const authOptions: NextAuthOptions = {
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // 동일한 도메인이라면 그대로 사용
       else if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
+      return `${baseUrl}/myshop`;
     },
   },
 
