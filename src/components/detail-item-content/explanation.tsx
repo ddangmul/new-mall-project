@@ -1,4 +1,4 @@
-import { Item } from "../../../types/types";
+import { Item } from "../../assets/types/types";
 
 export default function Explanation({ item }: { item: Item }) {
   return (

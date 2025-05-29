@@ -1,6 +1,6 @@
 "use client";
 
-import { Item, ItemWithQuantity } from "../../types/types";
+import { Item, ItemWithQuantity } from "../assets/types/types";
 import CartModal from "@/components/cart/cart-modal";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useState, useEffect, useMemo } from "react";

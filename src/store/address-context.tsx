@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Address } from "next-auth";
-import { AddressInput } from "../../types/types";
+import { AddressInput } from "../assets/types/types";
 import { useSession } from "next-auth/react";
 
 interface AddressContextType {

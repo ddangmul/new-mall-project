@@ -1,6 +1,6 @@
 "use client";
 
-import { ItemWithQuantity } from "../../../types/types";
+import { ItemWithQuantity } from "../../assets/types/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/store/cart-context";

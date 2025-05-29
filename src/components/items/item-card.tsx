@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Item } from "../../../types/types";
+import { Item } from "../../assets/types/types";
 import { formatterPrice } from "@/utils/formatter";
 
 const ItemCard: React.FC<{ item: Item }> = ({ item }) => {

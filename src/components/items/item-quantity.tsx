@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Item } from "../../../types/types";
+import { Item } from "../../assets/types/types";
 import { formatterPrice } from "@/utils/formatter";
 import { useCart } from "@/store/cart-context";
 import Link from "next/link";

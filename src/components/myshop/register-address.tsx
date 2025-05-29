@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useAddress } from "@/store/address-context";
 import { validateMobileNumber } from "@/utils/validation";
-import { AddressInput } from "../../../types/types";
+import { AddressInput } from "../../assets/types/types";
 
 import "./modify.css";
 

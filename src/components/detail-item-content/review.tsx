@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Item } from "../../../types/types";
+import { Item } from "../../assets/types/types";
 
 export default function Review({ item }: { item: Item }) {
   return (

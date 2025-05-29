@@ -44,8 +44,9 @@
     ".next/types/**/*.ts",
     "src/**/*.ts",
     "prisma/**/*",
-    "types/**/*.d.ts"
-, "eslint.config.js"  ],
+    "src/assets/types/**/*.d.ts",
+    "eslint.config.js"
+  ],
   "exclude": [
     "node_modules",
     "tests",
