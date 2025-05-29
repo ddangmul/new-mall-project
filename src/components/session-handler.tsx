@@ -29,7 +29,7 @@ export default function SessionHandler() {
     if (!isReload && !isLoggedIn) {
       signOut({ redirect: false });
     }
-  }, []);
+  }, [status]);
 
   return null;
 }
