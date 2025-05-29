@@ -105,7 +105,10 @@ export default function Login() {
             {loading ? "loading..." : "이메일계정 로그인"}
           </button>
         </form>
-        <button onClick={() => signIn("google")} className={BTN_CSS}>
+        <button
+          onClick={() => signIn("google", { callbackUrl: "/myshop" })}
+          className={BTN_CSS}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 48 48"
@@ -130,7 +133,10 @@ export default function Login() {
           </svg>
           {loading ? "loading..." : "구글계정 로그인"}
         </button>
-        <button onClick={() => signIn("kakao")} className={BTN_CSS}>
+        <button
+          onClick={() => signIn("kakao", { callbackUrl: "/myshop" })}
+          className={BTN_CSS}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-5 h-5"
