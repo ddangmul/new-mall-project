@@ -170,7 +170,7 @@ export default function CheckoutPage() {
             배송지 정보
           </h2>
           <button
-            className="underline underline-offset-5 w-full text-right text-sm md:text-md lg:text-lg"
+            className="underline underline-offset-5 w-full text-right text-sm md:text-md lg:text-lg cursor-pointer"
             type="button"
             onClick={handleAddressToggle}
           >
@@ -279,7 +279,7 @@ export default function CheckoutPage() {
         <span className="flex justify-between w-full mt-2 text-sm md:text-md lg:text-lg">
           <button
             onClick={() => router.back()}
-            className="bg-background shadow-sm text-foreground px-2 py-1 rounded-xs"
+            className="bg-background shadow-sm text-foreground px-2 py-1 rounded-xs cursor-pointer"
           >
             ← 뒤로가기
           </button>

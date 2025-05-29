@@ -15,6 +15,8 @@ export default function SessionHandler() {
 
   // 탭 닫힘 감지 및 자동 로그아웃
   useEffect(() => {
+    if (status !== "authenticated") return;
+
     const navEntries = performance.getEntriesByType("navigation");
     const navEntry = navEntries[0] as PerformanceNavigationTiming;
 
@@ -24,7 +26,7 @@ export default function SessionHandler() {
 
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
 
-    if (!isReload && !isLoggedIn && status !== "authenticated") {
+    if (!isReload && !isLoggedIn) {
       signOut({ redirect: false });
     }
   }, []);

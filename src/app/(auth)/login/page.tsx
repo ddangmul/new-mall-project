@@ -10,7 +10,7 @@ import "./login.css";
 
 export default function Login() {
   const BTN_CSS =
-    "flex items-center justify-center gap-2 login_btn text-md md:text-lg lg:text-xl w-full py-2 lg:py-3 my-2  bg-foreground text-background";
+    "flex items-center justify-center gap-2 login_btn text-md md:text-lg lg:text-xl w-full py-2 lg:py-3 my-2  bg-foreground text-background cursor-pointer";
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",

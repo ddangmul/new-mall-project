@@ -18,7 +18,7 @@ export default function GlobalError({ error, reset }: ErrorProps) {
       </p>
       <button
         onClick={reset}
-        className="text-sm md:text-md lg:text-lg mt-4 px-4 py-2 bg-[#313030] text-white rounded"
+        className="text-sm md:text-md lg:text-lg mt-4 px-4 py-2 bg-[#313030] text-white rounded cursor-pointer"
       >
         다시 시도하기
       </button>

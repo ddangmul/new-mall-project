@@ -65,7 +65,7 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
       <div className="bg-[#ffffff] p-6 rounded-md text-center max-w-sm w-[90%] shadow-lg relative">
         <button
           onClick={onClose}
-          className="absolute top-3 right-5 text-gray-500 hover:text-black"
+          className="absolute top-3 right-5 text-gray-500 hover:text-black cursor-pointer"
         >
           <X size={30} />
         </button>
@@ -87,7 +87,7 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
           )}
           <button
             type="submit"
-            className="bg-foreground text-[#ffffff] px-4 py-2 rounded hover:bg-gray-800 transition text-xs md:text-md"
+            className="bg-foreground text-[#ffffff] px-4 py-2 rounded hover:bg-gray-800 transition text-xs md:text-md cursor-pointer"
           >
             {loading ? "탈퇴 진행 중..." : "회원 탈퇴하기"}
           </button>

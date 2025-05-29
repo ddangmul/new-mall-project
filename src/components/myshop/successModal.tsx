@@ -20,12 +20,12 @@ export default function SuccessModal({ onConfirm }: { onConfirm: () => void }) {
         <h2 className="text-md md:text-lg font-bold mb-4">
           회원정보가 수정되었습니다.
         </h2>
-        <p className="text-xs md:text-md mb-6 text-gray-600">
+        <p className="text-xs md:text-md mb-6 text-gray-600 cursor-pointer">
           보안을 위해 다시 로그인 해주세요.
         </p>
         <button
           onClick={onConfirm}
-          className="bg-foreground text-[#ffffff] px-4 py-2 rounded hover:bg-gray-800 transition text-xs md:text-md"
+          className="bg-foreground text-[#ffffff] px-4 py-2 rounded hover:bg-gray-800 transition text-xs md:text-md cursor-pointer" 
         >
           다시 로그인하기
         </button>

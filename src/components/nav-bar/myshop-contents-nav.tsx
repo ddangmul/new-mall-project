@@ -34,8 +34,8 @@ const MyshopContentsNavBar: React.FC = () => {
             onClick={() => changeMode(key)}
             className={
               mode === key
-                ? "text-graytext underline underline-offset-4 decoration-[#cec7c4]"
-                : ""
+                ? "text-graytext underline underline-offset-4 decoration-[#cec7c4] cursor-pointer"
+                : "cursor-pointer"
             }
           >
             {label}

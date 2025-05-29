@@ -38,7 +38,7 @@ export default function ReturnsOrder() {
               <input type="date" className="w-[140px] md:w-[160px] px-2 py-1" />
             </span>
           </span>
-          <button className="order_search_btn text-xs md:text-md w-full md:w-auto">
+          <button className="order_search_btn text-xs md:text-md w-full md:w-auto cursor-pointer">
             조회
           </button>
         </div>

@@ -248,13 +248,13 @@ export default function ModifyMember() {
         )}
         <button
           type="submit"
-          className="mt-6 md:mt-10 bg-foreground text-background rounded-xs text-sm md:text-md lg:text-lg w-full py-2"
+          className="mt-6 md:mt-10 bg-foreground text-background rounded-xs text-sm md:text-md lg:text-lg w-full py-2 cursor-pointer"
         >
           {loading ? "수정 중..." : "회원정보 수정"}
         </button>
       </form>
       <div className="mt-4 md:mt-6 bg-[#d6d2c8] rounded-xs text-sm md:text-md lg:text-lg w-full py-2 text-center">
-        <button onClick={() => setDeleteModal(true)}>회원 탈퇴하기</button>
+        <button onClick={() => setDeleteModal(true)} className="cursor-pointer">회원 탈퇴하기</button>
       </div>
       {successModal && (
         <SuccessModal onConfirm={() => signOut({ callbackUrl: "/login" })} />

@@ -16,10 +16,10 @@ export default function CartModal() {
         <p>장바구니로 이동하시겠습니까?</p>
 
         <div className="modal-btn">
-          <button onClick={confirmOpenCart} color="primary">
+          <button onClick={confirmOpenCart} color="primary" className="cursor-pointer">
             장바구니로 이동하기
           </button>
-          <button onClick={closeModal} color="secondary">
+          <button onClick={closeModal} color="secondary" className="cursor-pointer">
             쇼핑 계속하기
           </button>
         </div>

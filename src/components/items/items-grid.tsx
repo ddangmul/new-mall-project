@@ -18,7 +18,7 @@ const ItemsGrid: React.FC<{ items: Item[] }> = ({ items }) => {
             <ItemCard item={item} />
           </Link>
           <button
-            className="bg-[#f8f7f5] px-3 py-1 rounded-sm drop-shadow-sm mt-[-4] mb-2"
+            className="bg-[#f8f7f5] px-3 py-1 rounded-sm drop-shadow-sm mt-[-4] mb-2 cursor-pointer"
             onClick={() => {
               addCartHandler(item, 1);
               openModal();

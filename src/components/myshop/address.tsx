@@ -89,7 +89,7 @@ export default function Address() {
               ))}
             </ul>
           </div>
-          <div className="adress_action_btn w-full flex justify-between mt-6">
+          <div className="adress_action_btn w-full flex justify-between mt-6 cursor-pointer">
             <button
               onClick={handleDelete}
               className="px-8 py-2 rounded-sm bg-[#e6e2de]"
@@ -97,7 +97,7 @@ export default function Address() {
               선택 배송지 삭제
             </button>
             <button
-              className="px-8 py-2 rounded-sm bg-foreground text-background"
+              className="px-8 py-2 rounded-sm bg-foreground text-background cursor-pointer"
               onClick={() => {
                 changeMode("new");
               }}

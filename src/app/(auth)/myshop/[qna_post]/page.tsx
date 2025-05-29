@@ -16,7 +16,7 @@ import { signIn, useSession } from "next-auth/react";
 export default function QnAPost() {
   const [_content, setContent] = useState("");
   const { status, data: session } = useSession();
-  const ACTIVE_CSS = "font-extrabold text-background";
+  const ACTIVE_CSS = "font-extrabold text-background cursor-pointer";
 
   useEffect(() => {
     if (status === "loading") return;
@@ -69,25 +69,25 @@ export default function QnAPost() {
         <div className="flex justify-evenly gap-1 md:gap-2 lg:gap-4 border bg-foreground text-background">
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`${editor.isActive("bold") ? ACTIVE_CSS : ""}`}
+            className={`${editor.isActive("bold") ? ACTIVE_CSS : "cursor-pointer"}`}
           >
             B
           </button>
           <button
             onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={`${editor.isActive("italic") ? ACTIVE_CSS : ""}`}
+            className={`${editor.isActive("italic") ? ACTIVE_CSS : "cursor-pointer"}`}
           >
             I
           </button>
           <button
             onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={`${editor.isActive("underline") ? ACTIVE_CSS : ""}`}
+            className={`${editor.isActive("underline") ? ACTIVE_CSS : "cursor-pointer"}`}
           >
             U
           </button>
           <button
             onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={`${editor.isActive("strike") ? ACTIVE_CSS : ""}`}
+            className={`${editor.isActive("strike") ? ACTIVE_CSS : "cursor-pointer"}`}
           >
             S
           </button>
@@ -96,7 +96,7 @@ export default function QnAPost() {
               editor.chain().focus().toggleHeading({ level: 1 }).run()
             }
             className={`${
-              editor.isActive("heading", { level: 1 }) ? ACTIVE_CSS : ""
+              editor.isActive("heading", { level: 1 }) ? ACTIVE_CSS : "cursor-pointer"
             }`}
           >
             H1
@@ -106,32 +106,32 @@ export default function QnAPost() {
               editor.chain().focus().toggleHeading({ level: 2 }).run()
             }
             className={`p${
-              editor.isActive("heading", { level: 2 }) ? ACTIVE_CSS : ""
+              editor.isActive("heading", { level: 2 }) ? ACTIVE_CSS : "cursor-pointer"
             }`}
           >
             H2
           </button>
           <button
             onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={`${editor.isActive("bulletList") ? ACTIVE_CSS : ""}`}
+            className={`${editor.isActive("bulletList") ? ACTIVE_CSS : "cursor-pointer"}`}
           >
             •
           </button>
           <button
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            className={`${editor.isActive("orderedList") ? ACTIVE_CSS : ""}`}
+            className={`${editor.isActive("orderedList") ? ACTIVE_CSS : "cursor-pointer"}`}
           >
             1.
           </button>
           <button
             onClick={() => editor.chain().focus().undo().run()}
-            className="p-2 px-4 rounded"
+            className="p-2 px-4 rounded cursor-pointer"
           >
             ↩ Undo
           </button>
           <button
             onClick={() => editor.chain().focus().redo().run()}
-            className="rounded"
+            className="rounded cursor-pointer"
           >
             ↪ Redo
           </button>
@@ -141,7 +141,7 @@ export default function QnAPost() {
         </div>
         <button
           className="bg-foreground text-background text-sm px-2 py-1 md:px-4 md:py-2 rounded-xs
-         mt-6 absolute right-0"
+         mt-6 absolute right-0 cursor-pointer"
         >
           문의글 작성
         </button>

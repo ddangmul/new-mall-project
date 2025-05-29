@@ -18,8 +18,8 @@ export default function Member() {
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  const selectedCSS = "px-5 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8]";
-  const unSelectedCss = "px-5 py-2 bg-[#e5e3e2] text-[#2d2c2a]";
+  const selectedCSS = "px-5 py-2 rounded-sm bg-[#2d2c2a] text-[#d6d2c8] cursor-pointer";
+  const unSelectedCss = "px-5 py-2 bg-[#e5e3e2] text-[#2d2c2a] cursor-pointer";
 
   return (
     <>

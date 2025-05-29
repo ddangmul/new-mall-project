@@ -36,14 +36,14 @@ const ScrollButtons = () => {
         <>
           <button
             onClick={scrollToTop}
-            className="bg-[#e1d8d6] p-2 rounded-full shadow hover:bg-[#c0b0ac] transition"
+            className="bg-[#e1d8d6] p-2 rounded-full shadow hover:bg-[#c0b0ac] transition cursor-pointer"
             aria-label="최상단으로 이동"
           >
             <ChevronUp size={20} />
           </button>
           <button
             onClick={scrollToBottom}
-            className="bg-[#e1d8d6] p-2 rounded-full shadow hover:bg-[#c0b0ac] transition"
+            className="bg-[#e1d8d6] p-2 rounded-full shadow hover:bg-[#c0b0ac] transition cursor-pointer"
             aria-label="최하단으로 이동"
           >
             <ChevronDown size={20} />

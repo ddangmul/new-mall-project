@@ -43,7 +43,7 @@ const NewAddressForm = React.memo(function NewAddressForm({
           autoComplete="off"
           className={INPUT_CSS}
         />
-        <button className="w-[6rem]">우편번호</button>
+        <button className="w-[6rem] ">우편번호</button>
       </span>
       <input
         name="address"

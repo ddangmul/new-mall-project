@@ -8,16 +8,6 @@ import Image from "next/image";
 const SearchArea: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
-  // const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-
-  // // 300ms 후에 searchTerm 값을 debouncedSearchTerm에 업데이트
-  // useEffect(() => {
-  //   const handler = setTimeout(() => {
-  //     setDebouncedSearchTerm(searchTerm);
-  //   }, 300);
-
-  //   return () => clearTimeout(handler); // 컴포넌트가 다시 렌더링될 때 타이머 클리어
-  // }, [searchTerm]);
 
   function handleSearch() {
     const trimmed = searchTerm.trim();
@@ -46,7 +36,7 @@ const SearchArea: React.FC = () => {
         alt="search-icon"
         width={10}
         height={10}
-        className="absolute right-2 filter md:invert"
+        className="absolute right-2 filter md:invert cursor-pointer"
         loading="lazy"
       />
     </span>

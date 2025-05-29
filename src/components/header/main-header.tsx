@@ -86,7 +86,7 @@ const MainHeader: React.FC = () => {
           </div>
 
           <div className="md:hidden">
-            <button onClick={toggleMenu} aria-label="Toggle menu">
+            <button onClick={toggleMenu} aria-label="Toggle menu" className="cursor-pointer">
               <div className="space-y-1">
                 <div className="w-6 h-0.5 bg-current"></div>
                 <div className="w-6 h-0.5 bg-current"></div>

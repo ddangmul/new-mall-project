@@ -93,7 +93,7 @@ export default function Order() {
               <input type="date" />
             </span>
           </span>
-          <button className="order_search_btn text-xs md:text-md w-full md:w-auto">
+          <button className="order_search_btn text-xs md:text-md w-full md:w-auto cursor-pointer">
             조회
           </button>
         </div>

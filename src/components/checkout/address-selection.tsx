@@ -72,7 +72,7 @@ const AddressSelection: React.FC<AddressSelectionProps> = React.memo(
         <div className="flex flex-col mt-4">
           {form.address ? (
             <button
-              className="underline underline-offset-5 rounded-xs"
+              className="underline underline-offset-5 rounded-xs cursor-pointer"
               type="button"
               onClick={() => setIsAddressOpen((prev) => !prev)}
             >

@@ -13,7 +13,7 @@ import { signOut } from "next-auth/react";
 import LoadingIndicator from "@/components/loading-indicator";
 export default function Myshop() {
   const TOP_BTN_CSS =
-    "bg-[#615e58] text-background px-2 md:px-3 lg:px-4 py-1 text-center rounded-[5px] text-xs md:text-md lg:text-lg";
+    "bg-[#615e58] text-background px-2 md:px-3 lg:px-4 py-1 text-center rounded-[5px] text-xs md:text-md lg:text-lg cursor-pointer";
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const router = useRouter();

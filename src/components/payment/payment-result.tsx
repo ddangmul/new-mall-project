@@ -36,7 +36,7 @@ const PaymentResult = ({
           </Link>
           <button
             onClick={() => router.back()}
-            className="bg-[#d6d2c8] px-6 py-2 rounded-lg hover:bg-[#c4c0b6]"
+            className="bg-[#d6d2c8] px-6 py-2 rounded-lg hover:bg-[#c4c0b6] cursor-pointer"
           >
             쇼핑 계속하기
           </button>

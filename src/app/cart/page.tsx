@@ -10,8 +10,10 @@ import PageTitle from "@/components/page-title";
 
 export default function Cart() {
   const router = useRouter();
-  const TOP_BTN_CSS = "bg-[#ffffff] px-2 py-1 rounded-sm shadow-2xs";
-  const BOTTOM_BTN_CSS = "bg-foreground text-background py-2 rounded-sm px-3";
+  const TOP_BTN_CSS =
+    "bg-[#ffffff] px-2 py-1 rounded-sm shadow-2xs cursor-pointer";
+  const BOTTOM_BTN_CSS =
+    "bg-foreground text-background py-2 rounded-sm px-3 cursor-pointer";
   const GRAY_TEXT_CSS = "text-graytext text-xs";
 
   const { cartItems, deleteCartHandler, totalPrice } = useCart();

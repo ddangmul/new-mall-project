@@ -264,7 +264,7 @@ export default function Signup() {
           </div>
           <button
             type="submit"
-            className={`${TEXT_CSS} w-full py-2 md:py-3 bg-foreground text-background mt-4 md:mt-8`}
+            className={`${TEXT_CSS} w-full py-2 md:py-3 bg-foreground text-background mt-4 md:mt-8 cursor-pointer`}
           >
             {loading ? "가입 중..." : "회원가입"}
           </button>

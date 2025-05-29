@@ -34,7 +34,7 @@ const ItemQuantity = ({ item }: { item: Item }) => {
             <button
               aria-label="Decrease quantity"
               onClick={decreaseQuantity}
-              className="basis-1/3 border-1 border-[#a0a09f] rounded-xs"
+              className="basis-1/3 border-1 border-[#a0a09f] rounded-xs cursor-pointer"
             >
               -
             </button>
@@ -42,7 +42,7 @@ const ItemQuantity = ({ item }: { item: Item }) => {
             <button
               aria-label="Increase quantity"
               onClick={increaseQuantity}
-              className="basis-1/3 border-1 border-[#a0a09f] rounded-xs"
+              className="basis-1/3 border-1 border-[#a0a09f] rounded-xs cursor-pointer"
             >
               +
             </button>
@@ -65,7 +65,7 @@ const ItemQuantity = ({ item }: { item: Item }) => {
             openModal();
           }}
           type="button"
-          className="bg-[#f8f7f5] basis-1/2 py-2 rounded-xs shadow-lg"
+          className="bg-[#f8f7f5] basis-1/2 py-2 rounded-xs shadow-lg cursor-pointer"
         >
           Cart
         </button>

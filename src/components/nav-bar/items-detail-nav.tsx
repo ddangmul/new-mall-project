@@ -27,7 +27,7 @@ const DetailContentsNavBar: React.FC = () => {
         <button
           key={buttonMode}
           onClick={() => changeMode(buttonMode)}
-          className={mode === buttonMode ? "text-graytext" : ""}
+          className={mode === buttonMode ? "text-graytext cursor-pointer" : "cursor-pointer"}
         >
           {label}
         </button>
