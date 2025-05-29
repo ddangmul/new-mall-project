@@ -1,4 +1,4 @@
-import { Item } from "../../../../types/types";
+import { Item } from "@/assets/types/types";
 import Image from "next/image";
 import { getItemById } from "@/lib/items/queries";
 import { formatterPrice } from "@/utils/formatter";
