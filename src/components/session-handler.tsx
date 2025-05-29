@@ -24,7 +24,7 @@ export default function SessionHandler() {
 
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
 
-    if (!isReload && !isLoggedIn) {
+    if (!isReload && !isLoggedIn && status !== "authenticated") {
       signOut({ redirect: false });
     }
   }, []);

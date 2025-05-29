@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import PageTitle from "@/components/page-title";
 
 import Link from "next/link";
@@ -43,11 +43,19 @@ export default function Login() {
 
     if (res?.error) {
       setError("이메일 또는 비밀번호가 잘못되었습니다.");
-    } else {
-      sessionStorage.setItem("isLoggedIn", "true");
-      router.push("/myshop");
       setLoading(false);
+      return;
     }
+
+    let tries = 0;
+    while (tries < 10) {
+      const session = await getSession();
+      if (session) break;
+      await new Promise((r) => setTimeout(r, 300));
+      tries++;
+    }
+
+    router.push("/myshop");
   };
 
   return (
