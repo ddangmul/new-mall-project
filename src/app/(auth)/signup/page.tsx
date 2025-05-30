@@ -95,7 +95,7 @@ export default function Signup() {
 
   return (
     <div
-      className={`absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5 ${TEXT_CSS}`}
+      className={`absolute w-[100%] xl:left-[40%] xl:w-[60%] px-5 pt-10 md:pt-12 lg:pt-14 ${TEXT_CSS}`}
     >
       <PageTitle children="SignUp" />
       <div className="signup-form-wrap">

@@ -76,8 +76,8 @@ export default function Cart() {
 
   return (
     <section className="cart-page pt-10 px-4 md:pt-12 md:px-8 lg:pt-14 lg:px-20">
-      <div className="cart-heading flex gap-1 md:gap-2 lg:gap-3 items-center">
-        <PageTitle children="Cart" />
+      <div className="cart-heading gap-1 md:gap-2 lg:gap-3 flex items-center">
+        <h1 className={`font-serif text-xl md:text-2xl lg:text-3xl`}>Cart</h1>
         <span className="text-sm bg-foreground text-background px-1.5 md:px-2 rounded-full">
           {cartItems.length}
         </span>

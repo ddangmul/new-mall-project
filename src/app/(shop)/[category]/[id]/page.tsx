@@ -65,14 +65,14 @@ export default async function ItemDetailPage({
     return (
       <div className="item-detail-wrap mx-4 md:mx-8 lg:mx-16 py-8 md:mt-6 lg:mt-10 overflow-hidden">
         <div className="item-datail-inner">
-          <section className="item-heading-info grid grid-cols-1 space-y-10 md:grid-cols-2 md:gap-8">
+          <section className="item-heading-info grid grid-cols-1 space-y-10 md:grid-cols-2 md:gap-8 mt-6">
             <div className="item-img-slider">
               <Image
                 src={item.image}
                 alt={item.title}
                 width={600}
                 height={900}
-                className="w-[500px] md:w-[600px] lg:w-[680px] aspect-[4/5]"
+                className="w-[500px] md:w-[600px] lg:w-[450px] aspect-[4/5]"
                 loading="lazy"
               ></Image>
             </div>
@@ -90,7 +90,7 @@ export default async function ItemDetailPage({
             </div>
           </section>
           <section className="item-main-info">
-            <div className="detail-contents-nav mt-24 py-20 border-b-1 border-[#a0a09f]">
+            <div className="detail-contents-nav mt-6 py-20 border-b-1 border-[#a0a09f]">
               <DetailContentsNavBar />
             </div>
             <div className="detail-contents-wrap">
