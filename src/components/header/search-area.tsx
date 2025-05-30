@@ -20,7 +20,7 @@ const SearchArea = ({ id }: { id: string }) => {
   return (
     <span className="flex items-center ml-2 xl:ml-4 relative">
       <p className="font-serif text-xs md:text-lg">Search</p>
-      <label htmlFor="searchTerm"></label>
+      <label htmlFor={id}></label>
       <input
         id={id}
         name="searchTerm"
