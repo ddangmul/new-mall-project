@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import searchIcon from "../../assets/icons/search.png";
 import Image from "next/image";
 
-const SearchArea: React.FC = () => {
+const SearchArea = ({ id }: { id: string }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
 
@@ -22,7 +22,7 @@ const SearchArea: React.FC = () => {
       <p className="font-serif text-xs md:text-lg">Search</p>
       <label htmlFor="searchTerm"></label>
       <input
-        id="searchTerm"
+        id={id}
         name="searchTerm"
         type="text"
         value={searchTerm}

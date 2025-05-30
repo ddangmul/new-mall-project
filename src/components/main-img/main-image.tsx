@@ -29,7 +29,7 @@ const MainImage: React.FC = () => {
   }, [images.length]);
 
   return (
-    <section className="main_image">
+    <section className="main_image hidden md:block">
       <div className="main_image_wrap relativ">
         <div className="image-container relative w-full h-[80vh] lg:h-[60vh] overflow-hidden">
           <AnimatePresence>

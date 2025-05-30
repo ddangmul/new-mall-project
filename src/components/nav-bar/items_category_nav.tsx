@@ -17,7 +17,7 @@ const ItemsCategory: React.FC = () => {
   return (
     <section className="items_category flex flex-col gap-4 mb-2">
       <div className="pt-10 flex justify-end px-9 items-center md:hidden">
-        <SearchArea />
+        <SearchArea id="sm_search" />
       </div>
       <nav className="items_category_inner py-2 mb-4 md:py-12 md:my-2">
         <ul className="flex justify-center text-xs gap-3 md:gap-14 md:text-lg lg:text-xl font-serif">

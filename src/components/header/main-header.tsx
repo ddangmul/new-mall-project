@@ -82,11 +82,15 @@ const MainHeader: React.FC = () => {
             <Link href="/cart" className="font-serif">
               Cart
             </Link>
-            <SearchArea />
+            <SearchArea id="md_search" />
           </div>
 
           <div className="md:hidden">
-            <button onClick={toggleMenu} aria-label="Toggle menu" className="cursor-pointer">
+            <button
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+              className="cursor-pointer"
+            >
               <div className="space-y-1">
                 <div className="w-6 h-0.5 bg-current"></div>
                 <div className="w-6 h-0.5 bg-current"></div>
