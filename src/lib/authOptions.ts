@@ -10,7 +10,8 @@ import { TokenSet } from "next-auth";
 interface KakaoAccount {
   email: string | null;
   profile: {
-    nickname: string;
+    nickname?: string;
+    email?: string;
   };
 }
 
@@ -76,6 +77,7 @@ export const authOptions: NextAuthOptions = {
             "openid email profile https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.phonenumbers.read",
         },
       },
+      // profile: 액세스 토큰으로 가져온 사용자 정보를 앱의 User 형태로 매핑 (user 반환)
       profile: (profile) => {
         return {
           id: profile.sub ?? profile.id,
@@ -93,27 +95,51 @@ export const authOptions: NextAuthOptions = {
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!,
       clientSecret: process.env.KAKAO_CLIENT_SECRET || "",
-      profile: (profile: KakaoProfile, _tokens: TokenSet) => {
-        // TokenSet 사용
-        // Kakao 프로필에서 직접 이메일과 닉네임을 가져옴
-        const kakaoAccount = profile.kakao_account;
+      // TokenSet의 access_token으로 api호출, 생일 데이터 가져오기 추가
+      authorization: {
+        params: {
+          scope: "profile_nickname profile_account_email birthday",
+        },
+      },
+      profile: async (profile: KakaoProfile, tokens: TokenSet) => {
+        let birthday: string | null = null;
 
-        if (!kakaoAccount) {
-          throw new Error("카카오 계정 정보가 없습니다.");
+        try {
+          const response = await fetch("https://kapi.kakao.com/v2/user/me", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${tokens.access_token}`,
+              "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+            },
+          });
+
+          const data = await response.json();
+          const kakaoAccount = data.kakao_account;
+
+          if (!kakaoAccount) {
+            throw new Error("카카오 계정 정보가 없습니다.");
+          }
+          if (kakaoAccount?.birthday) {
+            birthday = birthday = `${kakaoAccount.birthday.slice(
+              0,
+              2
+            )}-${kakaoAccount.birthday.slice(2)}`;
+          }
+        } catch (err) {
+          console.error("카카오 API 호출 오류:", err);
         }
 
-        const kakaoProfile = kakaoAccount.profile;
+        const email =
+          profile.kakao_account.email || `kakao_${profile.id}@kakao.com`; // 이메일이 없을 경우 기본값 설정
+        const username =
+          profile.kakao_account.profile?.nickname || `kakao_${profile.id}`; // 닉네임이 없을 경우 기본값 설정
 
-        const email = kakaoAccount.email || "이메일 없음"; // 이메일이 없을 경우 기본값 설정
-        const username = kakaoProfile.nickname || "카카오사용자"; // 닉네임이 없을 경우 기본값 설정
-
-        // id를 string으로 변환하여 반환
         return {
           id: String(profile.id), // `profile.id`를 string으로 변환
-          name: kakaoProfile?.nickname || "카카오사용자",
+          name: username || "카카오 사용자",
           email: email,
           mobile: null,
-          birthdate: null,
+          birthdate: birthday || null, // 카카오는 비즈니스 앱에만 생일 정보 수집 가능
           username: username,
           provider: "kakao",
           addresses: [],
@@ -153,7 +179,7 @@ export const authOptions: NextAuthOptions = {
             await prisma.user.create({
               data: {
                 email: user.email!,
-                username: user.name ?? "",
+                username: user.name ?? "구글 사용자",
                 provider: "google",
                 password: null,
                 birthdate: birthday,
@@ -233,7 +259,7 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account }) {
       if (user?.email) {
         const dbUser = await prisma.user.findUnique({
           where: { email: user.email },
@@ -249,11 +275,11 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
+      // 재로그인 시 user = undefined -> id 저장 안됨 등 문제 보완
       if (!token.id && token.email) {
         const existingUser = await prisma.user.findUnique({
           where: { email: token.email },
         });
-
         if (existingUser) {
           token.id = existingUser.id;
         }
@@ -266,6 +292,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
 
+    // 클라이언트 useSession(), getSession() 호출 시 받을 세션 구조 커스터마이징
     async session({ session, token }) {
       if (token?.id && session.user) {
         session.user.id = token.id as string;
@@ -292,10 +319,13 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
+  // 세션 전략
   session: {
-    strategy: "jwt",
+    strategy: "jwt", //JSON Web Token
   },
 
+  //JWT 서명 및 암호화된 쿠키 생성에 사용되는 비밀 키 -> JWT 검증 & 신뢰 가능한 세션 유지
   secret: process.env.NEXTAUTH_SECRET,
+
   debug: false,
 };

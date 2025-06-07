@@ -29,7 +29,6 @@ declare module "next-auth" {
       username: string;
       birthdate: string;
       mobile: string;
-      addresses?: Address[];
       accessToken?: string;
       provider: string;
     } & DefaultSession["user"];
@@ -41,7 +40,6 @@ declare module "next-auth" {
     username?: string | null;
     birthdate?: string | null;
     mobile?: string | null;
-    addresses?: string | null;
     provider?: string;
   }
 }
