@@ -77,6 +77,11 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     const fetchBuyNowItem = async () => {
+      if (!buyNowProduct || isNaN(Number(buyNowProduct))) {
+        console.warn("잘못된 buyNowProduct:", buyNowProduct);
+        return;
+      }
+
       if (buyNowProduct) {
         try {
           const res = await fetch(`/api/items/${buyNowProduct}`);
