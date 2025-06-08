@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { Address } from "next-auth";
+import { Address } from "@/assets/types/types";
 import { AddressInput } from "../assets/types/types";
 import { useSession } from "next-auth/react";
 

@@ -2,24 +2,12 @@ import { Address } from "@prisma/client";
 import NextAuth, { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
-  interface Address {
-    id: string;
-    postcode: string;
-    address: string;
-    detailAddress: string;
-    isDefault: boolean;
-    userId: string;
-    addressname: string;
-    addressmobile: string;
-    user: User;
-  }
 
   interface User {
     id: string;
     username: string;
     birthdate: string;
     mobile: string;
-    addresses: any[];
     provider: string;
   }
 

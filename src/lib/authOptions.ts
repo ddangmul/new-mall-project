@@ -98,7 +98,7 @@ export const authOptions: NextAuthOptions = {
       // TokenSet의 access_token으로 api호출, 생일 데이터 가져오기 추가
       authorization: {
         params: {
-          scope: "profile_nickname profile_account_email birthday",
+          scope: "profile_nickname account_email",
         },
       },
       profile: async (profile: KakaoProfile, tokens: TokenSet) => {

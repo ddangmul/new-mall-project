@@ -1,4 +1,16 @@
-import { Address, User } from "next-auth";
+import { User } from "next-auth";
+
+export interface Address {
+  id: string;
+  postcode: string;
+  address: string;
+  detailAddress: string;
+  isDefault: boolean;
+  userId: string;
+  addressname: string;
+  addressmobile: string;
+  user: User;
+}
 
 export type AddressWithCheck = Address & { checked?: boolean };
 
