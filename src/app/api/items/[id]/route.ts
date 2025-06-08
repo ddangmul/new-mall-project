@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(
-  req: NextRequest,
-  // { params }: { params: { id: string } }
-  context: { params: { id: string } }
-) {
-  const { id } = context.params;
+export async function GET(req: NextRequest) {
+  const url = new URL(req.url);
+  const pathname = url.pathname; // "/api/items/123"
+
+  // pathname을 "/" 기준으로 분리해서 마지막 부분이 id
+  const segments = pathname.split("/");
+  const id = segments[segments.length - 1];
 
   if (!id) {
     return NextResponse.json({ error: "제품 id가 없습니다." }, { status: 400 });
