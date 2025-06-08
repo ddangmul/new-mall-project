@@ -1,4 +1,4 @@
-import { Address } from "next-auth";
+import { Address } from "@/assets/types/types";
 
 interface AddressItemProps {
   address: Address;
