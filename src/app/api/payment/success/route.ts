@@ -43,9 +43,12 @@ export async function GET(req: NextRequest) {
       tossError: data,
     });
     return NextResponse.redirect(
-      `${process.env.NEXTAUTH_URL}/payment/fail?message=${data.message}`
+      `${process.env.NEXTAUTH_URL}/payment/fail?message=${encodeURIComponent(
+        data.message
+      )}`
     );
   }
+  2;
 
   try {
     await prisma.order.update({
@@ -58,9 +61,6 @@ export async function GET(req: NextRequest) {
   } catch (err) {
     console.error("주문 업데이트 실패", err);
   }
-
-  console.log("amount from DB", amount);
-  console.log("amount from query", searchParams.get("amount"));
 
   return NextResponse.redirect(
     `${process.env.NEXTAUTH_URL}/payment/success?paymentKey=${paymentKey}&orderId=${orderId}&amount=${amount}`
