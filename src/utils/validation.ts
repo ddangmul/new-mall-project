@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export const validateMobileNumber = (
   mobile1: string,
   mobile2: string,
@@ -24,17 +26,17 @@ export const validateNewAddress = (newAddress) => {
   } = newAddress;
 
   if (!addressname.trim()) {
-    console.log("이름을 입력해주세요.");
+    toast.info("이름을 입력해주세요.");
     return false;
   }
 
   if (!postcode.trim()) {
-    console.log("우편번호를 입력해주세요.");
+     toast.info("우편번호를 입력해주세요.");
     return false;
   }
 
   if (!address.trim()) {
-    console.log("기본주소를 입력해주세요.");
+     toast.info("기본주소를 입력해주세요.");
     return false;
   }
 
@@ -47,7 +49,7 @@ export const validateNewAddress = (newAddress) => {
   console.log(result);
 
   if (!result) {
-    console.log("휴대폰 번호 형식이 올바르지 않습니다.");
+     toast.info("휴대폰 번호 형식이 올바르지 않습니다.");
     return false;
   }
 
